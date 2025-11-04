@@ -14,6 +14,7 @@
     <ProjectReference Include="..\MotorcycleStore.Common\MotorcycleStore.Common.csproj" />
     <ProjectReference Include="..\MotorcycleStore.Domain\MotorcycleStore.Domain.csproj" />
     <ProjectReference Include="..\MotorcycleStore.Infrastructure\MotorcycleStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\MotorcycleStore.Reports\MotorcycleStore.Reports.csproj" />
   </ItemGroup>
 
 </Project>
