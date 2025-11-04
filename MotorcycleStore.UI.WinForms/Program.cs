@@ -31,7 +31,7 @@ namespace MotorcycleStore.UI.WinForms
                 db.Database.EnsureCreated(); //перевірка чи є бд, створить кщо нема
             }
 
-            System.Windows.Forms.Application.Run(new Form1());
+            //System.Windows.Forms.Application.Run(new Form1());
         }
     }
 }

@@ -15,11 +15,39 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MotorcycleStore.Application\MotorcycleStore.Application.csproj" />
     <ProjectReference Include="..\MotorcycleStore.Domain\MotorcycleStore.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Designer">
+      <HintPath>..\..\..\Downloads\Designer (1).exe</HintPath>
+    </Reference>
+    <Reference Include="FastReport">
+      <HintPath>..\..\..\Downloads\FastReport.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Bars">
+      <HintPath>..\..\..\Downloads\FastReport.Bars.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Editor">
+      <HintPath>..\..\..\Downloads\FastReport.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Install">
+      <HintPath>..\..\..\Downloads\FastReport.Install.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.VSDesign">
+      <HintPath>..\..\..\Downloads\FastReport.VSDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Web">
+      <HintPath>..\..\..\Downloads\FastReport.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SerializeLibrary">
+      <HintPath>D:\Конструювання\SerializeLibrary\SerializeLibrary\bin\Debug\net8.0\SerializeLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

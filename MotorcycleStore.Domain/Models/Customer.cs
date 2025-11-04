@@ -16,6 +16,6 @@ namespace MotorcycleStore.Domain.Models
         public string? Address { get; set; }
         public DateTime RegisteredAt { get; set; } = DateTime.Now;
         public bool IsVIP { get; set; } = false;
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

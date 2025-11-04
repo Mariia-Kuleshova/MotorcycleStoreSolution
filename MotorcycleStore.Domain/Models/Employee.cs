@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace MotorcycleStore.Domain.Models
 {
@@ -19,6 +20,7 @@ namespace MotorcycleStore.Domain.Models
         public string Role { get; set; } = "Manager"; // "Admin" / "Manager"
         public DateTime HiredAt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
+        [XmlIgnore]
         public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace MotorcycleStore.UI.WinForms
 {
-    partial class Form1
+    partial class FormReport
     {
         /// <summary>
         /// Required designer variable.
@@ -28,33 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ReportButton = new Button();
             SuspendLayout();
             // 
-            // ReportButton
-            // 
-            ReportButton.Location = new Point(656, 374);
-            ReportButton.Name = "ReportButton";
-            ReportButton.Size = new Size(94, 29);
-            ReportButton.TabIndex = 0;
-            ReportButton.Text = "Report";
-            ReportButton.UseVisualStyleBackColor = true;
-            ReportButton.Click += button1_Click;
-            // 
-            // Form1
+            // FormReport
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(ReportButton);
-            Name = "Form1";
-            Text = "Form1";
-            Load += Form1_Load;
+            Name = "FormReport";
+            Text = "FormReport";
+            Load += FormReport_Load;
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Button ReportButton;
     }
 }
