@@ -15,11 +15,12 @@ namespace MotorcycleStore.Domain.Models
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public decimal TotalAmount { get; set; }
-        public string PaymentMethod { get; set; } = "Cash"; // cash, card, transfer
+        public string PaymentMethod { get; set; } = "Cash";
         public string? Comments { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public Customer Customer { get; set; } = null!;
         public Employee Employee { get; set; } = null!;
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
+
 }
