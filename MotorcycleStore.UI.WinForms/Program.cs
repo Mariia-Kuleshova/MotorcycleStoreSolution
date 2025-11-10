@@ -8,6 +8,7 @@ using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Application.Services;
 using MotorcycleStore.Infrastructure.Data;
 using MotorcycleStore.Infrastructure.Repositories;
+using MotorcycleStore.UI.WinForms.Forms;
 
 namespace MotorcycleStore.UI.WinForms
 {
@@ -21,10 +22,17 @@ namespace MotorcycleStore.UI.WinForms
             var host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    //���� �� ��
                     var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
                     services.AddDbContext<StoreDbContext>(options =>
                         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+                    services.AddDbContext<StoreDbContext>(options =>
+                        options.UseMySql(
+                            connectionString,
+                            ServerVersion.AutoDetect(connectionString),
+                            b => b.MigrationsAssembly("MotorcycleStore.Infrastructure") 
+
+                        )
+                    );
 
                     services.AddScoped<CustomerRepository>();
                     services.AddScoped<SupplierRepository>();
@@ -40,10 +48,11 @@ namespace MotorcycleStore.UI.WinForms
                     services.AddScoped<IInventoryService, InventoryService>();
 
                     services.AddScoped<Form1>();
+                    services.AddScoped<LoginForm>();
                 })
                 .Build();
 
-            //���������� ����
+
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
@@ -51,7 +60,7 @@ namespace MotorcycleStore.UI.WinForms
             }
 
             //System.Windows.Forms.Application.Run(new Form1());
-            var mainForm = host.Services.GetRequiredService<Form1>();
+            var mainForm = host.Services.GetRequiredService<LoginForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
     }
