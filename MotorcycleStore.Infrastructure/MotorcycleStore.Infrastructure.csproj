@@ -23,4 +23,8 @@
     <ProjectReference Include="..\MotorcycleStore.Domain\MotorcycleStore.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

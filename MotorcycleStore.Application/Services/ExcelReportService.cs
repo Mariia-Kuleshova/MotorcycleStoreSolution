@@ -36,7 +36,7 @@ namespace MotorcycleStore.Application.Services
                     excel.SetValue("Saturn Data", "A" + row, p.Id.ToString(), "string");
                     excel.SetValue("Saturn Data", "B" + row, p.Name, "string");
                     excel.SetValue("Saturn Data", "C" + row, p.Price.ToString("F2"), "double");
-                    excel.SetValue("Saturn Data", "D" + row, p.Supplier?.Name ?? "", "string");
+                    //excel.SetValue("Saturn Data", "D" + row, p.Supplier?.Name ?? "", "string");
                     row++;
                 }
 

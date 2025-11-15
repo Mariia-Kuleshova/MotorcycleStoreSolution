@@ -1,11 +1,12 @@
-﻿using MotorcycleStore.Domain.Models;
+﻿using MotorcycleStore.Application.Interfaces;
+using MotorcycleStore.Domain.Models;
 using MotorcycleStore.Infrastructure.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MotorcycleStore.Application.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly ProductRepository _repository;
 

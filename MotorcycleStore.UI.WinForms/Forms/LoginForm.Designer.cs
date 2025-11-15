@@ -34,10 +34,10 @@
             guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(components);
             guna2Elipse2 = new Guna.UI2.WinForms.Guna2Elipse(components);
             label1 = new Label();
-            textBox1 = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
-            textBox2 = new TextBox();
+            LoginTextBox = new TextBox();
+            LoginLabel = new Label();
+            PasswordLabel = new Label();
+            PasswordTextBox = new TextBox();
             pictureBox1 = new PictureBox();
             LoginButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -67,38 +67,38 @@
             label1.Text = "Магазин";
             label1.Click += label1_Click;
             // 
-            // textBox1
+            // LoginTextBox
             // 
-            textBox1.Location = new Point(236, 177);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(267, 32);
-            textBox1.TabIndex = 2;
+            LoginTextBox.Location = new Point(236, 177);
+            LoginTextBox.Name = "LoginTextBox";
+            LoginTextBox.Size = new Size(267, 32);
+            LoginTextBox.TabIndex = 2;
             // 
-            // label2
+            // LoginLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(236, 149);
-            label2.Name = "label2";
-            label2.Size = new Size(67, 25);
-            label2.TabIndex = 3;
-            label2.Text = "Логін";
-            label2.Click += label2_Click;
+            LoginLabel.AutoSize = true;
+            LoginLabel.Location = new Point(236, 149);
+            LoginLabel.Name = "LoginLabel";
+            LoginLabel.Size = new Size(67, 25);
+            LoginLabel.TabIndex = 3;
+            LoginLabel.Text = "Логін";
+            LoginLabel.Click += label2_Click;
             // 
-            // label3
+            // PasswordLabel
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(236, 232);
-            label3.Name = "label3";
-            label3.Size = new Size(86, 25);
-            label3.TabIndex = 5;
-            label3.Text = "Пароль";
+            PasswordLabel.AutoSize = true;
+            PasswordLabel.Location = new Point(236, 232);
+            PasswordLabel.Name = "PasswordLabel";
+            PasswordLabel.Size = new Size(86, 25);
+            PasswordLabel.TabIndex = 5;
+            PasswordLabel.Text = "Пароль";
             // 
-            // textBox2
+            // PasswordTextBox
             // 
-            textBox2.Location = new Point(236, 260);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(267, 32);
-            textBox2.TabIndex = 4;
+            PasswordTextBox.Location = new Point(236, 260);
+            PasswordTextBox.Name = "PasswordTextBox";
+            PasswordTextBox.Size = new Size(267, 32);
+            PasswordTextBox.TabIndex = 4;
             // 
             // pictureBox1
             // 
@@ -122,8 +122,9 @@
             LoginButton.TabIndex = 7;
             LoginButton.Text = "Вхід";
             LoginButton.UseVisualStyleBackColor = false;
+            LoginButton.Click += LoginButton_Click;
             // 
-            // MainForm
+            // LoginForm
             // 
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -131,16 +132,16 @@
             ClientSize = new Size(614, 393);
             Controls.Add(LoginButton);
             Controls.Add(pictureBox1);
-            Controls.Add(label3);
-            Controls.Add(textBox2);
-            Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(PasswordLabel);
+            Controls.Add(PasswordTextBox);
+            Controls.Add(LoginLabel);
+            Controls.Add(LoginTextBox);
             Controls.Add(label1);
             Controls.Add(panel1);
             Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(5, 4, 5, 4);
-            Name = "MainForm";
+            Name = "LoginForm";
             Text = "MainForm";
             Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -154,10 +155,10 @@
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
         private Label label1;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse2;
-        private TextBox textBox1;
-        private Label label2;
-        private Label label3;
-        private TextBox textBox2;
+        private TextBox LoginTextBox;
+        private Label LoginLabel;
+        private Label PasswordLabel;
+        private TextBox PasswordTextBox;
         private Button LoginButton;
         private PictureBox pictureBox1;
     }
