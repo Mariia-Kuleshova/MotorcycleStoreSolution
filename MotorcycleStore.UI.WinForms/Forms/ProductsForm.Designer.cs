@@ -69,6 +69,7 @@
             LogoutLable = new Label();
             guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(components);
             panel3 = new Panel();
+            XLabel = new Label();
             pictureBox8 = new PictureBox();
             label1 = new Label();
             label2 = new Label();
@@ -200,6 +201,7 @@
             label18.Size = new Size(165, 25);
             label18.TabIndex = 19;
             label18.Text = "Налаштування";
+            label18.Click += label18_Click;
             // 
             // panel6
             // 
@@ -263,6 +265,7 @@
             label12.Size = new Size(103, 25);
             label12.TabIndex = 16;
             label12.Text = "Звітність";
+            label12.Click += label12_Click;
             // 
             // pictureBox12
             // 
@@ -283,6 +286,7 @@
             label14.Size = new Size(136, 25);
             label14.TabIndex = 14;
             label14.Text = "Замовлення";
+            label14.Click += label14_Click;
             // 
             // pictureBox13
             // 
@@ -303,6 +307,7 @@
             label15.Size = new Size(125, 25);
             label15.TabIndex = 12;
             label15.Text = "Замовники";
+            label15.Click += label15_Click;
             // 
             // pictureBox14
             // 
@@ -323,6 +328,7 @@
             label16.Size = new Size(133, 25);
             label16.TabIndex = 10;
             label16.Text = "Працівники";
+            label16.Click += label16_Click;
             // 
             // panel7
             // 
@@ -353,6 +359,7 @@
             label17.Size = new Size(75, 25);
             label17.TabIndex = 6;
             label17.Text = "Вийти";
+            label17.Click += label17_Click;
             // 
             // panel4
             // 
@@ -518,12 +525,25 @@
             // panel3
             // 
             panel3.BackColor = Color.LightSeaGreen;
+            panel3.Controls.Add(XLabel);
             panel3.Controls.Add(pictureBox8);
             panel3.Controls.Add(label1);
             panel3.Location = new Point(228, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(1298, 46);
             panel3.TabIndex = 3;
+            // 
+            // XLabel
+            // 
+            XLabel.AutoSize = true;
+            XLabel.ForeColor = Color.White;
+            XLabel.Location = new Point(1223, 9);
+            XLabel.Name = "XLabel";
+            XLabel.Size = new Size(26, 25);
+            XLabel.TabIndex = 8;
+            XLabel.Text = "X";
+            XLabel.TextAlign = ContentAlignment.TopCenter;
+            XLabel.Click += XLabel_Click;
             // 
             // pictureBox8
             // 
@@ -1039,5 +1059,6 @@
         private DataGridViewTextBoxColumn PriceColumn;
         private DataGridViewTextBoxColumn SupplierColumn;
         private DataGridViewTextBoxColumn CommentColumn;
+        private Label XLabel;
     }
 }

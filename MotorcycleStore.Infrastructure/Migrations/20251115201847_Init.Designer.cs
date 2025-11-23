@@ -12,7 +12,7 @@ using MotorcycleStore.Infrastructure.Data;
 namespace MotorcycleStore.Infrastructure.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20251109111321_Init")]
+    [Migration("20251115201847_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -248,16 +248,15 @@ namespace MotorcycleStore.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("SupplierId")
-                        .HasColumnType("int");
+                    b.Property<string>("SupplierName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("VIN")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SupplierId");
 
                     b.ToTable("Products");
                 });
@@ -346,17 +345,6 @@ namespace MotorcycleStore.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MotorcycleStore.Domain.Models.Product", b =>
-                {
-                    b.HasOne("MotorcycleStore.Domain.Models.Supplier", "Supplier")
-                        .WithMany("Products")
-                        .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Supplier");
-                });
-
             modelBuilder.Entity("MotorcycleStore.Domain.Models.Customer", b =>
                 {
                     b.Navigation("Orders");
@@ -377,11 +365,6 @@ namespace MotorcycleStore.Infrastructure.Migrations
                     b.Navigation("Inventory");
 
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("MotorcycleStore.Domain.Models.Supplier", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

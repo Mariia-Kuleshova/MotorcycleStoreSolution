@@ -30,9 +30,9 @@ namespace MotorcycleStore.Application.Services
             await _repository.AddAsync(product);
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product, int q)
         {
-            await _repository.UpdateAsync(product);
+            await _repository.UpdateAsync(product, q);
         }
 
         public async Task DeleteAsync(int id)

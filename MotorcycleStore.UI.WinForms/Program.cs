@@ -14,6 +14,8 @@ namespace MotorcycleStore.UI.WinForms
 {
     internal static class Program
     {
+
+        public static IServiceProvider ServiceProvider { get; private set; }
         [STAThread]
         static void Main()
         {
@@ -48,12 +50,19 @@ namespace MotorcycleStore.UI.WinForms
                     services.AddScoped<IOrderService, OrderService>();
                     services.AddScoped<IInventoryService, InventoryService>();
                     services.AddScoped<IProductService, ProductService>();
+                    services.AddSingleton<NavigationService>();
+
 
                     services.AddScoped<Form1>();
                     services.AddScoped<LoginForm>();
                     services.AddScoped<ProductsForm>();
+                    services.AddScoped<OrdersForm>();
+                    services.AddScoped<CustomersForm>();
+                    services.AddScoped<EmployeesForm>();
                 })
                 .Build();
+
+            ServiceProvider = host.Services;
 
 
             using (var scope = host.Services.CreateScope())
@@ -63,7 +72,7 @@ namespace MotorcycleStore.UI.WinForms
             }
 
             //System.Windows.Forms.Application.Run(new Form1());
-            var mainForm = host.Services.GetRequiredService<ProductsForm>();
+            var mainForm = host.Services.GetRequiredService<LoginForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
 

@@ -20,11 +20,13 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
         private readonly IProductService _productService;
         private Product _currentProduct;
+        private readonly NavigationService _nav;
 
-        public ProductsForm(IProductService productService)
+        public ProductsForm(IProductService productService, NavigationService nav)
         {
             _productService = productService;
             InitializeComponent();
+            _nav = nav;
         }
 
         private void LogoutLable_Click(object sender, EventArgs e)
@@ -178,13 +180,20 @@ namespace MotorcycleStore.UI.WinForms.Forms
             CategoryColumn.DataPropertyName = "Category";
             VINColumn.DataPropertyName = "VIN";
             YearColumn.DataPropertyName = "ModelYear";
-            QtyColumn.DataPropertyName = "Inventory.Quantity";
+            QtyColumn.DataPropertyName = "Quantity";
             PriceColumn.DataPropertyName = "Price";
             SupplierColumn.DataPropertyName = "SupplierName";
             CommentColumn.DataPropertyName = "Description";
 
             var products = await _productService.GetAllAsync();
             ProductsDataGridView.DataSource = products;
+
+            foreach (DataGridViewRow row in ProductsDataGridView.Rows)
+            {
+                var product = row.DataBoundItem as Product;
+                if (product != null)
+                    row.Cells["QtyColumn"].Value = product.Inventory?.Quantity ?? 0;
+            }
 
             ProductsDataGridView.MouseDown += ProductsDataGridView_MouseDown;
         }
@@ -216,6 +225,13 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
             ProductsDataGridView.DataSource = null;
             ProductsDataGridView.DataSource = products;
+
+            foreach (DataGridViewRow row in ProductsDataGridView.Rows)
+            {
+                var product = row.DataBoundItem as Product;
+                if (product != null)
+                    row.Cells["QtyColumn"].Value = product.Inventory?.Quantity ?? 0;
+            }
         }
 
         private void EditStripMenuItem1_Click(object sender, EventArgs e)
@@ -302,6 +318,41 @@ namespace MotorcycleStore.UI.WinForms.Forms
             MessageBox.Show("Товар оновлено!");
             LoadProductsAsync();
             ClearTextBoxes();
+        }
+
+        private void XLabel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+            _nav.NavigateTo<OrdersForm>(this);
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+            _nav.NavigateTo<CustomersForm>(this);
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+            _nav.NavigateTo<EmployeesForm>(this);
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+            //_nav.NavigateTo<EmployeesForm>(this);
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+            //_nav.NavigateTo<EmployeesForm>(this);
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+            _nav.NavigateTo<LoginForm>(this);
         }
     }
 }
