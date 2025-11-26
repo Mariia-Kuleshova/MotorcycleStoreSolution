@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EmployeesForm));
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
@@ -151,6 +152,7 @@
             // pictureBox16
             // 
             pictureBox16.Cursor = Cursors.Hand;
+            pictureBox16.Image = (Image)resources.GetObject("pictureBox16.Image");
             pictureBox16.Location = new Point(10, 408);
             pictureBox16.Name = "pictureBox16";
             pictureBox16.Size = new Size(49, 37);
@@ -183,6 +185,7 @@
             // 
             // pictureBox10
             // 
+            pictureBox10.Image = (Image)resources.GetObject("pictureBox10.Image");
             pictureBox10.Location = new Point(20, 8);
             pictureBox10.Name = "pictureBox10";
             pictureBox10.Size = new Size(49, 37);
@@ -202,6 +205,7 @@
             // 
             // pictureBox11
             // 
+            pictureBox11.Image = (Image)resources.GetObject("pictureBox11.Image");
             pictureBox11.Location = new Point(50, 12);
             pictureBox11.Name = "pictureBox11";
             pictureBox11.Size = new Size(109, 58);
@@ -212,6 +216,7 @@
             // pictureBox9
             // 
             pictureBox9.Cursor = Cursors.Hand;
+            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
             pictureBox9.Location = new Point(10, 346);
             pictureBox9.Name = "pictureBox9";
             pictureBox9.Size = new Size(49, 37);
@@ -235,6 +240,7 @@
             // pictureBox12
             // 
             pictureBox12.Cursor = Cursors.Hand;
+            pictureBox12.Image = (Image)resources.GetObject("pictureBox12.Image");
             pictureBox12.Location = new Point(10, 88);
             pictureBox12.Name = "pictureBox12";
             pictureBox12.Size = new Size(49, 37);
@@ -257,6 +263,7 @@
             // pictureBox13
             // 
             pictureBox13.Cursor = Cursors.Hand;
+            pictureBox13.Image = (Image)resources.GetObject("pictureBox13.Image");
             pictureBox13.Location = new Point(10, 153);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Size = new Size(49, 37);
@@ -279,6 +286,7 @@
             // pictureBox14
             // 
             pictureBox14.Cursor = Cursors.Hand;
+            pictureBox14.Image = (Image)resources.GetObject("pictureBox14.Image");
             pictureBox14.Location = new Point(10, 220);
             pictureBox14.Name = "pictureBox14";
             pictureBox14.Size = new Size(49, 37);
@@ -360,6 +368,7 @@
             // 
             // pictureBox8
             // 
+            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
             pictureBox8.Location = new Point(24, 4);
             pictureBox8.Name = "pictureBox8";
             pictureBox8.Size = new Size(49, 37);
@@ -373,9 +382,10 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(84, 10);
             label1.Name = "label1";
-            label1.Size = new Size(344, 25);
+            label1.Size = new Size(88, 25);
             label1.TabIndex = 6;
-            label1.Text = "MotoLife Menagment System 1.0";
+            label1.Text = "MotoUa";
+            label1.Click += label1_Click;
             // 
             // label2
             // 

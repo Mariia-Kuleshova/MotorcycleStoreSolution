@@ -212,6 +212,7 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(237, 56);
             panel6.TabIndex = 18;
+            panel6.Paint += panel6_Paint;
             // 
             // pictureBox10
             // 
@@ -222,6 +223,7 @@
             pictureBox10.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox10.TabIndex = 7;
             pictureBox10.TabStop = false;
+            pictureBox10.Click += pictureBox10_Click;
             // 
             // label13
             // 
@@ -532,6 +534,7 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(1298, 46);
             panel3.TabIndex = 3;
+            panel3.Paint += panel3_Paint;
             // 
             // XLabel
             // 
@@ -561,9 +564,9 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(84, 10);
             label1.Name = "label1";
-            label1.Size = new Size(344, 25);
+            label1.Size = new Size(88, 25);
             label1.TabIndex = 6;
-            label1.Text = "MotoLife Menagment System 1.0";
+            label1.Text = "MotoUa";
             // 
             // label2
             // 
@@ -710,6 +713,7 @@
             CategoryComboBox.Name = "CategoryComboBox";
             CategoryComboBox.Size = new Size(204, 33);
             CategoryComboBox.TabIndex = 23;
+            CategoryComboBox.SelectedIndexChanged += CategoryComboBox_SelectedIndexChanged;
             // 
             // SaveButton
             // 

@@ -11,6 +11,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
     {
         private readonly IEmployeeService _employeeService;
         private Employee? _currentEmployee;
+        private bool _isPasswordVisible = false;
 
         public LoginForm(IEmployeeService employeeService)
         {
@@ -20,27 +21,113 @@ namespace MotorcycleStore.UI.WinForms.Forms
             // Налаштування поля пароля
             PasswordTextBox.PasswordChar = '●';
             PasswordTextBox.UseSystemPasswordChar = false;
+
+            // Налаштування іконки показу пароля
+            SetupPasswordToggle();
+        }
+
+        private void SetupPasswordToggle()
+        {
+            // Створюємо PictureBox для іконки ока
+            var eyeIcon = new PictureBox
+            {
+                Size = new Size(25, 25),
+                Location = new Point(PasswordTextBox.Right - 30, PasswordTextBox.Top + 4),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Cursor = Cursors.Hand,
+                BackColor = Color.White
+            };
+
+            // Встановлюємо іконку "закрите око" (приховано)
+            eyeIcon.Image = CreateEyeClosedIcon();
+
+            // Додаємо обробник кліку
+            eyeIcon.Click += EyeIcon_Click;
+
+            // Додаємо на форму
+            this.Controls.Add(eyeIcon);
+            eyeIcon.BringToFront();
+
+            // Зберігаємо посилання для доступу в інших методах
+            eyeIcon.Tag = "eyeIcon";
+        }
+
+        private void EyeIcon_Click(object sender, EventArgs e)
+        {
+            var eyeIcon = sender as PictureBox;
+            if (eyeIcon == null) return;
+
+            _isPasswordVisible = !_isPasswordVisible;
+
+            if (_isPasswordVisible)
+            {
+                // Показати пароль
+                PasswordTextBox.PasswordChar = '\0';
+                eyeIcon.Image = CreateEyeOpenIcon();
+            }
+            else
+            {
+                // Приховати пароль
+                PasswordTextBox.PasswordChar = '●';
+                eyeIcon.Image = CreateEyeClosedIcon();
+            }
+        }
+
+        // Створюємо іконку відкритого ока
+        private Image CreateEyeOpenIcon()
+        {
+            var bitmap = new Bitmap(24, 24);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                // Малюємо око (відкрите)
+                using (var pen = new Pen(Color.Gray, 2))
+                {
+                    // Контур ока
+                    g.DrawEllipse(pen, 6, 8, 12, 8);
+                    // Зіниця
+                    g.FillEllipse(new SolidBrush(Color.Gray), 10, 10, 4, 4);
+                }
+            }
+            return bitmap;
+        }
+
+        // Створюємо іконку закритого ока
+        private Image CreateEyeClosedIcon()
+        {
+            var bitmap = new Bitmap(24, 24);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                // Малюємо закрите око (лінія)
+                using (var pen = new Pen(Color.Gray, 2))
+                {
+                    // Верхня дуга
+                    g.DrawArc(pen, 6, 8, 12, 8, 0, 180);
+                    // Діагональна лінія (закрите)
+                    g.DrawLine(pen, 4, 18, 20, 6);
+                }
+            }
+            return bitmap;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Центрування форми
             this.CenterToScreen();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            // Порожній обробник
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            // Порожній обробник
         }
 
         private async void LoginButton_Click(object sender, EventArgs e)
         {
-            // Перевірка на порожні поля
             if (string.IsNullOrWhiteSpace(LoginTextBox.Text))
             {
                 MessageBox.Show("Введіть логін!", "Попередження",
@@ -57,7 +144,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 return;
             }
 
-            // Показуємо індикатор завантаження
             LoginButton.Enabled = false;
             LoginButton.Text = "Перевірка...";
             this.Cursor = Cursors.WaitCursor;
@@ -67,17 +153,14 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 string username = LoginTextBox.Text.Trim();
                 string password = PasswordTextBox.Text;
 
-                // Перевірка логіна і пароля
                 bool isValid = await _employeeService.ValidateCredentialsAsync(username, password);
 
                 if (isValid)
                 {
-                    // Отримуємо дані працівника
                     _currentEmployee = await _employeeService.GetByUsernameAsync(username);
 
                     if (_currentEmployee != null)
                     {
-                        // Перевірка активності
                         if (!_currentEmployee.IsActive)
                         {
                             MessageBox.Show("Ваш акаунт деактивовано. Зверніться до адміністратора.",
@@ -85,14 +168,9 @@ namespace MotorcycleStore.UI.WinForms.Forms
                             return;
                         }
 
-                        // Успішний вхід
                         MessageBox.Show($"Вітаємо, {_currentEmployee.FirstName} {_currentEmployee.LastName}!\nРоль: {_currentEmployee.Role}",
                             "Успішний вхід", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Зберігаємо поточного користувача в Program (опціонально)
-                        //Program.CurrentEmployee = _currentEmployee;
-
-                        // Відкриваємо головну форму (ProductsForm)
                         var productsForm = Program.ServiceProvider.GetRequiredService<ProductsForm>();
                         productsForm.Show();
                         this.Hide();
@@ -100,11 +178,9 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 }
                 else
                 {
-                    // Невірний логін або пароль
                     MessageBox.Show("Невірний логін або пароль!",
                         "Помилка входу", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    // Очищаємо поле пароля
                     PasswordTextBox.Clear();
                     PasswordTextBox.Focus();
                 }
@@ -116,7 +192,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
             finally
             {
-                // Повертаємо кнопку в нормальний стан
                 LoginButton.Enabled = true;
                 LoginButton.Text = "Вхід";
                 this.Cursor = Cursors.Default;
@@ -125,7 +200,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
         private async void ForgetPasswordLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // Створюємо власну форму для введення логіну
             using (var inputForm = new Form())
             {
                 inputForm.Text = "Відновлення пароля";
@@ -191,10 +265,12 @@ namespace MotorcycleStore.UI.WinForms.Forms
                                 return;
                             }
 
-                            // Показуємо email для відновлення
                             if (!string.IsNullOrEmpty(employee.Email))
                             {
-                                MessageBox.Show($"Зверніться до адміністратора");
+                                MessageBox.Show($"Зверніться до адміністратора для відновлення пароля.\n\n" +
+                                    $"Email: {employee.Email}\n" +
+                                    $"Телефон: {employee.Phone ?? "не вказано"}",
+                                    "Відновлення пароля", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             else
                             {
@@ -219,7 +295,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        // Обробка Enter для входу
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Enter)

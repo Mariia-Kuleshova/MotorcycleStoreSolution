@@ -30,9 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrdersForm));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panel1 = new Panel();
             panel5 = new Panel();
             pictureBox16 = new PictureBox();
@@ -177,6 +177,7 @@
             // 
             // pictureBox10
             // 
+            pictureBox10.Image = (Image)resources.GetObject("pictureBox10.Image");
             pictureBox10.Location = new Point(20, 8);
             pictureBox10.Name = "pictureBox10";
             pictureBox10.Size = new Size(49, 37);
@@ -196,6 +197,7 @@
             // 
             // pictureBox11
             // 
+            pictureBox11.Image = (Image)resources.GetObject("pictureBox11.Image");
             pictureBox11.Location = new Point(50, 12);
             pictureBox11.Name = "pictureBox11";
             pictureBox11.Size = new Size(109, 58);
@@ -230,6 +232,7 @@
             // pictureBox12
             // 
             pictureBox12.Cursor = Cursors.Hand;
+            pictureBox12.Image = (Image)resources.GetObject("pictureBox12.Image");
             pictureBox12.Location = new Point(10, 88);
             pictureBox12.Name = "pictureBox12";
             pictureBox12.Size = new Size(49, 37);
@@ -371,9 +374,9 @@
             label1.ForeColor = Color.White;
             label1.Location = new Point(84, 10);
             label1.Name = "label1";
-            label1.Size = new Size(344, 25);
+            label1.Size = new Size(88, 25);
             label1.TabIndex = 6;
-            label1.Text = "MotoLife Menagment System 1.0";
+            label1.Text = "MotoUa";
             // 
             // label2
             // 
@@ -551,28 +554,28 @@
             // 
             // OrdersDataGridView
             // 
-            dataGridViewCellStyle4.BackColor = Color.White;
-            OrdersDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle5.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            OrdersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            OrdersDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            OrdersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             OrdersDataGridView.ColumnHeadersHeight = 27;
             OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, CustomerColumn, EmployeeColumn, OrderDateColumn, StatusColumn, TotalAmountColumn, PaymentMethodColumn, CommentsColumn });
             OrdersDataGridView.ContextMenuStrip = OrderContextMenuStrip;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            OrdersDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            OrdersDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
             OrdersDataGridView.GridColor = Color.FromArgb(231, 229, 255);
             OrdersDataGridView.Location = new Point(252, 310);
             OrdersDataGridView.Name = "OrdersDataGridView";

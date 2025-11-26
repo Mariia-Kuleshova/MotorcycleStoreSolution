@@ -313,7 +313,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
             _currentProduct.ModelYear = year;
             _currentProduct.Price = price;
-            _productService.UpdateAsync(_currentProduct);
+            _productService.UpdateAsync(_currentProduct, int.Parse(QtyTextBox.Text));
 
             MessageBox.Show("Товар оновлено!");
             LoadProductsAsync();
@@ -353,6 +353,26 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private void label17_Click(object sender, EventArgs e)
         {
             _nav.NavigateTo<LoginForm>(this);
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel6_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
