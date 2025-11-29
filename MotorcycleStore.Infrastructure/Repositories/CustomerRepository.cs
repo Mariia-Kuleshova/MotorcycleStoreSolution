@@ -43,9 +43,13 @@ namespace MotorcycleStore.Infrastructure.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var existing = await _context.Customers.FindAsync(id);
+            var existing = await _context.Customers
+                .Include(c => c.Orders)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
             if (existing != null)
             {
+                _context.Orders.RemoveRange(existing.Orders);
                 _context.Customers.Remove(existing);
                 await _context.SaveChangesAsync();
             }

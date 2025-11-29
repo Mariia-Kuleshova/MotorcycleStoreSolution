@@ -25,7 +25,7 @@ namespace MotorcycleStore.Application.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(Product product)
+        public async Task AddAsync(ProductDTO product)
         {
             await _repository.AddAsync(product);
         }

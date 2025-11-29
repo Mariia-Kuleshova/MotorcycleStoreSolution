@@ -12,6 +12,7 @@ namespace MotorcycleStore.Application.Interfaces
         Task<bool> CreateOrderAsync(Order order);
         Task<bool> UpdateStatusAsync(int orderId, OrderStatus newStatus);
         Task<decimal> CalculateTotalAsync(int orderId);
+        Task DeleteAsync(int id);
     }
 }
 

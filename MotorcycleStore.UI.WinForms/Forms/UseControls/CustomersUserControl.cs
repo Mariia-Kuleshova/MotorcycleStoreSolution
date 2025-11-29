@@ -1,22 +1,29 @@
-﻿using MotorcycleStore.Application.Interfaces;
+﻿using Microsoft.Office.Interop.Word;
+using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Domain.Models;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MotorcycleStore.UI.WinForms.Forms
+namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 {
-    public partial class CustomersForm : Form
+    public partial class CustomersUserControl : UserControl
     {
         private readonly ICustomerService _customerService;
         private int? _selectedCustomerId = null;
-        private readonly NavigationService _nav;
 
-        public CustomersForm(ICustomerService customerService, NavigationService nav)
+        public CustomersUserControl(ICustomerService customerService)
         {
             InitializeComponent();
             _customerService = customerService;
-            _nav = nav;
+
+            this.Load += CustomersForm_Load;
         }
 
         private async void CustomersForm_Load(object sender, EventArgs e)
@@ -53,7 +60,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        private async void AddButton_Click(object sender, EventArgs e)
+        private async void AddButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -73,8 +80,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                     Phone = PhoneTextBox.Text.Trim(),
                     Email = EmailTextBox.Text.Trim(),
                     Address = AddressTextBox.Text.Trim(),
-                    RegisteredAt = RegisteredAtPicker.Value,
-                    IsVIP = IsVIPCheckBox.Checked
+                    RegisteredAt = RegisteredAtPicker.Value
                 };
 
                 await _customerService.AddAsync(customer);
@@ -91,7 +97,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        private async void SaveButton_Click(object sender, EventArgs e)
+        private async void SaveButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -125,7 +131,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 customer.Email = EmailTextBox.Text.Trim();
                 customer.Address = AddressTextBox.Text.Trim();
                 customer.RegisteredAt = RegisteredAtPicker.Value;
-                customer.IsVIP = IsVIPCheckBox.Checked;
+                customer.IsVIP = false;
 
                 await _customerService.UpdateAsync(customer);
                 MessageBox.Show("Дані замовника успішно оновлено!",
@@ -133,6 +139,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
                 await LoadCustomers();
                 ClearFields();
+                AddButton.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -141,9 +148,10 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        private void ClearButton_Click(object sender, EventArgs e)
+        private void ClearButton_Click_1(object sender, EventArgs e)
         {
             ClearFields();
+            AddButton.Enabled = true;
         }
 
         private void ClearFields()
@@ -155,7 +163,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
             EmailTextBox.Clear();
             AddressTextBox.Clear();
             RegisteredAtPicker.Value = DateTime.Now;
-            IsVIPCheckBox.Checked = false;
             SearchTextBox.Clear();
         }
 
@@ -181,11 +188,9 @@ namespace MotorcycleStore.UI.WinForms.Forms
             {
                 RegisteredAtPicker.Value = registeredDate;
             }
-
-            IsVIPCheckBox.Checked = row.Cells[7].Value != null && (bool)row.Cells[7].Value;
         }
 
-        private async void SearchButton_Click(object sender, EventArgs e)
+        private async void SearchButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -244,7 +249,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
+        private async void DeleteStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (CustomersDataGridView.SelectedRows.Count > 0)
             {
@@ -314,54 +319,16 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 MessageBox.Show($"Перегляд замовлень замовника: {customerName}\n(ID: {customerId})\n\nБуде реалізовано окремою формою",
                     "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Тут можна відкрити форму замовлень з фільтром по customerId
+                // Тут відкрити форму замовлень з фільтром по customerId
             }
         }
 
-        private void XLabel_Click(object sender, EventArgs e)
+        private void EditStripMenuItem1_Click(object sender, EventArgs e)
         {
-            this.Close();
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Ви впевнені, що хочете вийти?",
-                "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _nav.NavigateTo<LoginForm>(this);
-            }
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<ProductsForm>(this);
-        }
-
-        private void label15_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<OrdersForm>(this);
-        }
-
-        private void label16_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<EmployeesForm>(this);
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            var row = CustomersDataGridView.CurrentRow;
+            _selectedCustomerId = Convert.ToInt32(row.Cells[0].Value);
+            LoadCustomerToFields(row);
+            AddButton.Enabled = false;
         }
     }
 }

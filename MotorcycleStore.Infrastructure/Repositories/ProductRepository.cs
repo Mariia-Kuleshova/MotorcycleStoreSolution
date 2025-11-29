@@ -9,10 +9,12 @@ namespace MotorcycleStore.Infrastructure.Repositories
     public class ProductRepository
     {
         private readonly StoreDbContext _context;
+        private readonly InventoryRepository _inventoryRepository;
 
-        public ProductRepository(StoreDbContext context)
+        public ProductRepository(StoreDbContext context, InventoryRepository inventoryRepository)
         {
             _context = context;
+            _inventoryRepository = inventoryRepository;
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
@@ -29,16 +31,24 @@ namespace MotorcycleStore.Infrastructure.Repositories
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task AddAsync(Product product)
+        public async Task AddAsync(ProductDTO product)
         {
-            _context.Products.Add(product);
+            _context.Products.Add(product.Product);
             await _context.SaveChangesAsync();
+
+            var inventory = new Inventory
+            {
+                ProductId = product.Product.Id, 
+                Quantity = product.Qty
+            };
+
+            await _inventoryRepository.AddAsync(inventory);
         }
 
         public async Task UpdateAsync(Product product, int qty)
         {
             _context.Products.Update(product);
-            var prod = _context.Inventories.FirstOrDefault(p => p.Id == product.Id);
+            var prod = _context.Inventories.FirstOrDefault(p => p.ProductId == product.Id);
             if (prod != null) 
             { 
                 prod.Quantity = qty;

@@ -8,7 +8,7 @@ namespace MotorcycleStore.Application.Interfaces
     {
         Task<IEnumerable<Product>> GetAllAsync();
         Task<Product> GetByIdAsync(int id);
-        Task AddAsync(Product product);
+        Task AddAsync(ProductDTO product);
         Task UpdateAsync(Product product, int qty);
         Task DeleteAsync(int id);
     }

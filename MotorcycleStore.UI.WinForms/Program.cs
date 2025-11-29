@@ -55,10 +55,7 @@ namespace MotorcycleStore.UI.WinForms
 
                     services.AddScoped<Form1>();
                     services.AddScoped<LoginForm>();
-                    services.AddScoped<ProductsForm>();
-                    services.AddScoped<OrdersForm>();
-                    services.AddScoped<CustomersForm>();
-                    services.AddScoped<EmployeesForm>();
+                    services.AddScoped<MainForm>();
                 })
                 .Build();
 
@@ -72,7 +69,7 @@ namespace MotorcycleStore.UI.WinForms
             }
 
             //System.Windows.Forms.Application.Run(new Form1());
-            var mainForm = host.Services.GetRequiredService<LoginForm>();
+            var mainForm = host.Services.GetRequiredService<MainForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
 

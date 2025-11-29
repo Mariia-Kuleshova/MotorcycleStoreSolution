@@ -87,5 +87,10 @@ namespace MotorcycleStore.Application.Services
 
             return order.OrderItems.Sum(i => i.Quantity * i.UnitPrice);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _orderRepository.DeleteAsync(id);
+        }
     }
 }

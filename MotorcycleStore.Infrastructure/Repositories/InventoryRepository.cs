@@ -38,6 +38,7 @@ namespace MotorcycleStore.Infrastructure.Repositories
 
         public async Task AddAsync(Inventory inventory)
         {
+            inventory.LastUpdated = DateTime.Now;
             _context.Inventories.Add(inventory);
             await _context.SaveChangesAsync();
         }

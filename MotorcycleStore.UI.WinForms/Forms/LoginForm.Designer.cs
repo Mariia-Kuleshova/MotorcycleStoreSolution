@@ -41,6 +41,7 @@
             pictureBox1 = new PictureBox();
             LoginButton = new Button();
             ForgetPasswordLabel = new LinkLabel();
+            closeLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -64,9 +65,9 @@
             label1.ForeColor = Color.Teal;
             label1.Location = new Point(322, 9);
             label1.Name = "label1";
-            label1.Size = new Size(97, 25);
+            label1.Size = new Size(90, 25);
             label1.TabIndex = 1;
-            label1.Text = "MotoLife";
+            label1.Text = "MotoUA";
             label1.Click += label1_Click;
             // 
             // LoginTextBox
@@ -79,6 +80,7 @@
             // LoginLabel
             // 
             LoginLabel.AutoSize = true;
+            LoginLabel.ForeColor = Color.Teal;
             LoginLabel.Location = new Point(236, 149);
             LoginLabel.Name = "LoginLabel";
             LoginLabel.Size = new Size(67, 25);
@@ -89,6 +91,7 @@
             // PasswordLabel
             // 
             PasswordLabel.AutoSize = true;
+            PasswordLabel.ForeColor = Color.Teal;
             PasswordLabel.Location = new Point(236, 232);
             PasswordLabel.Name = "PasswordLabel";
             PasswordLabel.Size = new Size(86, 25);
@@ -133,11 +136,20 @@
             ForgetPasswordLabel.LinkColor = Color.LightSeaGreen;
             ForgetPasswordLabel.Location = new Point(373, 297);
             ForgetPasswordLabel.Name = "ForgetPasswordLabel";
-            ForgetPasswordLabel.Size = new Size(130, 18);
+            ForgetPasswordLabel.Size = new Size(0, 18);
             ForgetPasswordLabel.TabIndex = 8;
-            ForgetPasswordLabel.TabStop = true;
-            ForgetPasswordLabel.Text = "Забули пароль?";
             ForgetPasswordLabel.LinkClicked += ForgetPasswordLabel_LinkClicked;
+            // 
+            // closeLabel
+            // 
+            closeLabel.AutoSize = true;
+            closeLabel.ForeColor = Color.Teal;
+            closeLabel.Location = new Point(582, 5);
+            closeLabel.Name = "closeLabel";
+            closeLabel.Size = new Size(26, 25);
+            closeLabel.TabIndex = 9;
+            closeLabel.Text = "X";
+            closeLabel.Click += closeLabel_Click;
             // 
             // LoginForm
             // 
@@ -145,6 +157,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(614, 396);
+            Controls.Add(closeLabel);
             Controls.Add(ForgetPasswordLabel);
             Controls.Add(LoginButton);
             Controls.Add(pictureBox1);
@@ -178,5 +191,6 @@
         private Button LoginButton;
         private PictureBox pictureBox1;
         private LinkLabel ForgetPasswordLabel;
+        private Label closeLabel;
     }
 }

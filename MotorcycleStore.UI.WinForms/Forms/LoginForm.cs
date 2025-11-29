@@ -171,8 +171,8 @@ namespace MotorcycleStore.UI.WinForms.Forms
                         MessageBox.Show($"Вітаємо, {_currentEmployee.FirstName} {_currentEmployee.LastName}!\nРоль: {_currentEmployee.Role}",
                             "Успішний вхід", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        var productsForm = Program.ServiceProvider.GetRequiredService<ProductsForm>();
-                        productsForm.Show();
+                        var mainForm = Program.ServiceProvider.GetRequiredService<MainForm>();
+                        mainForm.Show();
                         this.Hide();
                     }
                 }
@@ -303,6 +303,11 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void closeLabel_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
         }
     }
 }

@@ -2,32 +2,43 @@
 using MotorcycleStore.Domain.Enums;
 using MotorcycleStore.Domain.Models;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MotorcycleStore.UI.WinForms.Forms
+namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 {
-    public partial class OrdersForm : Form
+    public partial class OrdersUserControl : UserControl
     {
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IEmployeeService _employeeService;
+        private readonly IProductService _productService;
+        private IEnumerable<Product> _products;
         private int? _selectedOrderId = null;
-        private readonly NavigationService _nav;
+        private Order _currentOrder;
 
-        public OrdersForm(
+        public OrdersUserControl(
             IOrderService orderService,
             ICustomerService customerService,
-            IEmployeeService employeeService, NavigationService nav)
+            IEmployeeService employeeService,
+            IProductService productService)
         {
             InitializeComponent();
             _orderService = orderService;
             _customerService = customerService;
             _employeeService = employeeService;
-            _nav = nav;
+
+            this.Load += OrdersUserControl_Load;
+            _productService = productService;
         }
 
-        private async void OrdersForm_Load(object sender, EventArgs e)
+        private async void OrdersUserControl_Load(object sender, EventArgs e)
         {
             await LoadData();
             InitializeComboBoxes();
@@ -37,17 +48,48 @@ namespace MotorcycleStore.UI.WinForms.Forms
         {
             try
             {
+                // Завантажити продукти
+                _products = await _productService.GetAllAsync();
+
+                ProductComboBox.DataSource = _products
+                    .Where(p => p.Inventory?.Quantity > 0)
+                    .OrderBy(p => p.Name)
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    })
+                    .ToList();
+                ProductComboBox.DisplayMember = "Name";
+                ProductComboBox.ValueMember = "Id";
+                ProductComboBox.SelectedIndex = -1;
+
                 // Завантажити замовників
                 var customers = await _customerService.GetAllAsync();
-                CustomerComboBox.DataSource = customers.ToList();
+
+                CustomerComboBox.DataSource = customers
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        FullName = c.FirstName + " " + c.LastName
+                    })
+                    .ToList();
                 CustomerComboBox.DisplayMember = "FullName";
                 CustomerComboBox.ValueMember = "Id";
+                CustomerComboBox.SelectedIndex = -1;
 
                 // Завантажити працівників
                 var employees = await _employeeService.GetAllAsync();
-                EmployeeComboBox.DataSource = employees.ToList();
+                EmployeeComboBox.DataSource = employees
+                    .Select(c => new
+                    {
+                        Id = c.Id,
+                        FullName = c.FirstName + " " + c.LastName
+                    })
+                    .ToList();
                 EmployeeComboBox.DisplayMember = "FullName";
                 EmployeeComboBox.ValueMember = "Id";
+                EmployeeComboBox.SelectedIndex = -1;
 
                 // Завантажити замовлення
                 await LoadOrders();
@@ -68,13 +110,15 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
                 foreach (var order in orders)
                 {
+                    var firstItem = order.OrderItems.FirstOrDefault();
                     OrdersDataGridView.Rows.Add(
                         order.Id,
+                        firstItem?.Product?.Name ?? "N/A",
+                        order.OrderDate.ToString("dd.MM.yyyy"),
+                        order.TotalAmount.ToString("N2"),
+                        GetStatusText(order.Status),
                         order.Customer?.LastName ?? "N/A",
                         order.Employee?.LastName ?? "N/A",
-                        order.OrderDate.ToString("dd.MM.yyyy"),
-                        GetStatusText(order.Status),
-                        order.TotalAmount.ToString("N2"),
                         order.PaymentMethod,
                         order.Comments
                     );
@@ -98,7 +142,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 "Виконано",
                 "Скасовано"
             });
-            StatusComboBox.SelectedIndex = 0;
+            StatusComboBox.SelectedIndex = -1;
 
             // Ініціалізація способів оплати
             PaymentMethodComboBox.Items.Clear();
@@ -109,7 +153,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 "Переказ",
                 "Кредит"
             });
-            PaymentMethodComboBox.SelectedIndex = 0;
+            PaymentMethodComboBox.SelectedIndex = -1;
 
             OrderDatePicker.Value = DateTime.Now;
         }
@@ -126,6 +170,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                     return;
                 }
 
+                // Создаем заказ
                 var order = new Order
                 {
                     CustomerId = (int)CustomerComboBox.SelectedValue,
@@ -134,10 +179,32 @@ namespace MotorcycleStore.UI.WinForms.Forms
                     Status = GetStatusFromText(StatusComboBox.Text),
                     PaymentMethod = PaymentMethodComboBox.Text,
                     Comments = CommentsTextBox.Text,
-                    TotalAmount = 0 // Буде розраховано при додаванні товарів
+                    OrderItems = new List<OrderItem>(),
+                    TotalAmount = 0
                 };
 
+                // Находим выбранный продукт
+                var products = await _productService.GetAllAsync();
+                var selectedProduct = products.FirstOrDefault(p => p.Name == ProductComboBox.Text);
+
+                if (selectedProduct == null)
+                {
+                    MessageBox.Show("Продукт не знайдено!", "Помилка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var orderItem = new OrderItem
+                {
+                    ProductId = selectedProduct.Id,
+                    Quantity = 1,
+                    UnitPrice = selectedProduct.Price
+                };
+
+                order.OrderItems.Add(orderItem);
+
                 await _orderService.CreateOrderAsync(order);
+
                 MessageBox.Show("Замовлення успішно створено!",
                     "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -146,10 +213,10 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка створення замовлення: {ex.Message}",
-                    "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка: {ex.Message}");
             }
         }
+
 
         private async void SaveButton_Click(object sender, EventArgs e)
         {
@@ -170,9 +237,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
                     return;
                 }
 
-                order.CustomerId = (int)CustomerComboBox.SelectedValue;
-                order.EmployeeId = (int)EmployeeComboBox.SelectedValue;
-                order.OrderDate = OrderDatePicker.Value;
                 order.Status = GetStatusFromText(StatusComboBox.Text);
                 order.PaymentMethod = PaymentMethodComboBox.Text;
                 order.Comments = CommentsTextBox.Text;
@@ -183,6 +247,8 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
                 await LoadOrders();
                 ClearFields();
+                SetComboboxAsEnabled();
+                AddButton.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -194,11 +260,14 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private void ClearButton_Click(object sender, EventArgs e)
         {
             ClearFields();
+            SetComboboxAsEnabled();
+            AddButton.Enabled = true;
         }
 
         private void ClearFields()
         {
             _selectedOrderId = null;
+            ProductComboBox.SelectedIndex = -1;
             CustomerComboBox.SelectedIndex = -1;
             EmployeeComboBox.SelectedIndex = -1;
             StatusComboBox.SelectedIndex = 0;
@@ -225,11 +294,11 @@ namespace MotorcycleStore.UI.WinForms.Forms
             OrderIdLabel.Text = $"ID: {row.Cells[0].Value}";
 
             // Знайти замовника за ім'ям
-            var customerName = row.Cells[1].Value?.ToString();
+            var customerName = row.Cells[5].Value?.ToString();
             for (int i = 0; i < CustomerComboBox.Items.Count; i++)
             {
-                var customer = (Customer)CustomerComboBox.Items[i];
-                if (customer.LastName == customerName)
+                var customer = CustomerComboBox.Items[i].ToString();
+                if (customer.Contains(customerName))
                 {
                     CustomerComboBox.SelectedIndex = i;
                     break;
@@ -237,22 +306,50 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
 
             // Знайти працівника за ім'ям
-            var employeeName = row.Cells[2].Value?.ToString();
+            var employeeName = row.Cells[6].Value?.ToString();
             for (int i = 0; i < EmployeeComboBox.Items.Count; i++)
             {
-                var employee = (Employee)EmployeeComboBox.Items[i];
-                if (employee.LastName == employeeName)
+                var employee = EmployeeComboBox.Items[i].ToString();
+                if (employee.Contains(employeeName))
                 {
                     EmployeeComboBox.SelectedIndex = i;
                     break;
                 }
             }
 
-            OrderDatePicker.Value = DateTime.Parse(row.Cells[3].Value.ToString());
+            ProductComboBox.Text = row.Cells[1].Value?.ToString();
+            OrderDatePicker.Value = DateTime.Parse(row.Cells[2].Value.ToString());
             StatusComboBox.Text = row.Cells[4].Value?.ToString() ?? "";
-            TotalAmountTextBox.Text = row.Cells[5].Value?.ToString() ?? "0.00";
-            PaymentMethodComboBox.Text = row.Cells[6].Value?.ToString() ?? "";
-            CommentsTextBox.Text = row.Cells[7].Value?.ToString() ?? "";
+            TotalAmountTextBox.Text = row.Cells[3].Value?.ToString() ?? "0.00";
+            PaymentMethodComboBox.Text = row.Cells[7].Value?.ToString() ?? "";
+            CommentsTextBox.Text = row.Cells[8].Value?.ToString() ?? "";
+            _selectedOrderId = (int)row.Cells[0].Value;
+
+            SetComboboxAsNotEnabled();
+        }
+
+        private void SetComboboxAsNotEnabled()
+        {
+            ProductComboBox.Enabled = false;
+            OrderDatePicker.Enabled = false;
+            //StatusComboBox.Enabled = false;
+            TotalAmountTextBox.Enabled = false;
+            //PaymentMethodComboBox.Enabled = false;
+            CommentsTextBox.Enabled = false;
+            EmployeeComboBox.Enabled = false;
+            CustomerComboBox.Enabled = false;
+        }
+
+        private void SetComboboxAsEnabled()
+        {
+            ProductComboBox.Enabled = true;
+            OrderDatePicker.Enabled = true;
+            //StatusComboBox.Enabled = false;
+            TotalAmountTextBox.Enabled = true;
+            //PaymentMethodComboBox.Enabled = false;
+            //CommentsTextBox.Enabled = true;
+            EmployeeComboBox.Enabled = true;
+            CustomerComboBox.Enabled = true;
         }
 
         private void ViewDetailsButton_Click(object sender, EventArgs e)
@@ -269,15 +366,15 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void EditStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (OrdersDataGridView.SelectedRows.Count > 0)
-            {
-                var row = OrdersDataGridView.SelectedRows[0];
-                _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
-                LoadOrderToFields(row);
-            }
-        }
+        //private void EditStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (OrdersDataGridView.SelectedRows.Count > 0)
+        //    {
+        //        var row = OrdersDataGridView.SelectedRows[0];
+        //        _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
+        //        LoadOrderToFields(row);
+        //    }
+        //}
 
         private void ViewDetailsStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -339,7 +436,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
             }
         }
 
-        private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
+        private async void DeleteStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (OrdersDataGridView.SelectedRows.Count > 0)
             {
@@ -349,25 +446,14 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 if (result == DialogResult.Yes)
                 {
                     // Тут потрібно додати метод видалення в сервіс
-                    MessageBox.Show("Видалення замовлень буде реалізовано",
+                    MessageBox.Show("Зфмовлення видалено.",
                         "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var row = OrdersDataGridView.SelectedRows[0];
+                    _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
+                    await _orderService.DeleteAsync(_selectedOrderId.Value);
+                    await LoadOrders();
                 }
-            }
-        }
-
-        private void XLabel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Ви впевнені, що хочете вийти?",
-                "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _nav.NavigateTo<LoginForm>(this);
             }
         }
 
@@ -394,34 +480,38 @@ namespace MotorcycleStore.UI.WinForms.Forms
             };
         }
 
-        private void label9_Click(object sender, EventArgs e)
+        private void EditStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            LoadOrderToFields(OrdersDataGridView.CurrentRow);
+            AddButton.Enabled = false;
+        }
+
+        private void ProductComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void label14_Click(object sender, EventArgs e)
+        private void ProductComboBox_TextChanged(object sender, EventArgs e)
         {
-            _nav.NavigateTo<ProductsForm>(this);
-        }
+            string input = ProductComboBox.Text.ToLower();
 
-        private void label15_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<CustomersForm>(this);
-        }
+            // Фильтруем по Name
+            var filtered = _products
+                .Where(p => p.Name != null && p.Name.ToLower().Contains(input))
+                .Select(p => new
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                })
+                .ToList();
 
-        private void label16_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<EmployeesForm>(this);
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-
+            if (filtered.Count > 0)
+            {
+                ProductComboBox.DataSource = filtered;
+                ProductComboBox.DroppedDown = true;
+                ProductComboBox.SelectionStart = ProductComboBox.Text.Length;
+                ProductComboBox.SelectionLength = 0;
+            }
         }
     }
 }

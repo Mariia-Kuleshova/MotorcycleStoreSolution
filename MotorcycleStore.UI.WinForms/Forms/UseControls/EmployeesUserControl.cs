@@ -1,23 +1,29 @@
 ﻿using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Domain.Models;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MotorcycleStore.UI.WinForms.Forms
+namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 {
-    public partial class EmployeesForm : Form
+    public partial class EmployeesUserControl : UserControl
     {
         private readonly IEmployeeService _employeeService;
         private int? _selectedEmployeeId = null;
         private bool _isEditMode = false;
-        private readonly NavigationService _nav;
 
-        public EmployeesForm(IEmployeeService employeeService, NavigationService nav)
+        public EmployeesUserControl(IEmployeeService employeeService)
         {
             InitializeComponent();
             _employeeService = employeeService;
-            _nav = nav;
+
+            this.Load += EmployeesForm_Load;
         }
 
         private async void EmployeesForm_Load(object sender, EventArgs e)
@@ -433,52 +439,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
                     }
                 }
             }
-        }
-
-        private void XLabel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show("Ви впевнені, що хочете вийти?",
-                "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _nav.NavigateTo<LoginForm>(this);
-            }
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<ProductsForm>(this);
-        }
-
-        private void label15_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<OrdersForm>(this);
-        }
-
-        private void label16_Click(object sender, EventArgs e)
-        {
-            _nav.NavigateTo<CustomersForm>(this);
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

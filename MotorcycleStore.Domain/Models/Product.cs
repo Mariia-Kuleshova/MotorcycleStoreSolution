@@ -25,4 +25,10 @@ namespace MotorcycleStore.Domain.Models
         public Inventory? Inventory { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
     }
+
+    public class ProductDTO
+    {
+        public Product Product { get; set; }
+        public int Qty { get; set; } 
+    }
 }
