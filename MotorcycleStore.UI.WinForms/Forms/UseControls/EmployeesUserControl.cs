@@ -1,4 +1,5 @@
 ﻿using MotorcycleStore.Application.Interfaces;
+using MotorcycleStore.Application.Services;
 using MotorcycleStore.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -49,18 +50,21 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 foreach (var employee in employees)
                 {
-                    EmployeesDataGridView.Rows.Add(
-                        employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.Position,
-                        employee.Phone ?? "",
-                        employee.Email ?? "",
-                        employee.Username,
-                        employee.Role,
-                        employee.HiredAt.ToString("dd.MM.yyyy"),
-                        employee.IsActive
-                    );
+                    if (employee.IsActive)
+                    {
+                        EmployeesDataGridView.Rows.Add(
+                            employee.Id,
+                            employee.FirstName,
+                            employee.LastName,
+                            employee.Position,
+                            employee.Phone ?? "",
+                            employee.Email ?? "",
+                            employee.Username,
+                            employee.Role,
+                            employee.HiredAt.ToString("dd.MM.yyyy"),
+                            employee.IsActive
+                        );
+                    }
                 }
             }
             catch (Exception ex)
@@ -105,7 +109,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
         }
 
-        private async void SaveButton_Click(object sender, EventArgs e)
+        private async void SaveButton_Click_1(object sender, EventArgs e)
         {
             try
             {
@@ -209,6 +213,8 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             SearchTextBox.Clear();
             PasswordTextBox.Enabled = true;
             UsernameTextBox.ReadOnly = false;
+
+            AddButton.Enabled = true;
         }
 
         private void EmployeesDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -238,7 +244,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 HiredAtPicker.Value = hiredDate;
             }
 
-            IsActiveCheckBox.Checked = row.Cells[9].Value != null && (bool)row.Cells[9].Value;
+            //IsActiveCheckBox.Checked = row.Cells[9].Value != null && (bool)row.Cells[9].Value;
 
             // При редагуванні пароль не показуємо
             PasswordTextBox.Clear();
@@ -435,6 +441,46 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     catch (Exception ex)
                     {
                         MessageBox.Show($"Помилка зміни пароля: {ex.Message}",
+                            "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void EditStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var row = EmployeesDataGridView.CurrentRow;
+            _selectedEmployeeId = Convert.ToInt32(row.Cells[0].Value);
+            LoadEmployeeToFields(row);
+            AddButton.Enabled = false;
+        }
+
+        private async void DeleteStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (EmployeesDataGridView.SelectedRows.Count > 0)
+            {
+                var result = MessageBox.Show(
+                    "Ви впевнені, що хочете видалити цього працівника?",
+                    "Підтвердження",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        var employeeId = Convert.ToInt32(EmployeesDataGridView.SelectedRows[0].Cells[0].Value);
+                        await _employeeService.DeleteAsync(employeeId);
+
+                        MessageBox.Show("Працівника успішно видалено!",
+                            "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        await LoadEmployees();
+                        ClearFields();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Помилка видалення: {ex.Message}",
                             "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }

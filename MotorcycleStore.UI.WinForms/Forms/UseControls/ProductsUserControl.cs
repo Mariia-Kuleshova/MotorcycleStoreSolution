@@ -1,4 +1,5 @@
 ﻿using MotorcycleStore.Application.Interfaces;
+using MotorcycleStore.Application.Services;
 using MotorcycleStore.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
     {
         private readonly IProductService _productService;
         private Product _currentProduct;
+        public event Action<int> OnCreateOrder;
 
         public ProductsUserControl(IProductService productService)
         {
@@ -314,6 +316,89 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             MessageBox.Show("Товар оновлено!");
             LoadProductsAsync();
             ClearTextBoxes();
+        }
+
+        private async void SearchButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
+                {
+                    await LoadProductsAsync();
+                    return;
+                }
+
+                var searchTerm = SearchTextBox.Text.Trim().ToLower();
+                var allProducts = await _productService.GetAllAsync();
+
+                var filteredProducts = allProducts.Where(c =>
+                    c.Name.ToLower().Contains(searchTerm) ||
+                    c.Brand.ToLower().Contains(searchTerm) ||
+                    c.Category.Contains(searchTerm) ||
+                    c.VIN.Contains(searchTerm) ||
+                    c.ModelYear.ToString().Contains(searchTerm) ||
+                    c.SupplierName.Contains(searchTerm)
+                ).ToList();
+
+                try
+                {
+                    ProductsDataGridView.Rows.Clear();
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+                    ProductsDataGridView.DataSource = null;
+                }               
+
+                foreach (var product in filteredProducts)
+                {
+                    ProductsDataGridView.Rows.Add(
+                        product.Id,
+                        product.Name,
+                        product.Brand,
+                        product.Category,
+                        product.VIN,
+                        product.ModelYear,
+                        product.Inventory?.Quantity,
+                        product.Price,
+                        product.SupplierName,
+                        product.Description
+                    );
+                }
+
+                if (filteredProducts.Count == 0)
+                {
+                    MessageBox.Show("Нічого не знайдено!",
+                        "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка пошуку: {ex.Message}",
+                    "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void CreateOrderButton_Click(object sender, EventArgs e)
+        {
+            if(int.TryParse(ProductsDataGridView.CurrentRow.Cells[6].Value.ToString(), out int qty))
+            {
+                if (qty < 1)
+                {
+                    MessageBox.Show("Неможливо створити замовлення. Немає в наявності.");
+                }
+                else if (MessageBox.Show("Створити замовлення?", "Підтвердження",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    var product = (Product)ProductsDataGridView.SelectedRows[0].DataBoundItem;
+                    OnCreateOrder?.Invoke(product.Id);
+
+                    await LoadProductsAsync();
+                }
+            }           
         }
     }
 }

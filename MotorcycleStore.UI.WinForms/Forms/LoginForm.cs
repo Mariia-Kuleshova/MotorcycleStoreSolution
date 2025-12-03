@@ -171,7 +171,13 @@ namespace MotorcycleStore.UI.WinForms.Forms
                         MessageBox.Show($"Вітаємо, {_currentEmployee.FirstName} {_currentEmployee.LastName}!\nРоль: {_currentEmployee.Role}",
                             "Успішний вхід", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        var mainForm = Program.ServiceProvider.GetRequiredService<MainForm>();
+                        var mainForm = new MainForm(
+                            Program.ServiceProvider.GetRequiredService<IProductService>(),
+                            Program.ServiceProvider.GetRequiredService<IOrderService>(),
+                            Program.ServiceProvider.GetRequiredService<ICustomerService>(),
+                            Program.ServiceProvider.GetRequiredService<IEmployeeService>(),
+                            _currentEmployee 
+                        );
                         mainForm.Show();
                         this.Hide();
                     }

@@ -330,5 +330,10 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             LoadCustomerToFields(row);
             AddButton.Enabled = false;
         }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

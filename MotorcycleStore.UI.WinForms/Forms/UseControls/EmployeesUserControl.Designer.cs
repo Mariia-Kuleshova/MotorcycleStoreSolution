@@ -28,15 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             SearchButton = new Button();
             SearchTextBox = new TextBox();
             label19 = new Label();
-            IsActiveCheckBox = new CheckBox();
             RoleComboBox = new ComboBox();
-            label11 = new Label();
             PasswordTextBox = new TextBox();
             label10 = new Label();
             UsernameTextBox = new TextBox();
@@ -51,7 +50,6 @@
             UsernameColumn = new DataGridViewTextBoxColumn();
             RoleColumn = new DataGridViewTextBoxColumn();
             HiredAtColumn = new DataGridViewTextBoxColumn();
-            IsActiveColumn = new DataGridViewCheckBoxColumn();
             ClearButton = new Button();
             AddButton = new Button();
             SaveButton = new Button();
@@ -68,7 +66,13 @@
             label3 = new Label();
             FirstNameTextBox = new TextBox();
             label2 = new Label();
+            IsActiveCheckBox = new CheckBox();
+            label11 = new Label();
+            EmployeeContextMenuStrip = new ContextMenuStrip(components);
+            EditStripMenuItem1 = new ToolStripMenuItem();
+            DeleteStripMenuItem1 = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)EmployeesDataGridView).BeginInit();
+            EmployeeContextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // SearchButton
@@ -83,6 +87,7 @@
             SearchButton.TabIndex = 64;
             SearchButton.Text = "🔍";
             SearchButton.UseVisualStyleBackColor = false;
+            SearchButton.Click += SearchButton_Click;
             // 
             // SearchTextBox
             // 
@@ -102,17 +107,6 @@
             label19.TabIndex = 62;
             label19.Text = "Пошук";
             // 
-            // IsActiveCheckBox
-            // 
-            IsActiveCheckBox.AutoSize = true;
-            IsActiveCheckBox.Checked = true;
-            IsActiveCheckBox.CheckState = CheckState.Checked;
-            IsActiveCheckBox.Location = new Point(691, 148);
-            IsActiveCheckBox.Name = "IsActiveCheckBox";
-            IsActiveCheckBox.Size = new Size(18, 17);
-            IsActiveCheckBox.TabIndex = 61;
-            IsActiveCheckBox.UseVisualStyleBackColor = true;
-            // 
             // RoleComboBox
             // 
             RoleComboBox.FormattingEnabled = true;
@@ -120,15 +114,6 @@
             RoleComboBox.Name = "RoleComboBox";
             RoleComboBox.Size = new Size(203, 33);
             RoleComboBox.TabIndex = 60;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(690, 117);
-            label11.Name = "label11";
-            label11.Size = new Size(112, 25);
-            label11.TabIndex = 59;
-            label11.Text = "Активний";
             // 
             // PasswordTextBox
             // 
@@ -179,7 +164,8 @@
             EmployeesDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             EmployeesDataGridView.ColumnHeadersHeight = 27;
             EmployeesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            EmployeesDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, FirstNameColumn, LastNameColumn, PositionColumn, PhoneColumn, EmailColumn, UsernameColumn, RoleColumn, HiredAtColumn, IsActiveColumn });
+            EmployeesDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, FirstNameColumn, LastNameColumn, PositionColumn, PhoneColumn, EmailColumn, UsernameColumn, RoleColumn, HiredAtColumn });
+            EmployeesDataGridView.ContextMenuStrip = EmployeeContextMenuStrip;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
@@ -273,12 +259,6 @@
             HiredAtColumn.MinimumWidth = 6;
             HiredAtColumn.Name = "HiredAtColumn";
             // 
-            // IsActiveColumn
-            // 
-            IsActiveColumn.HeaderText = "Активний";
-            IsActiveColumn.MinimumWidth = 6;
-            IsActiveColumn.Name = "IsActiveColumn";
-            // 
             // ClearButton
             // 
             ClearButton.BackColor = Color.Crimson;
@@ -291,6 +271,7 @@
             ClearButton.TabIndex = 53;
             ClearButton.Text = "Очистити";
             ClearButton.UseVisualStyleBackColor = false;
+            ClearButton.Click += ClearButton_Click;
             // 
             // AddButton
             // 
@@ -304,6 +285,7 @@
             AddButton.TabIndex = 52;
             AddButton.Text = "Додати";
             AddButton.UseVisualStyleBackColor = false;
+            AddButton.Click += AddButton_Click;
             // 
             // SaveButton
             // 
@@ -317,6 +299,7 @@
             SaveButton.TabIndex = 51;
             SaveButton.Text = "Зберегти зміни";
             SaveButton.UseVisualStyleBackColor = false;
+            SaveButton.Click += SaveButton_Click_1;
             // 
             // HiredAtPicker
             // 
@@ -429,6 +412,47 @@
             label2.TabIndex = 38;
             label2.Text = "Ім'я";
             // 
+            // IsActiveCheckBox
+            // 
+            IsActiveCheckBox.AutoSize = true;
+            IsActiveCheckBox.Checked = true;
+            IsActiveCheckBox.CheckState = CheckState.Checked;
+            IsActiveCheckBox.Location = new Point(691, 148);
+            IsActiveCheckBox.Name = "IsActiveCheckBox";
+            IsActiveCheckBox.Size = new Size(18, 17);
+            IsActiveCheckBox.TabIndex = 61;
+            IsActiveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(690, 117);
+            label11.Name = "label11";
+            label11.Size = new Size(112, 25);
+            label11.TabIndex = 59;
+            label11.Text = "Активний";
+            // 
+            // EmployeeContextMenuStrip
+            // 
+            EmployeeContextMenuStrip.ImageScalingSize = new Size(20, 20);
+            EmployeeContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1 });
+            EmployeeContextMenuStrip.Name = "ProductContextMenuStrip";
+            EmployeeContextMenuStrip.Size = new Size(155, 52);
+            // 
+            // EditStripMenuItem1
+            // 
+            EditStripMenuItem1.Name = "EditStripMenuItem1";
+            EditStripMenuItem1.Size = new Size(154, 24);
+            EditStripMenuItem1.Text = "Редагувати";
+            EditStripMenuItem1.Click += EditStripMenuItem1_Click;
+            // 
+            // DeleteStripMenuItem1
+            // 
+            DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
+            DeleteStripMenuItem1.Size = new Size(154, 24);
+            DeleteStripMenuItem1.Text = "Видалити";
+            DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
+            // 
             // EmployeesUserControl
             // 
             AutoScaleDimensions = new SizeF(13F, 25F);
@@ -465,6 +489,7 @@
             Name = "EmployeesUserControl";
             Size = new Size(1249, 907);
             ((System.ComponentModel.ISupportInitialize)EmployeesDataGridView).EndInit();
+            EmployeeContextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -474,24 +499,12 @@
         private Button SearchButton;
         private TextBox SearchTextBox;
         private Label label19;
-        private CheckBox IsActiveCheckBox;
         private ComboBox RoleComboBox;
-        private Label label11;
         private TextBox PasswordTextBox;
         private Label label10;
         private TextBox UsernameTextBox;
         private Label label9;
         private Guna.UI2.WinForms.Guna2DataGridView EmployeesDataGridView;
-        private DataGridViewTextBoxColumn IdColumn;
-        private DataGridViewTextBoxColumn FirstNameColumn;
-        private DataGridViewTextBoxColumn LastNameColumn;
-        private DataGridViewTextBoxColumn PositionColumn;
-        private DataGridViewTextBoxColumn PhoneColumn;
-        private DataGridViewTextBoxColumn EmailColumn;
-        private DataGridViewTextBoxColumn UsernameColumn;
-        private DataGridViewTextBoxColumn RoleColumn;
-        private DataGridViewTextBoxColumn HiredAtColumn;
-        private DataGridViewCheckBoxColumn IsActiveColumn;
         private Button ClearButton;
         private Button AddButton;
         private Button SaveButton;
@@ -508,5 +521,19 @@
         private Label label3;
         private TextBox FirstNameTextBox;
         private Label label2;
+        private DataGridViewTextBoxColumn IdColumn;
+        private DataGridViewTextBoxColumn FirstNameColumn;
+        private DataGridViewTextBoxColumn LastNameColumn;
+        private DataGridViewTextBoxColumn PositionColumn;
+        private DataGridViewTextBoxColumn PhoneColumn;
+        private DataGridViewTextBoxColumn EmailColumn;
+        private DataGridViewTextBoxColumn UsernameColumn;
+        private DataGridViewTextBoxColumn RoleColumn;
+        private DataGridViewTextBoxColumn HiredAtColumn;
+        private CheckBox IsActiveCheckBox;
+        private Label label11;
+        private ContextMenuStrip EmployeeContextMenuStrip;
+        private ToolStripMenuItem EditStripMenuItem1;
+        private ToolStripMenuItem DeleteStripMenuItem1;
     }
 }

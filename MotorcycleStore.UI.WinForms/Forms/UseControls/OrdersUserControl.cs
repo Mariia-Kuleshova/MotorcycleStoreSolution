@@ -21,9 +21,12 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         private readonly IProductService _productService;
         private IEnumerable<Product> _products;
         private int? _selectedOrderId = null;
+        private int? _idFromProductForm;
+        private Employee _currentEmp;
         private Order _currentOrder;
 
         public OrdersUserControl(
+            Employee currentEmp,
             IOrderService orderService,
             ICustomerService customerService,
             IEmployeeService employeeService,
@@ -36,12 +39,55 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
             this.Load += OrdersUserControl_Load;
             _productService = productService;
+            _currentEmp = currentEmp;
+        }
+
+        public OrdersUserControl(
+            int id,
+            Employee currentEmp,
+            IOrderService orderService,
+            ICustomerService customerService,
+            IEmployeeService employeeService,
+            IProductService productService)
+        {
+            InitializeComponent();
+            _orderService = orderService;
+            _customerService = customerService;
+            _employeeService = employeeService;
+
+            this.Load += OrdersUserControlWithId_Load;
+            _productService = productService;
+            _currentEmp = currentEmp;
+            _idFromProductForm = id;
         }
 
         private async void OrdersUserControl_Load(object sender, EventArgs e)
         {
             await LoadData();
             InitializeComboBoxes();
+        }
+
+        private async void OrdersUserControlWithId_Load(object sender, EventArgs e)
+        {
+            await LoadData();
+            InitializeComboBoxes();
+            await LoadDataWithId();
+        }
+
+        private async System.Threading.Tasks.Task LoadDataWithId()
+        {
+            if (_idFromProductForm != null)
+            {
+                var product = await _productService.GetByIdAsync((int)_idFromProductForm);
+                if (product != null)
+                {
+                    ProductComboBox.Text = product.Name;
+                    EmployeeComboBox.Text = _currentEmp.FirstName + " " + _currentEmp.LastName;
+                    StatusComboBox.SelectedIndex = 0;
+                    TotalAmountTextBox.Text = product.Price.ToString();
+                    SaveButton.Enabled = false;
+                }
+            }
         }
 
         private async System.Threading.Tasks.Task LoadData()
@@ -262,6 +308,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             ClearFields();
             SetComboboxAsEnabled();
             AddButton.Enabled = true;
+            SaveButton.Enabled = true;
         }
 
         private void ClearFields()

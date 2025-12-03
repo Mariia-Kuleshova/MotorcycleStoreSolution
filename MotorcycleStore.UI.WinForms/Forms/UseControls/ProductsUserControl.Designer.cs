@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(components);
             label2 = new Label();
             ModelTextBox = new TextBox();
@@ -54,11 +54,6 @@
             AddButton = new Button();
             DeleteButton = new Button();
             ProductsDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
-            button3 = new Button();
-            SupplierTextBox = new TextBox();
-            ProductContextMenuStrip = new ContextMenuStrip(components);
-            EditStripMenuItem1 = new ToolStripMenuItem();
-            DeleteStripMenuItem1 = new ToolStripMenuItem();
             IdColumn = new DataGridViewTextBoxColumn();
             ModelColumn = new DataGridViewTextBoxColumn();
             BrandColumn = new DataGridViewTextBoxColumn();
@@ -69,6 +64,14 @@
             PriceColumn = new DataGridViewTextBoxColumn();
             SupplierColumn = new DataGridViewTextBoxColumn();
             CommentColumn = new DataGridViewTextBoxColumn();
+            CreateOrderButton = new Button();
+            SupplierTextBox = new TextBox();
+            ProductContextMenuStrip = new ContextMenuStrip(components);
+            EditStripMenuItem1 = new ToolStripMenuItem();
+            DeleteStripMenuItem1 = new ToolStripMenuItem();
+            SearchButton = new Button();
+            SearchTextBox = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGridView).BeginInit();
             ProductContextMenuStrip.SuspendLayout();
             SuspendLayout();
@@ -229,7 +232,7 @@
             SaveButton.FlatAppearance.BorderSize = 0;
             SaveButton.FlatStyle = FlatStyle.Flat;
             SaveButton.ForeColor = Color.White;
-            SaveButton.Location = new Point(24, 225);
+            SaveButton.Location = new Point(24, 218);
             SaveButton.Name = "SaveButton";
             SaveButton.Size = new Size(206, 35);
             SaveButton.TabIndex = 24;
@@ -243,7 +246,7 @@
             AddButton.FlatAppearance.BorderSize = 0;
             AddButton.FlatStyle = FlatStyle.Flat;
             AddButton.ForeColor = Color.White;
-            AddButton.Location = new Point(244, 225);
+            AddButton.Location = new Point(244, 218);
             AddButton.Name = "AddButton";
             AddButton.Size = new Size(206, 35);
             AddButton.TabIndex = 25;
@@ -257,7 +260,7 @@
             DeleteButton.FlatAppearance.BorderSize = 0;
             DeleteButton.FlatStyle = FlatStyle.Flat;
             DeleteButton.ForeColor = Color.White;
-            DeleteButton.Location = new Point(471, 225);
+            DeleteButton.Location = new Point(471, 218);
             DeleteButton.Name = "DeleteButton";
             DeleteButton.Size = new Size(206, 35);
             DeleteButton.TabIndex = 26;
@@ -267,34 +270,34 @@
             // 
             // ProductsDataGridView
             // 
-            dataGridViewCellStyle1.BackColor = Color.White;
-            ProductsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            ProductsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             ProductsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle2.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            ProductsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle5.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            ProductsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             ProductsDataGridView.ColumnHeadersHeight = 27;
             ProductsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             ProductsDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, ModelColumn, BrandColumn, CategoryColumn, VINColumn, YearColumn, QtyColumn, PriceColumn, SupplierColumn, CommentColumn });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            ProductsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            ProductsDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
             ProductsDataGridView.GridColor = Color.FromArgb(231, 229, 255);
-            ProductsDataGridView.Location = new Point(24, 297);
+            ProductsDataGridView.Location = new Point(24, 326);
             ProductsDataGridView.Name = "ProductsDataGridView";
             ProductsDataGridView.RowHeadersVisible = false;
             ProductsDataGridView.RowHeadersWidth = 51;
-            ProductsDataGridView.Size = new Size(1209, 583);
+            ProductsDataGridView.Size = new Size(1209, 554);
             ProductsDataGridView.TabIndex = 27;
             ProductsDataGridView.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             ProductsDataGridView.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -317,48 +320,6 @@
             ProductsDataGridView.ThemeStyle.RowsStyle.Height = 29;
             ProductsDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             ProductsDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.LimeGreen;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(974, 225);
-            button3.Name = "button3";
-            button3.Size = new Size(259, 35);
-            button3.TabIndex = 28;
-            button3.Text = "Створити замовлення";
-            button3.UseVisualStyleBackColor = false;
-            // 
-            // SupplierTextBox
-            // 
-            SupplierTextBox.BorderStyle = BorderStyle.FixedSingle;
-            SupplierTextBox.Location = new Point(472, 161);
-            SupplierTextBox.Name = "SupplierTextBox";
-            SupplierTextBox.Size = new Size(203, 32);
-            SupplierTextBox.TabIndex = 17;
-            // 
-            // ProductContextMenuStrip
-            // 
-            ProductContextMenuStrip.ImageScalingSize = new Size(20, 20);
-            ProductContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1 });
-            ProductContextMenuStrip.Name = "ProductContextMenuStrip";
-            ProductContextMenuStrip.Size = new Size(155, 52);
-            // 
-            // EditStripMenuItem1
-            // 
-            EditStripMenuItem1.Name = "EditStripMenuItem1";
-            EditStripMenuItem1.Size = new Size(154, 24);
-            EditStripMenuItem1.Text = "Редагувати";
-            EditStripMenuItem1.Click += EditStripMenuItem1_Click;
-            // 
-            // DeleteStripMenuItem1
-            // 
-            DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
-            DeleteStripMenuItem1.Size = new Size(154, 24);
-            DeleteStripMenuItem1.Text = "Видалити";
-            DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
             // 
             // IdColumn
             // 
@@ -431,12 +392,90 @@
             CommentColumn.Name = "CommentColumn";
             CommentColumn.Width = 200;
             // 
+            // CreateOrderButton
+            // 
+            CreateOrderButton.BackColor = Color.LimeGreen;
+            CreateOrderButton.FlatAppearance.BorderSize = 0;
+            CreateOrderButton.FlatStyle = FlatStyle.Flat;
+            CreateOrderButton.ForeColor = Color.White;
+            CreateOrderButton.Location = new Point(974, 218);
+            CreateOrderButton.Name = "CreateOrderButton";
+            CreateOrderButton.Size = new Size(259, 35);
+            CreateOrderButton.TabIndex = 28;
+            CreateOrderButton.Text = "Створити замовлення";
+            CreateOrderButton.UseVisualStyleBackColor = false;
+            CreateOrderButton.Click += CreateOrderButton_Click;
+            // 
+            // SupplierTextBox
+            // 
+            SupplierTextBox.BorderStyle = BorderStyle.FixedSingle;
+            SupplierTextBox.Location = new Point(472, 161);
+            SupplierTextBox.Name = "SupplierTextBox";
+            SupplierTextBox.Size = new Size(203, 32);
+            SupplierTextBox.TabIndex = 17;
+            // 
+            // ProductContextMenuStrip
+            // 
+            ProductContextMenuStrip.ImageScalingSize = new Size(20, 20);
+            ProductContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1 });
+            ProductContextMenuStrip.Name = "ProductContextMenuStrip";
+            ProductContextMenuStrip.Size = new Size(155, 52);
+            // 
+            // EditStripMenuItem1
+            // 
+            EditStripMenuItem1.Name = "EditStripMenuItem1";
+            EditStripMenuItem1.Size = new Size(154, 24);
+            EditStripMenuItem1.Text = "Редагувати";
+            EditStripMenuItem1.Click += EditStripMenuItem1_Click;
+            // 
+            // DeleteStripMenuItem1
+            // 
+            DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
+            DeleteStripMenuItem1.Size = new Size(154, 24);
+            DeleteStripMenuItem1.Text = "Видалити";
+            DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
+            // 
+            // SearchButton
+            // 
+            SearchButton.BackColor = Color.DodgerBlue;
+            SearchButton.FlatAppearance.BorderSize = 0;
+            SearchButton.FlatStyle = FlatStyle.Flat;
+            SearchButton.ForeColor = Color.White;
+            SearchButton.Location = new Point(1133, 278);
+            SearchButton.Name = "SearchButton";
+            SearchButton.Size = new Size(100, 35);
+            SearchButton.TabIndex = 55;
+            SearchButton.Text = "🔍";
+            SearchButton.UseVisualStyleBackColor = false;
+            SearchButton.Click += SearchButton_Click;
+            // 
+            // SearchTextBox
+            // 
+            SearchTextBox.BorderStyle = BorderStyle.FixedSingle;
+            SearchTextBox.Location = new Point(877, 278);
+            SearchTextBox.Name = "SearchTextBox";
+            SearchTextBox.PlaceholderText = "Назва, марка, рік...";
+            SearchTextBox.Size = new Size(250, 32);
+            SearchTextBox.TabIndex = 54;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(792, 281);
+            label1.Name = "label1";
+            label1.Size = new Size(81, 25);
+            label1.TabIndex = 53;
+            label1.Text = "Пошук";
+            // 
             // ProductsUserControl
             // 
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(button3);
+            Controls.Add(SearchButton);
+            Controls.Add(SearchTextBox);
+            Controls.Add(label1);
+            Controls.Add(CreateOrderButton);
             Controls.Add(ProductsDataGridView);
             Controls.Add(DeleteButton);
             Controls.Add(AddButton);
@@ -493,7 +532,7 @@
         private Button DeleteButton;
         private Button AddButton;
         private Button SaveButton;
-        private Button button3;
+        private Button CreateOrderButton;
         private TextBox SupplierTextBox;
         private ContextMenuStrip ProductContextMenuStrip;
         private ToolStripMenuItem EditStripMenuItem1;
@@ -508,6 +547,9 @@
         private DataGridViewTextBoxColumn PriceColumn;
         private DataGridViewTextBoxColumn SupplierColumn;
         private DataGridViewTextBoxColumn CommentColumn;
+        private Button SearchButton;
+        private TextBox SearchTextBox;
+        private Label label1;
     }
 }
 

@@ -20,20 +20,35 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IEmployeeService _employeeService;
+        private Employee _employee;
 
-        public MainForm(IProductService productService, IOrderService orderService, ICustomerService customerService, IEmployeeService employeeService)
+        public MainForm(
+            IProductService productService, 
+            IOrderService orderService, 
+            ICustomerService customerService, 
+            IEmployeeService employeeService,
+            Employee employee)
         {
             _productService = productService;
             _orderService = orderService;
             _customerService = customerService;
             _employeeService = employeeService;
+            _employee = employee;
             InitializeComponent();
         }
 
         private void ProductsMenuLabel_Click(object sender, EventArgs e)
         {
             HighlightMenu((Control)sender);
-            LoadControl(new ProductsUserControl(_productService));
+
+            var productsControl = new ProductsUserControl(_productService);
+
+            productsControl.OnCreateOrder += productId =>
+            {
+                LoadOrderControl(productId);
+            };
+
+            LoadControl(productsControl);
         }
 
         private void LoadControl(UserControl control)
@@ -43,10 +58,18 @@ namespace MotorcycleStore.UI.WinForms.Forms
             contentPanel1.Controls.Add(control); 
         }
 
+        private void LoadOrderControl(int id)
+        {
+            HighlightMenu((Control)OrdersMenuLabel);
+            var orderControl = new OrdersUserControl(id, _employee, _orderService, _customerService, _employeeService, _productService); 
+            contentPanel1.Controls.Clear();
+            contentPanel1.Controls.Add(orderControl);
+        }
+
         private void OrdersMenuLabel_Click(object sender, EventArgs e)
         {
             HighlightMenu((Control)sender);
-            LoadControl(new OrdersUserControl(_orderService, _customerService, _employeeService, _productService));
+            LoadControl(new OrdersUserControl( _employee, _orderService, _customerService, _employeeService, _productService));
         }
 
         private void CustomersMenuLabel_Click(object sender, EventArgs e)

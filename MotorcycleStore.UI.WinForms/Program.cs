@@ -69,7 +69,7 @@ namespace MotorcycleStore.UI.WinForms
             }
 
             //System.Windows.Forms.Application.Run(new Form1());
-            var mainForm = host.Services.GetRequiredService<MainForm>();
+            var mainForm = host.Services.GetRequiredService<LoginForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
 
