@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -56,7 +57,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                             employee.Id,
                             employee.FirstName,
                             employee.LastName,
-                            employee.Position,
                             employee.Phone ?? "",
                             employee.Email ?? "",
                             employee.Username,
@@ -85,14 +85,14 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 {
                     FirstName = FirstNameTextBox.Text.Trim(),
                     LastName = LastNameTextBox.Text.Trim(),
-                    Position = PositionTextBox.Text.Trim(),
+                    //Position = PositionTextBox.Text.Trim(),
                     Phone = PhoneTextBox.Text.Trim(),
                     Email = EmailTextBox.Text.Trim(),
                     Username = UsernameTextBox.Text.Trim(),
                     PasswordHash = PasswordTextBox.Text, // Буде захешовано в сервісі
                     Role = RoleComboBox.Text,
                     HiredAt = HiredAtPicker.Value,
-                    IsActive = IsActiveCheckBox.Checked
+                    //IsActive = IsActiveCheckBox.Checked
                 };
 
                 await _employeeService.AddAsync(employee);
@@ -133,13 +133,13 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 employee.FirstName = FirstNameTextBox.Text.Trim();
                 employee.LastName = LastNameTextBox.Text.Trim();
-                employee.Position = PositionTextBox.Text.Trim();
+                //employee.Position = PositionTextBox.Text.Trim();
                 employee.Phone = PhoneTextBox.Text.Trim();
                 employee.Email = EmailTextBox.Text.Trim();
                 employee.Username = UsernameTextBox.Text.Trim();
                 employee.Role = RoleComboBox.Text;
                 employee.HiredAt = HiredAtPicker.Value;
-                employee.IsActive = IsActiveCheckBox.Checked;
+                //employee.IsActive = IsActiveCheckBox.Checked;
 
                 // Якщо пароль змінено
                 if (!string.IsNullOrWhiteSpace(PasswordTextBox.Text))
@@ -165,10 +165,20 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             if (string.IsNullOrWhiteSpace(FirstNameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||
-                string.IsNullOrWhiteSpace(PositionTextBox.Text) ||
+                //string.IsNullOrWhiteSpace(PositionTextBox.Text) ||
                 string.IsNullOrWhiteSpace(UsernameTextBox.Text))
             {
                 MessageBox.Show("Заповніть всі обов'язкові поля (Ім'я, Прізвище, Посада, Логін)!",
+                    "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            string cleanPhone = Regex.Replace(PhoneTextBox.Text, @"[\s\-\(\)]", "");
+            string pattern = @"^(\+?38)?0[3-9]\d{8}$";
+
+            if(!Regex.IsMatch(cleanPhone, pattern))
+            {
+                MessageBox.Show("Невіний формат номера телефону!",
                     "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
@@ -202,14 +212,14 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             _isEditMode = false;
             FirstNameTextBox.Clear();
             LastNameTextBox.Clear();
-            PositionTextBox.Clear();
+            //PositionTextBox.Clear();
             PhoneTextBox.Clear();
             EmailTextBox.Clear();
             UsernameTextBox.Clear();
             PasswordTextBox.Clear();
             RoleComboBox.SelectedIndex = 1;
             HiredAtPicker.Value = DateTime.Now;
-            IsActiveCheckBox.Checked = true;
+            //IsActiveCheckBox.Checked = true;
             SearchTextBox.Clear();
             PasswordTextBox.Enabled = true;
             UsernameTextBox.ReadOnly = false;
@@ -232,14 +242,14 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             FirstNameTextBox.Text = row.Cells[1].Value?.ToString() ?? "";
             LastNameTextBox.Text = row.Cells[2].Value?.ToString() ?? "";
-            PositionTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
-            PhoneTextBox.Text = row.Cells[4].Value?.ToString() ?? "";
-            EmailTextBox.Text = row.Cells[5].Value?.ToString() ?? "";
-            UsernameTextBox.Text = row.Cells[6].Value?.ToString() ?? "";
+            //PositionTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
+            PhoneTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
+            EmailTextBox.Text = row.Cells[4].Value?.ToString() ?? "";
+            UsernameTextBox.Text = row.Cells[5].Value?.ToString() ?? "";
             UsernameTextBox.ReadOnly = true; // Не дозволяємо змінювати логін
-            RoleComboBox.Text = row.Cells[7].Value?.ToString() ?? "Manager";
+            RoleComboBox.Text = row.Cells[6].Value?.ToString() ?? "Manager";
 
-            if (DateTime.TryParse(row.Cells[8].Value?.ToString(), out DateTime hiredDate))
+            if (DateTime.TryParse(row.Cells[7].Value?.ToString(), out DateTime hiredDate))
             {
                 HiredAtPicker.Value = hiredDate;
             }
@@ -248,7 +258,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
             // При редагуванні пароль не показуємо
             PasswordTextBox.Clear();
-            PasswordTextBox.PlaceholderText = "Залиште порожнім, щоб не змінювати";
         }
 
         private async void SearchButton_Click(object sender, EventArgs e)
@@ -267,7 +276,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 var filteredEmployees = allEmployees.Where(e =>
                     e.FirstName.ToLower().Contains(searchTerm) ||
                     e.LastName.ToLower().Contains(searchTerm) ||
-                    e.Position.ToLower().Contains(searchTerm) ||
+                    //e.Position.ToLower().Contains(searchTerm) ||
                     e.Username.ToLower().Contains(searchTerm)
                 ).ToList();
 
@@ -279,7 +288,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                         employee.Id,
                         employee.FirstName,
                         employee.LastName,
-                        employee.Position,
                         employee.Phone ?? "",
                         employee.Email ?? "",
                         employee.Username,

@@ -8,15 +8,16 @@ namespace MotorcycleStore.Infrastructure.Repositories
 {
     public class CustomerRepository
     {
-        private readonly StoreDbContext _context;
+        private readonly IDbContextFactory<StoreDbContext> _contextFactory;
 
-        public CustomerRepository(StoreDbContext context)
+        public CustomerRepository(IDbContextFactory<StoreDbContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
+            using var _context = _contextFactory.CreateDbContext();
             return await _context.Customers
                 .Include(c => c.Orders)
                 .ToListAsync();
@@ -24,6 +25,7 @@ namespace MotorcycleStore.Infrastructure.Repositories
 
         public async Task<Customer?> GetByIdAsync(int id)
         {
+            using var _context = _contextFactory.CreateDbContext();
             return await _context.Customers
                 .Include(c => c.Orders)
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -31,18 +33,21 @@ namespace MotorcycleStore.Infrastructure.Repositories
 
         public async Task AddAsync(Customer customer)
         {
+            using var _context = _contextFactory.CreateDbContext();
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Customer customer)
         {
+            using var _context = _contextFactory.CreateDbContext();
             _context.Customers.Update(customer);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
         {
+            using var _context = _contextFactory.CreateDbContext();
             var existing = await _context.Customers
                 .Include(c => c.Orders)
                 .FirstOrDefaultAsync(c => c.Id == id);

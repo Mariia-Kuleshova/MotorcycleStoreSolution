@@ -37,11 +37,6 @@ namespace MotorcycleStore.Application.Services
 
         public async Task UpdateAsync(Employee employee)
         {
-            if (!string.IsNullOrWhiteSpace(employee.PasswordHash))
-            {
-                employee.PasswordHash = HashPassword(employee.PasswordHash);
-            }
-
             await _repository.UpdateAsync(employee);
         }
 

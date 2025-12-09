@@ -29,7 +29,6 @@
             ReceiptsDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
             label2 = new Label();
             salesReportTab = new TabPage();
-            QuickReportMonthButton = new Button();
             QuickReportWeekButton = new Button();
             QuickReportTodayButton = new Button();
             GenerateReportButton = new Button();
@@ -99,7 +98,7 @@
             label4.AutoSize = true;
             label4.Location = new Point(751, 54);
             label4.Name = "label4";
-            label4.Size = new Size(81, 25);
+            label4.Size = new Size(90, 25);
             label4.TabIndex = 3;
             label4.Text = "Пошук:";
             // 
@@ -121,7 +120,6 @@
             // 
             dataGridViewCellStyle1.BackColor = Color.White;
             ReceiptsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            ReceiptsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
             dataGridViewCellStyle2.Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
@@ -146,7 +144,6 @@
             ReceiptsDataGridView.ReadOnly = true;
             ReceiptsDataGridView.RowHeadersVisible = false;
             ReceiptsDataGridView.RowHeadersWidth = 51;
-            ReceiptsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ReceiptsDataGridView.Size = new Size(1184, 743);
             ReceiptsDataGridView.TabIndex = 1;
             ReceiptsDataGridView.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
@@ -177,14 +174,13 @@
             label2.Font = new Font("Verdana", 14F, FontStyle.Bold);
             label2.Location = new Point(20, 12);
             label2.Name = "label2";
-            label2.Size = new Size(276, 29);
+            label2.Size = new Size(266, 29);
             label2.TabIndex = 0;
             label2.Text = "Список замовлень";
             // 
             // salesReportTab
             // 
             salesReportTab.BackColor = Color.White;
-            salesReportTab.Controls.Add(QuickReportMonthButton);
             salesReportTab.Controls.Add(QuickReportWeekButton);
             salesReportTab.Controls.Add(QuickReportTodayButton);
             salesReportTab.Controls.Add(GenerateReportButton);
@@ -199,20 +195,6 @@
             salesReportTab.Size = new Size(1241, 869);
             salesReportTab.TabIndex = 1;
             salesReportTab.Text = "Звіти про продажі";
-            // 
-            // QuickReportMonthButton
-            // 
-            QuickReportMonthButton.BackColor = Color.MediumSlateBlue;
-            QuickReportMonthButton.FlatAppearance.BorderSize = 0;
-            QuickReportMonthButton.FlatStyle = FlatStyle.Flat;
-            QuickReportMonthButton.ForeColor = Color.White;
-            QuickReportMonthButton.Location = new Point(626, 152);
-            QuickReportMonthButton.Name = "QuickReportMonthButton";
-            QuickReportMonthButton.Size = new Size(180, 40);
-            QuickReportMonthButton.TabIndex = 8;
-            QuickReportMonthButton.Text = "📅 За місяць";
-            QuickReportMonthButton.UseVisualStyleBackColor = false;
-            QuickReportMonthButton.Click += QuickReportMonthButton_Click;
             // 
             // QuickReportWeekButton
             // 
@@ -269,7 +251,7 @@
             label7.AutoSize = true;
             label7.Location = new Point(430, 67);
             label7.Name = "label7";
-            label7.Size = new Size(162, 25);
+            label7.Size = new Size(156, 25);
             label7.TabIndex = 3;
             label7.Text = "Кінцева дата:";
             // 
@@ -286,7 +268,7 @@
             label6.AutoSize = true;
             label6.Location = new Point(34, 67);
             label6.Name = "label6";
-            label6.Size = new Size(170, 25);
+            label6.Size = new Size(183, 25);
             label6.TabIndex = 1;
             label6.Text = "Початкова дата:";
             // 
@@ -296,7 +278,7 @@
             label5.Font = new Font("Verdana", 14F, FontStyle.Bold);
             label5.Location = new Point(20, 12);
             label5.Name = "label5";
-            label5.Size = new Size(346, 29);
+            label5.Size = new Size(385, 29);
             label5.TabIndex = 0;
             label5.Text = "Звіт про продажі за період";
             // 
@@ -335,7 +317,6 @@
         private Button GenerateReportButton;
         private Button QuickReportTodayButton;
         private Button QuickReportWeekButton;
-        private Button QuickReportMonthButton;
         private Label label4;
         private TextBox SearchReceiptTextBox;
         private Button SearchReceiptButton;

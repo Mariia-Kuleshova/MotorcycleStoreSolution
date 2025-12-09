@@ -43,7 +43,6 @@
             AddButton = new Button();
             SaveButton = new Button();
             PaymentMethodComboBox = new ComboBox();
-            label9 = new Label();
             StatusComboBox = new ComboBox();
             label8 = new Label();
             TotalAmountTextBox = new TextBox();
@@ -258,15 +257,6 @@
             PaymentMethodComboBox.Size = new Size(203, 33);
             PaymentMethodComboBox.TabIndex = 42;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(19, 117);
-            label9.Name = "label9";
-            label9.Size = new Size(58, 25);
-            label9.TabIndex = 38;
-            label9.Text = "ID #";
-            // 
             // StatusComboBox
             // 
             StatusComboBox.FormattingEnabled = true;
@@ -383,6 +373,7 @@
             // ProductComboBox
             // 
             ProductComboBox.FormattingEnabled = true;
+            ProductComboBox.ItemHeight = 25;
             ProductComboBox.Location = new Point(20, 63);
             ProductComboBox.Name = "ProductComboBox";
             ProductComboBox.Size = new Size(311, 33);
@@ -410,7 +401,6 @@
             Controls.Add(AddButton);
             Controls.Add(SaveButton);
             Controls.Add(PaymentMethodComboBox);
-            Controls.Add(label9);
             Controls.Add(StatusComboBox);
             Controls.Add(label8);
             Controls.Add(TotalAmountTextBox);
@@ -442,7 +432,6 @@
         private Button AddButton;
         private Button SaveButton;
         private ComboBox PaymentMethodComboBox;
-        private Label label9;
         private ComboBox StatusComboBox;
         private Label label8;
         private TextBox TotalAmountTextBox;

@@ -374,22 +374,34 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 finally
                 {
                     ProductsDataGridView.DataSource = null;
-                }               
+                }
 
-                foreach (var product in filteredProducts)
+                ProductsDataGridView.DataSource = filteredProducts;
+
+                //foreach (var product in filteredProducts)
+                //{
+                    
+
+                    
+                //    ProductsDataGridView.Rows.Add(
+                //        product.Id,
+                //        product.Name,
+                //        product.Brand,
+                //        product.Category,
+                //        product.VIN,
+                //        product.ModelYear,
+                //        product.Inventory != null ? product.Inventory.Quantity : 0,
+                //        product.Price,
+                //        product.SupplierName,
+                //        product.Description
+                //    ); ;
+                //}
+
+                foreach (DataGridViewRow row in ProductsDataGridView.Rows)
                 {
-                    ProductsDataGridView.Rows.Add(
-                        product.Id,
-                        product.Name,
-                        product.Brand,
-                        product.Category,
-                        product.VIN,
-                        product.ModelYear,
-                        product.Inventory != null ? product.Inventory.Quantity : 0,
-                        product.Price,
-                        product.SupplierName,
-                        product.Description
-                    ); ;
+                    var pr = row.DataBoundItem as Product;
+                    if (pr != null)
+                        row.Cells["QtyColumn"].Value = pr.Inventory?.Quantity ?? 0;
                 }
 
                 if (filteredProducts.Count == 0)

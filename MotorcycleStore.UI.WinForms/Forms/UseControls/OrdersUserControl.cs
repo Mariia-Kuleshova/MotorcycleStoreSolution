@@ -205,9 +205,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             PaymentMethodComboBox.Items.AddRange(new object[]
             {
                 "Готівка",
-                "Картка",
-                "Переказ",
-                "Кредит"
+                "Картка"
             });
             PaymentMethodComboBox.SelectedIndex = -1;
 

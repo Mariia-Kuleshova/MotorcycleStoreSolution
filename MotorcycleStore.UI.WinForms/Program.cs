@@ -28,13 +28,12 @@ namespace MotorcycleStore.UI.WinForms
                 {
                     var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
 
-                    services.AddDbContext<StoreDbContext>(
-                        options => options.UseMySql(
+                    services.AddDbContextFactory<StoreDbContext>(options =>
+                        options.UseMySql(
                             connectionString,
                             ServerVersion.AutoDetect(connectionString),
                             b => b.MigrationsAssembly("MotorcycleStore.Infrastructure")
-                        ),
-                        ServiceLifetime.Transient // ? Важливо для WinForms!
+                        )
                     );
 
                     // ? ВИПРАВЛЕННЯ 2: Repositories - Transient замість Scoped
