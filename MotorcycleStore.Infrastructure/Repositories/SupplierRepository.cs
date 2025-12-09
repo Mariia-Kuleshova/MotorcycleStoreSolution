@@ -18,14 +18,12 @@ namespace MotorcycleStore.Infrastructure.Repositories
         public async Task<IEnumerable<Supplier>> GetAllAsync()
         {
             return await _context.Suppliers
-                //.Include(s => s.Products)
                 .ToListAsync();
         }
 
         public async Task<Supplier?> GetByIdAsync(int id)
         {
             return await _context.Suppliers
-                //.Include(s => s.Products)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 

@@ -1,4 +1,5 @@
 ﻿using MotorcycleStore.Application.Interfaces;
+using MotorcycleStore.Application.Services;
 using MotorcycleStore.Domain.Enums;
 using MotorcycleStore.Domain.Models;
 using System;
@@ -24,6 +25,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         private int? _idFromProductForm;
         private Employee _currentEmp;
         private Order _currentOrder;
+        private readonly ReceiptGenerator _receiptGenerator;
 
         public OrdersUserControl(
             Employee currentEmp,
@@ -40,6 +42,8 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             this.Load += OrdersUserControl_Load;
             _productService = productService;
             _currentEmp = currentEmp;
+
+            _receiptGenerator = new ReceiptGenerator();
         }
 
         public OrdersUserControl(
@@ -59,16 +63,21 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             _productService = productService;
             _currentEmp = currentEmp;
             _idFromProductForm = id;
+
         }
 
         private async void OrdersUserControl_Load(object sender, EventArgs e)
         {
+            ProductComboBox.SelectedItem = null;
+            TotalAmountTextBox.Text = "0.00";
             await LoadData();
             InitializeComboBoxes();
         }
 
         private async void OrdersUserControlWithId_Load(object sender, EventArgs e)
         {
+            ProductComboBox.SelectedItem = null;
+            TotalAmountTextBox.Text = "0.00";
             await LoadData();
             InitializeComboBoxes();
             await LoadDataWithId();
@@ -109,6 +118,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 ProductComboBox.DisplayMember = "Name";
                 ProductComboBox.ValueMember = "Id";
                 ProductComboBox.SelectedIndex = -1;
+                //TotalAmountTextBox.SelectedItem = null;
 
                 // Завантажити замовників
                 var customers = await _customerService.GetAllAsync();
@@ -531,12 +541,27 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             LoadOrderToFields(OrdersDataGridView.CurrentRow);
             AddButton.Enabled = false;
+            SaveButton.Enabled = true;
         }
 
-        private void ProductComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private async void ProductComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ProductComboBox.SelectedItem == null || ProductComboBox.SelectedIndex == -1 || ProductComboBox.SelectedIndex == 0)
+                return;
 
+            var item = ProductComboBox.SelectedItem;
+            if (item == null) return;
+            // Достаем Id из анонимного объекта
+            int id = (int)item.GetType().GetProperty("Id").GetValue(item, null);
+
+            var prodInfo = await _productService.GetByIdAsync(id);
+
+            if (prodInfo != null)
+            {
+                TotalAmountTextBox.Text = prodInfo.Price.ToString();
+            }
         }
+
 
         private void ProductComboBox_TextChanged(object sender, EventArgs e)
         {
@@ -558,6 +583,23 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 ProductComboBox.DroppedDown = true;
                 ProductComboBox.SelectionStart = ProductComboBox.Text.Length;
                 ProductComboBox.SelectionLength = 0;
+            }
+        }
+
+        private async void ReceiptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var row = OrdersDataGridView.SelectedRows[0];
+                _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
+                var order = await _orderService.GetByIdAsync(_selectedOrderId.Value);
+
+                _receiptGenerator.GenerateReceipt(order);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка друку чека: {ex.Message}",
+                    "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

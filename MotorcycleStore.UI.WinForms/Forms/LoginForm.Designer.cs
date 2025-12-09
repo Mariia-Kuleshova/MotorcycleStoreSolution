@@ -2,15 +2,10 @@
 {
     partial class LoginForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -53,6 +48,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(173, 396);
             panel1.TabIndex = 0;
+            panel1.Paint += panel1_Paint;
             // 
             // guna2Elipse1
             // 

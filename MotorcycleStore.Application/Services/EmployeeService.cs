@@ -37,7 +37,6 @@ namespace MotorcycleStore.Application.Services
 
         public async Task UpdateAsync(Employee employee)
         {
-            //зробити новий хеш при зміні парол
             if (!string.IsNullOrWhiteSpace(employee.PasswordHash))
             {
                 employee.PasswordHash = HashPassword(employee.PasswordHash);

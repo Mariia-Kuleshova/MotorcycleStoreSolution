@@ -44,6 +44,11 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 IsAvailable = true,
             };
 
+            if (GetVin(VINTextBox.Text) == string.Empty)
+            {
+                return;
+            }
+
             var year = GetYear();
             if (year == 0)
             {
@@ -79,6 +84,17 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             MessageBox.Show("Новий товар доданий");
             await LoadProductsAsync();
             ClearTextBoxes();
+        }
+
+        private string GetVin(string vin)
+        {
+            if (vin.Length == 17)
+            {
+                return vin;
+            }
+
+            MessageBox.Show("Невірний формат VIN");
+            return string.Empty;
         }
 
         private int GetYear()
@@ -133,7 +149,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 !string.IsNullOrEmpty(VINTextBox.Text) &&
                 !string.IsNullOrEmpty(YearTextBox.Text) &&
                 !string.IsNullOrEmpty(QtyTextBox.Text) &&
-                !string.IsNullOrEmpty(PriceTextBox.Text) && decimal.TryParse(PriceTextBox.Text, out decimal pricetest) &&
+                !string.IsNullOrEmpty(PriceTextBox.Text) && 
                 !string.IsNullOrEmpty(SupplierTextBox.Text);
 
             return valid;
@@ -231,13 +247,15 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
         }
 
-        private void EditStripMenuItem1_Click(object sender, EventArgs e)
+        private async void EditStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (ProductsDataGridView.SelectedRows.Count == 0)
                 return;
 
             // Получаем выбранный объект Product
-            var product = (Product)ProductsDataGridView.SelectedRows[0].DataBoundItem;
+            var row = ProductsDataGridView.SelectedRows[0];
+            var selectedProductId = Convert.ToInt32(row.Cells[0].Value);
+            var product = await _productService.GetByIdAsync(selectedProductId);
 
             FillProductForm(product); // заполняем текстбоксы
             _currentProduct = product;
@@ -250,7 +268,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             CategoryComboBox.Text = product.Category;
             VINTextBox.Text = product.VIN;
             YearTextBox.Text = product.ModelYear.ToString();
-            QtyTextBox.Text = product.Inventory.Quantity.ToString();
+            QtyTextBox.Text = product.Inventory == null ? "0" : product.Inventory.Quantity.ToString();
             PriceTextBox.Text = product.Price.ToString("0.##");
             CommentTextBox.Text = product.Description;
             SupplierTextBox.Text = product.SupplierName;
@@ -288,6 +306,11 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             _currentProduct.SupplierName = SupplierTextBox.Text;
             _currentProduct.Description = CommentTextBox.Text;
 
+            if (GetVin(VINTextBox.Text) == string.Empty)
+            {
+                return;
+            }
+
             var year = GetYear();
             if (year == 0)
             {
@@ -311,7 +334,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
             _currentProduct.ModelYear = year;
             _currentProduct.Price = price;
-            _productService.UpdateAsync(_currentProduct, int.Parse(QtyTextBox.Text));
+            _productService.UpdateAsync(_currentProduct, qty);
 
             MessageBox.Show("Товар оновлено!");
             LoadProductsAsync();
@@ -362,11 +385,11 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                         product.Category,
                         product.VIN,
                         product.ModelYear,
-                        product.Inventory?.Quantity,
+                        product.Inventory != null ? product.Inventory.Quantity : 0,
                         product.Price,
                         product.SupplierName,
                         product.Description
-                    );
+                    ); ;
                 }
 
                 if (filteredProducts.Count == 0)

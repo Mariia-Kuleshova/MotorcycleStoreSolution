@@ -12,10 +12,10 @@ namespace MotorcycleStore.Reports
         public Excel.Application excelapp;
         Excel.Workbooks excelappworkbooks;
         Excel.Workbook excelappworkbook;
-        private Excel.Sheets excelsheets; // колекція листів в екселі
+        private Excel.Sheets excelsheets; 
         private Excel.Worksheet excelworksheet;
-        private Excel.Range excelcells; // діапазон ячеєк
-                                        // Конструктор
+        private Excel.Range excelcells; 
+                                      
         public RepExcel()
         {
             excelapp = new Excel.Application();
@@ -23,7 +23,6 @@ namespace MotorcycleStore.Reports
         }
         public void Dispose()
         {
-            // Release COM objects (very important!)
             if (excelapp != null)
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(excelapp);
             if (excelappworkbooks != null)
@@ -46,8 +45,7 @@ namespace MotorcycleStore.Reports
             Console.WriteLine("RepExcel", "Dispose OK", 3, true);
             GC.GetTotalMemory(true);
         }
-        //************************************************************************************
-        // Зберігаємо книгу
+
         public void CreateNewBook(string fullPathAndFilename)
         {
             try
@@ -57,23 +55,20 @@ namespace MotorcycleStore.Reports
                 excelapp.DisplayAlerts = false;
 
                 excelappworkbooks = excelapp.Workbooks;
-                // нумерация від 1
                 excelappworkbook = excelappworkbooks[1];
                 excelsheets = excelappworkbook.Worksheets;
-                //Отримуємо посилання на лист 1
                 excelworksheet = (Excel.Worksheet)excelsheets.get_Item(1);
                 excelworksheet.Name = "Saturn Data";
                 excelappworkbook.Saved = true;
-                excelappworkbook.SaveAs(fullPathAndFilename, Excel.XlFileFormat.xlExcel7,          //object FileFormat
-                Type.Missing,                       //object Password
-                Type.Missing,                       //object WriteResPassword  
-                Type.Missing,                       //object ReadOnlyRecommended
-                Type.Missing,                       //object CreateBackup
-                Excel.XlSaveAsAccessMode.xlNoChange,//XlSaveAsAccessMode AccessMode
-                Type.Missing,                       //object ConflictResolution
-                Type.Missing,                       //object AddToMru
-                Type.Missing,                       //object TextCodepage
-                Type.Missing,                       //object TextVisualLayout
+                excelappworkbook.SaveAs(fullPathAndFilename, Excel.XlFileFormat.xlExcel7,       
+                Type.Missing,                    
+                Type.Missing,                  
+                Type.Missing,                       
+                Type.Missing,                       
+                Excel.XlSaveAsAccessMode.xlNoChange,
+                Type.Missing,                  
+                Type.Missing,        
+                Type.Missing,                    
                 Type.Missing);
                 excelapp.Workbooks.Close();
                 excelapp.Quit();
@@ -125,7 +120,6 @@ namespace MotorcycleStore.Reports
             catch (Exception ex)
             {
                 Console.WriteLine("Save", ex.Message, 3, true);
-                //  MessageBox.Show("Возникла проблема при сохранении файла. " + ex.Message);  
             }
         }
         public void SaveAs(string fullPathAndFilename)
@@ -135,16 +129,16 @@ namespace MotorcycleStore.Reports
                 excelappworkbooks = excelapp.Workbooks;
                 excelappworkbook = excelappworkbooks[1];
                 excelappworkbook.Saved = true;
-                excelappworkbook.SaveAs(fullPathAndFilename, Excel.XlFileFormat.xlExcel7,          //object FileFormat
-         Type.Missing,                       //object Password
-         Type.Missing,                       //object WriteResPassword  
-         false,                       //object ReadOnlyRecommended
-         Type.Missing,                       //object CreateBackup
-         Excel.XlSaveAsAccessMode.xlNoChange,//XlSaveAsAccessMode AccessMode
-         Type.Missing,                       //object ConflictResolution
-         Type.Missing,                       //object AddToMru
-         Type.Missing,                       //object TextCodepage
-         Type.Missing,                       //object TextVisualLayout
+                excelappworkbook.SaveAs(fullPathAndFilename, Excel.XlFileFormat.xlExcel7,   
+         Type.Missing,                   
+         Type.Missing,                 
+         false,                  
+         Type.Missing,                      
+         Excel.XlSaveAsAccessMode.xlNoChange,
+         Type.Missing,                   
+         Type.Missing,                     
+         Type.Missing,                       
+         Type.Missing,                     
          Type.Missing);
                 Console.WriteLine("SaveAs " + fullPathAndFilename, "OK", 3, true);
             }
@@ -154,7 +148,7 @@ namespace MotorcycleStore.Reports
             }
 
         }
-        public void SetValue(string pageName, string address, string StrValues, string typeValue, bool isBold = false) // "A10", "значення"
+        public void SetValue(string pageName, string address, string StrValues, string typeValue, bool isBold = false) 
         {
             excelappworkbook = excelappworkbooks[1];
             excelsheets = excelappworkbook.Worksheets;
@@ -173,7 +167,7 @@ namespace MotorcycleStore.Reports
             try
             {
                 excelcells = excelworksheet.get_Range(address, address);
-                if (typeValue == "double") excelcells.Value2 = Convert.ToDouble(StrValues, CultureInfo.GetCultureInfo("en-US").NumberFormat); //Convert.ToDouble(StrValues);
+                if (typeValue == "double") excelcells.Value2 = Convert.ToDouble(StrValues, CultureInfo.GetCultureInfo("en-US").NumberFormat);
                 if (typeValue == "string") excelcells.Value2 = StrValues;
                 if (isBold) excelcells.EntireRow.Font.Bold = true;
                 Console.WriteLine("SetValue page - " + pageName + "  address - " + address + " Value - " + StrValues, " OK", 3, true);

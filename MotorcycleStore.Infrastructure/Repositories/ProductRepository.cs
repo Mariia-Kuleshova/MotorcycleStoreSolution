@@ -20,14 +20,14 @@ namespace MotorcycleStore.Infrastructure.Repositories
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _context.Products
-             .Include(p => p.Inventory) // підтягуємо пов’язаний Inventory
+             .Include(p => p.Inventory) 
              .ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
             return await _context.Products
-            .Include(p => p.Inventory)  // підтягуємо Inventory
+            .Include(p => p.Inventory) 
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -53,7 +53,17 @@ namespace MotorcycleStore.Infrastructure.Repositories
             { 
                 prod.Quantity = qty;
             }
-            await _context.SaveChangesAsync();
+            else
+            {
+                var inventory = new Inventory
+                {
+                    ProductId = product.Id,
+                    Quantity = qty
+                };
+
+                await _inventoryRepository.AddAsync(inventory);
+            }
+                await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)

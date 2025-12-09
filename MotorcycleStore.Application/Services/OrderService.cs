@@ -52,12 +52,10 @@ namespace MotorcycleStore.Application.Services
                 if (inventory == null || inventory.Quantity < item.Quantity)
                     throw new Exception($"Not enough stock for {product.Name}.");
 
-                //зменшити кількість продукуту на складі
                 inventory.Quantity -= item.Quantity;
                 inventory.LastUpdated = DateTime.Now;
                 await _inventoryRepository.UpdateAsync(inventory);
 
-                //зафіксувати ціну на момент замовленн
                 item.UnitPrice = product.Price;
                 total += item.UnitPrice * item.Quantity;
             }

@@ -1,5 +1,3 @@
-using System;
-using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +7,9 @@ using MotorcycleStore.Application.Services;
 using MotorcycleStore.Infrastructure.Data;
 using MotorcycleStore.Infrastructure.Repositories;
 using MotorcycleStore.UI.WinForms.Forms;
+using MotorcycleStore.UI.WinForms.Forms.UseControls;
+using System;
+using System.Windows.Forms;
 
 namespace MotorcycleStore.UI.WinForms
 {
@@ -19,62 +20,73 @@ namespace MotorcycleStore.UI.WinForms
         [STAThread]
         static void Main()
         {
-            AllocConsole();
+            //AllocConsole();
             ApplicationConfiguration.Initialize();
 
             var host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
                     var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
-                    services.AddDbContext<StoreDbContext>(options =>
-                        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-                    services.AddDbContext<StoreDbContext>(options =>
-                        options.UseMySql(
+
+                    services.AddDbContext<StoreDbContext>(
+                        options => options.UseMySql(
                             connectionString,
                             ServerVersion.AutoDetect(connectionString),
-                            b => b.MigrationsAssembly("MotorcycleStore.Infrastructure") 
-
-                        )
+                            b => b.MigrationsAssembly("MotorcycleStore.Infrastructure")
+                        ),
+                        ServiceLifetime.Transient // ? ¬ажливо дл€ WinForms!
                     );
 
-                    services.AddScoped<CustomerRepository>();
-                    services.AddScoped<SupplierRepository>();
-                    services.AddScoped<EmployeeRepository>();
-                    services.AddScoped<ProductRepository>();
-                    services.AddScoped<OrderRepository>();
-                    services.AddScoped<InventoryRepository>();
+                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 2: Repositories - Transient зам≥сть Scoped
+                    services.AddTransient<CustomerRepository>();
+                    services.AddTransient<SupplierRepository>();
+                    services.AddTransient<EmployeeRepository>();
+                    services.AddTransient<ProductRepository>();
+                    services.AddTransient<OrderRepository>();
+                    services.AddTransient<InventoryRepository>();
 
-                    services.AddScoped<ICustomerService, CustomerService>();
-                    services.AddScoped<ISupplierService, SupplierService>();
-                    services.AddScoped<IEmployeeService, EmployeeService>();
-                    services.AddScoped<IOrderService, OrderService>();
-                    services.AddScoped<IInventoryService, InventoryService>();
-                    services.AddScoped<IProductService, ProductService>();
+                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 3: Services - Transient зам≥сть Scoped
+                    services.AddTransient<ICustomerService, CustomerService>();
+                    services.AddTransient<ISupplierService, SupplierService>();
+                    services.AddTransient<IEmployeeService, EmployeeService>();
+                    services.AddTransient<IOrderService, OrderService>();
+                    services.AddTransient<IInventoryService, InventoryService>();
+                    services.AddTransient<IProductService, ProductService>();
+                    services.AddTransient<OrderItemService>(); // ? ƒодано €кщо використовуЇтьс€
+
+                    // ? Navigation Service залишаЇтьс€ Singleton
                     services.AddSingleton<NavigationService>();
 
+                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 4: ƒодано generators дл€ зв≥т≥в
+                    services.AddTransient<ReceiptGenerator>();
+                    services.AddTransient<SalesReportGenerator>();
 
-                    services.AddScoped<Form1>();
-                    services.AddScoped<LoginForm>();
-                    services.AddScoped<MainForm>();
+                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 5: Forms - Transient зам≥сть Scoped
+                    services.AddTransient<Form1>();
+                    services.AddTransient<LoginForm>();
+                    services.AddTransient<MainForm>();
+
+                    services.AddTransient<OrdersUserControl>();
+                    services.AddTransient<ReportsUserControl>();
                 })
                 .Build();
 
             ServiceProvider = host.Services;
 
-
+            // ? ≤н≥ц≥ал≥зац≥€ бази даних
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
                 db.Database.EnsureCreated();
             }
 
-            //System.Windows.Forms.Application.Run(new Form1());
+            // ? «апуск застосунку
             var mainForm = host.Services.GetRequiredService<LoginForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
 
-        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        private static extern bool AllocConsole();
+        //[System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        //private static extern bool AllocConsole();
     }
 }
 

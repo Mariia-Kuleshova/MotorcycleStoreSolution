@@ -11,8 +11,6 @@ namespace MotorcycleStore.Application.Interfaces
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee employee);
         Task DeleteAsync(int id);
-
-        //авторизаці
         Task<Employee?> GetByUsernameAsync(string username);
         Task<bool> ValidateCredentialsAsync(string username, string password);
     }

@@ -16,7 +16,6 @@ namespace MotorcycleStore.Application.Services
             _inventoryRepository = inventoryRepository;
         }
 
-        // Создание позиции заказа
         public async Task<OrderItem> CreateOrderItemAsync(int productId, int quantity, decimal? priceOverride = null)
         {
             var product = await _productRepository.GetByIdAsync(productId);
@@ -32,7 +31,6 @@ namespace MotorcycleStore.Application.Services
 
             var unitPrice = priceOverride ?? product.Price;
 
-            // Обновляем склад
             inventory.Quantity -= quantity;
             inventory.LastUpdated = DateTime.Now;
             await _inventoryRepository.UpdateAsync(inventory);
@@ -46,7 +44,6 @@ namespace MotorcycleStore.Application.Services
             };
         }
 
-        // Обновление количества товара в позиции
         public async Task UpdateOrderItemAsync(OrderItem item, int newQuantity)
         {
             var inventory = await _inventoryRepository.GetByProductIdAsync(item.ProductId);
@@ -73,7 +70,6 @@ namespace MotorcycleStore.Application.Services
             item.Quantity = newQuantity;
         }
 
-        // Удаление позиции заказа — возвращаем товар на склад
         public async Task RemoveOrderItemAsync(OrderItem item)
         {
             var inventory = await _inventoryRepository.GetByProductIdAsync(item.ProductId);

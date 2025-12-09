@@ -18,6 +18,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panel1 = new Panel();
             menuPanel = new Panel();
             pictureBox11 = new PictureBox();
@@ -89,6 +90,7 @@
             // 
             // pictureBox11
             // 
+            pictureBox11.Image = (Image)resources.GetObject("pictureBox11.Image");
             pictureBox11.Location = new Point(50, 12);
             pictureBox11.Name = "pictureBox11";
             pictureBox11.Size = new Size(109, 58);
@@ -99,6 +101,7 @@
             // pictureBox9
             // 
             pictureBox9.Cursor = Cursors.Hand;
+            pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
             pictureBox9.Location = new Point(10, 346);
             pictureBox9.Name = "pictureBox9";
             pictureBox9.Size = new Size(49, 37);
@@ -116,10 +119,12 @@
             label12.Size = new Size(103, 25);
             label12.TabIndex = 16;
             label12.Text = "Звітність";
+            label12.Click += label12_Click;
             // 
             // pictureBox12
             // 
             pictureBox12.Cursor = Cursors.Hand;
+            pictureBox12.Image = (Image)resources.GetObject("pictureBox12.Image");
             pictureBox12.Location = new Point(10, 88);
             pictureBox12.Name = "pictureBox12";
             pictureBox12.Size = new Size(49, 37);
@@ -142,6 +147,7 @@
             // pictureBox13
             // 
             pictureBox13.Cursor = Cursors.Hand;
+            pictureBox13.Image = (Image)resources.GetObject("pictureBox13.Image");
             pictureBox13.Location = new Point(10, 153);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Size = new Size(49, 37);
@@ -164,6 +170,7 @@
             // pictureBox14
             // 
             pictureBox14.Cursor = Cursors.Hand;
+            pictureBox14.Image = (Image)resources.GetObject("pictureBox14.Image");
             pictureBox14.Location = new Point(10, 220);
             pictureBox14.Name = "pictureBox14";
             pictureBox14.Size = new Size(49, 37);
@@ -186,6 +193,7 @@
             // pictureBox15
             // 
             pictureBox15.Cursor = Cursors.Hand;
+            pictureBox15.Image = (Image)resources.GetObject("pictureBox15.Image");
             pictureBox15.Location = new Point(10, 281);
             pictureBox15.Name = "pictureBox15";
             pictureBox15.Size = new Size(49, 37);
@@ -218,6 +226,7 @@
             // 
             // pictureBox17
             // 
+            pictureBox17.Image = (Image)resources.GetObject("pictureBox17.Image");
             pictureBox17.Location = new Point(27, 8);
             pictureBox17.Name = "pictureBox17";
             pictureBox17.Size = new Size(49, 37);
@@ -268,6 +277,7 @@
             // 
             // pictureBox8
             // 
+            pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
             pictureBox8.Location = new Point(24, 4);
             pictureBox8.Name = "pictureBox8";
             pictureBox8.Size = new Size(49, 37);

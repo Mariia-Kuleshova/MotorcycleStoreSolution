@@ -2,15 +2,10 @@
 {
     partial class OrdersUserControl
     {
-        /// <summary> 
-        /// Обязательная переменная конструктора.
-        /// </summary>
+      
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+    
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +17,7 @@
 
         #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary> 
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
+
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
@@ -46,6 +38,7 @@
             OrderContextMenuStrip = new ContextMenuStrip(components);
             EditStripMenuItem1 = new ToolStripMenuItem();
             DeleteStripMenuItem1 = new ToolStripMenuItem();
+            ReceiptToolStripMenuItem = new ToolStripMenuItem();
             ClearButton = new Button();
             AddButton = new Button();
             SaveButton = new Button();
@@ -190,23 +183,30 @@
             // OrderContextMenuStrip
             // 
             OrderContextMenuStrip.ImageScalingSize = new Size(20, 20);
-            OrderContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1 });
+            OrderContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1, ReceiptToolStripMenuItem });
             OrderContextMenuStrip.Name = "ProductContextMenuStrip";
-            OrderContextMenuStrip.Size = new Size(211, 80);
+            OrderContextMenuStrip.Size = new Size(155, 76);
             // 
             // EditStripMenuItem1
             // 
             EditStripMenuItem1.Name = "EditStripMenuItem1";
-            EditStripMenuItem1.Size = new Size(210, 24);
+            EditStripMenuItem1.Size = new Size(154, 24);
             EditStripMenuItem1.Text = "Редагувати";
             EditStripMenuItem1.Click += EditStripMenuItem1_Click;
             // 
             // DeleteStripMenuItem1
             // 
             DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
-            DeleteStripMenuItem1.Size = new Size(210, 24);
+            DeleteStripMenuItem1.Size = new Size(154, 24);
             DeleteStripMenuItem1.Text = "Видалити";
             DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
+            // 
+            // ReceiptToolStripMenuItem
+            // 
+            ReceiptToolStripMenuItem.Name = "ReceiptToolStripMenuItem";
+            ReceiptToolStripMenuItem.Size = new Size(154, 24);
+            ReceiptToolStripMenuItem.Text = "Друк чека";
+            ReceiptToolStripMenuItem.Click += ReceiptToolStripMenuItem_Click;
             // 
             // ClearButton
             // 
@@ -470,5 +470,6 @@
         private DataGridViewTextBoxColumn CommentsColumn;
         private ComboBox ProductComboBox;
         private Label label1;
+        private ToolStripMenuItem ReceiptToolStripMenuItem;
     }
 }

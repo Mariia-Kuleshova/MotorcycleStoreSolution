@@ -20,8 +20,6 @@ namespace MotorcycleStore.Domain.Models
         public bool IsAvailable { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string SupplierName { get; set; }
-        //public int SupplierId { get; set; }
-        //public Supplier Supplier { get; set; } = null!;
         public Inventory? Inventory { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
     }

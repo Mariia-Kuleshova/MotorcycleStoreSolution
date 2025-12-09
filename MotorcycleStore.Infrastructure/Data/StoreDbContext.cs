@@ -27,13 +27,6 @@ namespace MotorcycleStore.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // настроюю зв"зки між моделми
-            //modelBuilder.Entity<Product>()
-            //    .HasOne(p => p.Supplier)
-            //    .WithMany(s => s.Products)
-            //    .HasForeignKey(p => p.SupplierId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Orders)

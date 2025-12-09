@@ -11,10 +11,10 @@ public class NavigationService
 
     public void NavigateTo<TForm>(Form currentForm) where TForm : Form
     {
-        // Закриваємо поточну форму
+      
         currentForm?.Hide();
 
-        // Створюємо нову форму через DI
+        
         var newForm = _provider.GetRequiredService<TForm>();
         newForm.Show();
     }

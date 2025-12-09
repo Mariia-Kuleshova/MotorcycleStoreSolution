@@ -176,7 +176,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                             Program.ServiceProvider.GetRequiredService<IOrderService>(),
                             Program.ServiceProvider.GetRequiredService<ICustomerService>(),
                             Program.ServiceProvider.GetRequiredService<IEmployeeService>(),
-                            _currentEmployee 
+                            _currentEmployee
                         );
                         mainForm.Show();
                         this.Hide();
@@ -314,6 +314,11 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private void closeLabel_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

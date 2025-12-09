@@ -23,9 +23,9 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private Employee _employee;
 
         public MainForm(
-            IProductService productService, 
-            IOrderService orderService, 
-            ICustomerService customerService, 
+            IProductService productService,
+            IOrderService orderService,
+            ICustomerService customerService,
             IEmployeeService employeeService,
             Employee employee)
         {
@@ -53,15 +53,15 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
         private void LoadControl(UserControl control)
         {
-            contentPanel1.Controls.Clear();      
-            control.Dock = DockStyle.Fill;      
-            contentPanel1.Controls.Add(control); 
+            contentPanel1.Controls.Clear();
+            control.Dock = DockStyle.Fill;
+            contentPanel1.Controls.Add(control);
         }
 
         private void LoadOrderControl(int id)
         {
             HighlightMenu((Control)OrdersMenuLabel);
-            var orderControl = new OrdersUserControl(id, _employee, _orderService, _customerService, _employeeService, _productService); 
+            var orderControl = new OrdersUserControl(id, _employee, _orderService, _customerService, _employeeService, _productService);
             contentPanel1.Controls.Clear();
             contentPanel1.Controls.Add(orderControl);
         }
@@ -69,7 +69,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private void OrdersMenuLabel_Click(object sender, EventArgs e)
         {
             HighlightMenu((Control)sender);
-            LoadControl(new OrdersUserControl( _employee, _orderService, _customerService, _employeeService, _productService));
+            LoadControl(new OrdersUserControl(_employee, _orderService, _customerService, _employeeService, _productService));
         }
 
         private void CustomersMenuLabel_Click(object sender, EventArgs e)
@@ -103,10 +103,16 @@ namespace MotorcycleStore.UI.WinForms.Forms
         {
             foreach (Control ctrl in menuPanel.Controls)
             {
-                ctrl.ForeColor = Color.White;                
+                ctrl.ForeColor = Color.White;
             }
 
-            selected.ForeColor = Color.DarkGreen;             
+            selected.ForeColor = Color.DarkGreen;
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+            HighlightMenu((Control)sender);
+            LoadControl(new ReportsUserControl(_orderService));
         }
     }
 }

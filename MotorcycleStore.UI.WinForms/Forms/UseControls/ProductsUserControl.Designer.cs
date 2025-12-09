@@ -2,15 +2,9 @@
 {
     partial class ProductsUserControl
     {
-        /// <summary> 
-        /// Обязательная переменная конструктора.
-        /// </summary>
+
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +16,6 @@
 
         #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary> 
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
@@ -75,159 +65,121 @@
             ((System.ComponentModel.ISupportInitialize)ProductsDataGridView).BeginInit();
             ProductContextMenuStrip.SuspendLayout();
             SuspendLayout();
-            // 
-            // guna2Elipse1
-            // 
+            
             guna2Elipse1.BorderRadius = 15;
             guna2Elipse1.TargetControl = this;
-            // 
-            // label2
-            // 
+          
             label2.AutoSize = true;
             label2.Location = new Point(23, 56);
             label2.Name = "label2";
             label2.Size = new Size(88, 25);
             label2.TabIndex = 4;
             label2.Text = "Модель";
-            // 
-            // ModelTextBox
-            // 
+          
             ModelTextBox.BorderStyle = BorderStyle.FixedSingle;
             ModelTextBox.Location = new Point(24, 85);
             ModelTextBox.Name = "ModelTextBox";
             ModelTextBox.Size = new Size(203, 32);
             ModelTextBox.TabIndex = 5;
-            // 
-            // BrandTextBox
-            // 
+            
             BrandTextBox.BorderStyle = BorderStyle.FixedSingle;
             BrandTextBox.Location = new Point(247, 85);
             BrandTextBox.Name = "BrandTextBox";
             BrandTextBox.Size = new Size(203, 32);
             BrandTextBox.TabIndex = 7;
-            // 
-            // label3
-            // 
+            
             label3.AutoSize = true;
             label3.Location = new Point(246, 56);
             label3.Name = "label3";
             label3.Size = new Size(77, 25);
             label3.TabIndex = 6;
             label3.Text = "Марка";
-            // 
-            // label4
-            // 
+            
             label4.AutoSize = true;
             label4.Location = new Point(471, 56);
             label4.Name = "label4";
             label4.Size = new Size(111, 25);
             label4.TabIndex = 8;
             label4.Text = "Категорія";
-            // 
-            // VINTextBox
-            // 
+            
             VINTextBox.BorderStyle = BorderStyle.FixedSingle;
             VINTextBox.Location = new Point(695, 85);
             VINTextBox.Name = "VINTextBox";
             VINTextBox.Size = new Size(203, 32);
             VINTextBox.TabIndex = 11;
-            // 
-            // label5
-            // 
+            
             label5.AutoSize = true;
             label5.Location = new Point(694, 56);
             label5.Name = "label5";
             label5.Size = new Size(49, 25);
             label5.TabIndex = 10;
             label5.Text = "VIN";
-            // 
-            // CommentTextBox
-            // 
+            
             CommentTextBox.BorderStyle = BorderStyle.FixedSingle;
             CommentTextBox.Location = new Point(695, 161);
             CommentTextBox.Name = "CommentTextBox";
             CommentTextBox.Size = new Size(424, 32);
             CommentTextBox.TabIndex = 19;
-            // 
-            // label6
-            // 
+            
             label6.AutoSize = true;
             label6.Location = new Point(694, 132);
             label6.Name = "label6";
             label6.Size = new Size(169, 25);
             label6.TabIndex = 18;
             label6.Text = "Коментар/опис";
-            // 
-            // label7
-            // 
+            
             label7.AutoSize = true;
             label7.Location = new Point(471, 132);
             label7.Name = "label7";
             label7.Size = new Size(157, 25);
             label7.TabIndex = 16;
             label7.Text = "Постачальник";
-            // 
-            // PriceTextBox
-            // 
+             
             PriceTextBox.BorderStyle = BorderStyle.FixedSingle;
             PriceTextBox.Location = new Point(247, 161);
             PriceTextBox.Name = "PriceTextBox";
             PriceTextBox.Size = new Size(203, 32);
             PriceTextBox.TabIndex = 15;
-            // 
-            // label8
-            // 
+           
             label8.AutoSize = true;
             label8.Location = new Point(246, 132);
             label8.Name = "label8";
             label8.Size = new Size(58, 25);
             label8.TabIndex = 14;
             label8.Text = "Ціна";
-            // 
-            // QtyTextBox
-            // 
+            
             QtyTextBox.BorderStyle = BorderStyle.FixedSingle;
             QtyTextBox.Location = new Point(24, 161);
             QtyTextBox.Name = "QtyTextBox";
             QtyTextBox.Size = new Size(203, 32);
             QtyTextBox.TabIndex = 13;
-            // 
-            // label9
-            // 
+           
             label9.AutoSize = true;
             label9.Location = new Point(23, 132);
             label9.Name = "label9";
             label9.Size = new Size(105, 25);
             label9.TabIndex = 12;
             label9.Text = "Кількість";
-            // 
-            // YearTextBox
-            // 
+            
             YearTextBox.BorderStyle = BorderStyle.FixedSingle;
             YearTextBox.Location = new Point(916, 85);
             YearTextBox.Name = "YearTextBox";
             YearTextBox.Size = new Size(203, 32);
             YearTextBox.TabIndex = 21;
-            // 
-            // label10
-            // 
+           
             label10.AutoSize = true;
             label10.Location = new Point(915, 56);
             label10.Name = "label10";
             label10.Size = new Size(42, 25);
             label10.TabIndex = 20;
             label10.Text = "Рік";
-            // 
-            // CategoryComboBox
-            // 
+             
             CategoryComboBox.FormattingEnabled = true;
             CategoryComboBox.Location = new Point(471, 85);
             CategoryComboBox.Name = "CategoryComboBox";
             CategoryComboBox.Size = new Size(204, 33);
             CategoryComboBox.TabIndex = 23;
-            // 
-            // SaveButton
-            // 
+            
             SaveButton.BackColor = Color.LightSeaGreen;
             SaveButton.FlatAppearance.BorderSize = 0;
             SaveButton.FlatStyle = FlatStyle.Flat;
@@ -239,9 +191,7 @@
             SaveButton.Text = "Зберегти зміни";
             SaveButton.UseVisualStyleBackColor = false;
             SaveButton.Click += SaveButton_Click;
-            // 
-            // AddButton
-            // 
+          
             AddButton.BackColor = Color.Teal;
             AddButton.FlatAppearance.BorderSize = 0;
             AddButton.FlatStyle = FlatStyle.Flat;
@@ -253,9 +203,7 @@
             AddButton.Text = "Додати";
             AddButton.UseVisualStyleBackColor = false;
             AddButton.Click += AddButton_Click;
-            // 
-            // DeleteButton
-            // 
+            
             DeleteButton.BackColor = Color.Crimson;
             DeleteButton.FlatAppearance.BorderSize = 0;
             DeleteButton.FlatStyle = FlatStyle.Flat;
@@ -267,9 +215,7 @@
             DeleteButton.Text = "Очистити";
             DeleteButton.UseVisualStyleBackColor = false;
             DeleteButton.Click += DeleteButton_Click;
-            // 
-            // ProductsDataGridView
-            // 
+           
             dataGridViewCellStyle4.BackColor = Color.White;
             ProductsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             ProductsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
@@ -320,80 +266,58 @@
             ProductsDataGridView.ThemeStyle.RowsStyle.Height = 29;
             ProductsDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             ProductsDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            // 
-            // IdColumn
-            // 
+      
             IdColumn.HeaderText = "Id";
             IdColumn.MinimumWidth = 6;
             IdColumn.Name = "IdColumn";
             IdColumn.Visible = false;
             IdColumn.Width = 6;
-            // 
-            // ModelColumn
-            // 
+    
             ModelColumn.HeaderText = "Модель";
             ModelColumn.MinimumWidth = 6;
             ModelColumn.Name = "ModelColumn";
             ModelColumn.Width = 150;
-            // 
-            // BrandColumn
-            // 
+         
             BrandColumn.HeaderText = "Марка";
             BrandColumn.MinimumWidth = 6;
             BrandColumn.Name = "BrandColumn";
             BrandColumn.Width = 150;
-            // 
-            // CategoryColumn
-            // 
+         
             CategoryColumn.HeaderText = "Категорія";
             CategoryColumn.MinimumWidth = 6;
             CategoryColumn.Name = "CategoryColumn";
             CategoryColumn.Width = 134;
-            // 
-            // VINColumn
-            // 
+          
             VINColumn.HeaderText = "VIN";
             VINColumn.MinimumWidth = 6;
             VINColumn.Name = "VINColumn";
             VINColumn.Width = 134;
-            // 
-            // YearColumn
-            // 
+           
             YearColumn.HeaderText = "Рік";
             YearColumn.MinimumWidth = 6;
             YearColumn.Name = "YearColumn";
             YearColumn.Width = 80;
-            // 
-            // QtyColumn
-            // 
+          
             QtyColumn.HeaderText = "Кількість";
             QtyColumn.MinimumWidth = 6;
             QtyColumn.Name = "QtyColumn";
             QtyColumn.Width = 110;
-            // 
-            // PriceColumn
-            // 
+          
             PriceColumn.HeaderText = "Ціна";
             PriceColumn.MinimumWidth = 6;
             PriceColumn.Name = "PriceColumn";
             PriceColumn.Width = 134;
-            // 
-            // SupplierColumn
-            // 
+            
             SupplierColumn.HeaderText = "Постачальник";
             SupplierColumn.MinimumWidth = 6;
             SupplierColumn.Name = "SupplierColumn";
             SupplierColumn.Width = 170;
-            // 
-            // CommentColumn
-            // 
+            
             CommentColumn.HeaderText = "Коментар";
             CommentColumn.MinimumWidth = 6;
             CommentColumn.Name = "CommentColumn";
             CommentColumn.Width = 200;
-            // 
-            // CreateOrderButton
-            // 
+           
             CreateOrderButton.BackColor = Color.LimeGreen;
             CreateOrderButton.FlatAppearance.BorderSize = 0;
             CreateOrderButton.FlatStyle = FlatStyle.Flat;
@@ -405,38 +329,28 @@
             CreateOrderButton.Text = "Створити замовлення";
             CreateOrderButton.UseVisualStyleBackColor = false;
             CreateOrderButton.Click += CreateOrderButton_Click;
-            // 
-            // SupplierTextBox
-            // 
+           
             SupplierTextBox.BorderStyle = BorderStyle.FixedSingle;
             SupplierTextBox.Location = new Point(472, 161);
             SupplierTextBox.Name = "SupplierTextBox";
             SupplierTextBox.Size = new Size(203, 32);
             SupplierTextBox.TabIndex = 17;
-            // 
-            // ProductContextMenuStrip
-            // 
+          
             ProductContextMenuStrip.ImageScalingSize = new Size(20, 20);
             ProductContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1 });
             ProductContextMenuStrip.Name = "ProductContextMenuStrip";
             ProductContextMenuStrip.Size = new Size(155, 52);
-            // 
-            // EditStripMenuItem1
-            // 
+            
             EditStripMenuItem1.Name = "EditStripMenuItem1";
             EditStripMenuItem1.Size = new Size(154, 24);
             EditStripMenuItem1.Text = "Редагувати";
             EditStripMenuItem1.Click += EditStripMenuItem1_Click;
-            // 
-            // DeleteStripMenuItem1
-            // 
+          
             DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
             DeleteStripMenuItem1.Size = new Size(154, 24);
             DeleteStripMenuItem1.Text = "Видалити";
             DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
-            // 
-            // SearchButton
-            // 
+           
             SearchButton.BackColor = Color.DodgerBlue;
             SearchButton.FlatAppearance.BorderSize = 0;
             SearchButton.FlatStyle = FlatStyle.Flat;
@@ -448,27 +362,21 @@
             SearchButton.Text = "🔍";
             SearchButton.UseVisualStyleBackColor = false;
             SearchButton.Click += SearchButton_Click;
-            // 
-            // SearchTextBox
-            // 
+            
             SearchTextBox.BorderStyle = BorderStyle.FixedSingle;
             SearchTextBox.Location = new Point(877, 278);
             SearchTextBox.Name = "SearchTextBox";
             SearchTextBox.PlaceholderText = "Назва, марка, рік...";
             SearchTextBox.Size = new Size(250, 32);
             SearchTextBox.TabIndex = 54;
-            // 
-            // label1
-            // 
+             
             label1.AutoSize = true;
             label1.Location = new Point(792, 281);
             label1.Name = "label1";
             label1.Size = new Size(81, 25);
             label1.TabIndex = 53;
             label1.Text = "Пошук";
-            // 
-            // ProductsUserControl
-            // 
+            
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;

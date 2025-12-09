@@ -16,6 +16,5 @@ namespace MotorcycleStore.Domain.Models
         public string? Address { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
-        //public List<Product> Products { get; set; } = new List<Product>();
     }
 }
