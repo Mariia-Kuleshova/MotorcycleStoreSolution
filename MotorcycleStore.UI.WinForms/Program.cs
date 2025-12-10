@@ -20,7 +20,7 @@ namespace MotorcycleStore.UI.WinForms
         [STAThread]
         static void Main()
         {
-            //AllocConsole();
+           
             ApplicationConfiguration.Initialize();
 
             var host = Host.CreateDefaultBuilder()
@@ -36,7 +36,7 @@ namespace MotorcycleStore.UI.WinForms
                         )
                     );
 
-                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 2: Repositories - Transient зам≥сть Scoped
+                   
                     services.AddTransient<CustomerRepository>();
                     services.AddTransient<SupplierRepository>();
                     services.AddTransient<EmployeeRepository>();
@@ -44,23 +44,22 @@ namespace MotorcycleStore.UI.WinForms
                     services.AddTransient<OrderRepository>();
                     services.AddTransient<InventoryRepository>();
 
-                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 3: Services - Transient зам≥сть Scoped
+                    
                     services.AddTransient<ICustomerService, CustomerService>();
                     services.AddTransient<ISupplierService, SupplierService>();
                     services.AddTransient<IEmployeeService, EmployeeService>();
                     services.AddTransient<IOrderService, OrderService>();
                     services.AddTransient<IInventoryService, InventoryService>();
                     services.AddTransient<IProductService, ProductService>();
-                    services.AddTransient<OrderItemService>(); // ? ƒодано €кщо використовуЇтьс€
+                    services.AddTransient<OrderItemService>(); 
 
-                    // ? Navigation Service залишаЇтьс€ Singleton
                     services.AddSingleton<NavigationService>();
 
-                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 4: ƒодано generators дл€ зв≥т≥в
+                   
                     services.AddTransient<ReceiptGenerator>();
                     services.AddTransient<SalesReportGenerator>();
 
-                    // ? ¬»ѕ–ј¬Ћ≈ЌЌя 5: Forms - Transient зам≥сть Scoped
+                    
                     services.AddTransient<Form1>();
                     services.AddTransient<LoginForm>();
                     services.AddTransient<MainForm>();
@@ -72,20 +71,19 @@ namespace MotorcycleStore.UI.WinForms
 
             ServiceProvider = host.Services;
 
-            // ? ≤н≥ц≥ал≥зац≥€ бази даних
+         
             using (var scope = host.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
                 db.Database.EnsureCreated();
             }
 
-            // ? «апуск застосунку
+     
             var mainForm = host.Services.GetRequiredService<LoginForm>();
             System.Windows.Forms.Application.Run(mainForm);
         }
 
-        //[System.Runtime.InteropServices.DllImport("kernel32.dll")]
-        //private static extern bool AllocConsole();
+        
     }
 }
 

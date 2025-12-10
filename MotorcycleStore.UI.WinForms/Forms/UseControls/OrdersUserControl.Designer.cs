@@ -61,18 +61,14 @@
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             OrderContextMenuStrip.SuspendLayout();
             SuspendLayout();
-            // 
-            // OrderIdLabel
-            // 
+          
             OrderIdLabel.AutoSize = true;
             OrderIdLabel.Font = new Font("Verdana", 12F, FontStyle.Bold);
             OrderIdLabel.Location = new Point(20, 146);
             OrderIdLabel.Name = "OrderIdLabel";
             OrderIdLabel.Size = new Size(0, 25);
             OrderIdLabel.TabIndex = 50;
-            // 
-            // OrdersDataGridView
-            // 
+          
             dataGridViewCellStyle1.BackColor = Color.White;
             OrdersDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -123,92 +119,65 @@
             OrdersDataGridView.ThemeStyle.RowsStyle.Height = 29;
             OrdersDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             OrdersDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            // 
-            // IdColumn
-            // 
+            
             IdColumn.HeaderText = "ID";
             IdColumn.MinimumWidth = 6;
             IdColumn.Name = "IdColumn";
             IdColumn.ReadOnly = true;
-            // 
-            // OrderItemColumn
-            // 
+           
             OrderItemColumn.HeaderText = "Продукт";
             OrderItemColumn.MinimumWidth = 6;
             OrderItemColumn.Name = "OrderItemColumn";
-            // 
-            // OrderDateColumn
-            // 
+          
             OrderDateColumn.HeaderText = "Дата";
             OrderDateColumn.MinimumWidth = 6;
             OrderDateColumn.Name = "OrderDateColumn";
-            // 
-            // TotalAmountColumn
-            // 
+            
             TotalAmountColumn.HeaderText = "Сума";
             TotalAmountColumn.MinimumWidth = 6;
             TotalAmountColumn.Name = "TotalAmountColumn";
-            // 
-            // StatusColumn
-            // 
+            
             StatusColumn.HeaderText = "Статус";
             StatusColumn.MinimumWidth = 6;
             StatusColumn.Name = "StatusColumn";
-            // 
-            // CustomerColumn
-            // 
+           
             CustomerColumn.HeaderText = "Замовник";
             CustomerColumn.MinimumWidth = 6;
             CustomerColumn.Name = "CustomerColumn";
-            // 
-            // EmployeeColumn
-            // 
+           
             EmployeeColumn.HeaderText = "Працівник";
             EmployeeColumn.MinimumWidth = 6;
             EmployeeColumn.Name = "EmployeeColumn";
-            // 
-            // PaymentMethodColumn
-            // 
+           
             PaymentMethodColumn.HeaderText = "Спосіб оплати";
             PaymentMethodColumn.MinimumWidth = 6;
             PaymentMethodColumn.Name = "PaymentMethodColumn";
-            // 
-            // CommentsColumn
-            // 
+             
             CommentsColumn.HeaderText = "Коментар";
             CommentsColumn.MinimumWidth = 6;
             CommentsColumn.Name = "CommentsColumn";
-            // 
-            // OrderContextMenuStrip
-            // 
+             
             OrderContextMenuStrip.ImageScalingSize = new Size(20, 20);
             OrderContextMenuStrip.Items.AddRange(new ToolStripItem[] { EditStripMenuItem1, DeleteStripMenuItem1, ReceiptToolStripMenuItem });
             OrderContextMenuStrip.Name = "ProductContextMenuStrip";
-            OrderContextMenuStrip.Size = new Size(155, 76);
-            // 
-            // EditStripMenuItem1
-            // 
+            OrderContextMenuStrip.Size = new Size(211, 104);
+            OrderContextMenuStrip.Opening += OrderContextMenuStrip_Opening;
+            
             EditStripMenuItem1.Name = "EditStripMenuItem1";
-            EditStripMenuItem1.Size = new Size(154, 24);
+            EditStripMenuItem1.Size = new Size(210, 24);
             EditStripMenuItem1.Text = "Редагувати";
             EditStripMenuItem1.Click += EditStripMenuItem1_Click;
-            // 
-            // DeleteStripMenuItem1
-            // 
+             
             DeleteStripMenuItem1.Name = "DeleteStripMenuItem1";
-            DeleteStripMenuItem1.Size = new Size(154, 24);
+            DeleteStripMenuItem1.Size = new Size(210, 24);
             DeleteStripMenuItem1.Text = "Видалити";
             DeleteStripMenuItem1.Click += DeleteStripMenuItem1_Click;
-            // 
-            // ReceiptToolStripMenuItem
-            // 
+           
             ReceiptToolStripMenuItem.Name = "ReceiptToolStripMenuItem";
-            ReceiptToolStripMenuItem.Size = new Size(154, 24);
+            ReceiptToolStripMenuItem.Size = new Size(210, 24);
             ReceiptToolStripMenuItem.Text = "Друк чека";
             ReceiptToolStripMenuItem.Click += ReceiptToolStripMenuItem_Click;
-            // 
-            // ClearButton
-            // 
+           
             ClearButton.BackColor = Color.Crimson;
             ClearButton.FlatAppearance.BorderSize = 0;
             ClearButton.FlatStyle = FlatStyle.Flat;
@@ -220,9 +189,7 @@
             ClearButton.Text = "Очистити";
             ClearButton.UseVisualStyleBackColor = false;
             ClearButton.Click += ClearButton_Click;
-            // 
-            // AddButton
-            // 
+            
             AddButton.BackColor = Color.Teal;
             AddButton.FlatAppearance.BorderSize = 0;
             AddButton.FlatStyle = FlatStyle.Flat;
@@ -234,9 +201,7 @@
             AddButton.Text = "Створити";
             AddButton.UseVisualStyleBackColor = false;
             AddButton.Click += AddButton_Click;
-            // 
-            // SaveButton
-            // 
+           
             SaveButton.BackColor = Color.LightSeaGreen;
             SaveButton.FlatAppearance.BorderSize = 0;
             SaveButton.FlatStyle = FlatStyle.Flat;
@@ -248,130 +213,101 @@
             SaveButton.Text = "Зберегти зміни";
             SaveButton.UseVisualStyleBackColor = false;
             SaveButton.Click += SaveButton_Click;
-            // 
-            // PaymentMethodComboBox
-            // 
+             
             PaymentMethodComboBox.FormattingEnabled = true;
             PaymentMethodComboBox.Location = new Point(468, 146);
             PaymentMethodComboBox.Name = "PaymentMethodComboBox";
             PaymentMethodComboBox.Size = new Size(203, 33);
             PaymentMethodComboBox.TabIndex = 42;
-            // 
-            // StatusComboBox
-            // 
+             
             StatusComboBox.FormattingEnabled = true;
             StatusComboBox.Location = new Point(1026, 64);
             StatusComboBox.Name = "StatusComboBox";
             StatusComboBox.Size = new Size(203, 33);
             StatusComboBox.TabIndex = 37;
-            // 
-            // label8
-            // 
+            
             label8.AutoSize = true;
             label8.Location = new Point(242, 117);
             label8.Name = "label8";
             label8.Size = new Size(123, 25);
             label8.TabIndex = 39;
             label8.Text = "Сума (грн)";
-            // 
-            // TotalAmountTextBox
-            // 
+            
             TotalAmountTextBox.BorderStyle = BorderStyle.FixedSingle;
             TotalAmountTextBox.Location = new Point(243, 146);
             TotalAmountTextBox.Name = "TotalAmountTextBox";
             TotalAmountTextBox.Size = new Size(203, 32);
             TotalAmountTextBox.TabIndex = 40;
             TotalAmountTextBox.Text = "0.00";
-            // 
-            // label7
-            // 
+           
             label7.AutoSize = true;
             label7.Location = new Point(467, 117);
             label7.Name = "label7";
             label7.Size = new Size(159, 25);
             label7.TabIndex = 41;
             label7.Text = "Спосіб оплати";
-            // 
-            // label6
-            // 
+           
             label6.AutoSize = true;
             label6.Location = new Point(690, 117);
             label6.Name = "label6";
             label6.Size = new Size(111, 25);
             label6.TabIndex = 43;
             label6.Text = "Коментар";
-            // 
-            // CommentsTextBox
-            // 
+            
             CommentsTextBox.BorderStyle = BorderStyle.FixedSingle;
             CommentsTextBox.Location = new Point(691, 146);
             CommentsTextBox.Multiline = true;
             CommentsTextBox.Name = "CommentsTextBox";
             CommentsTextBox.Size = new Size(424, 32);
             CommentsTextBox.TabIndex = 44;
-            // 
-            // label5
-            // 
+            
             label5.AutoSize = true;
             label5.Location = new Point(1025, 35);
             label5.Name = "label5";
             label5.Size = new Size(81, 25);
             label5.TabIndex = 36;
             label5.Text = "Статус";
-            // 
-            // OrderDatePicker
-            // 
+             
             OrderDatePicker.Format = DateTimePickerFormat.Short;
             OrderDatePicker.Location = new Point(802, 64);
             OrderDatePicker.Name = "OrderDatePicker";
             OrderDatePicker.Size = new Size(204, 32);
             OrderDatePicker.TabIndex = 35;
-            // 
-            // label4
-            // 
+            
             label4.AutoSize = true;
             label4.Location = new Point(802, 35);
             label4.Name = "label4";
             label4.Size = new Size(175, 25);
             label4.TabIndex = 34;
             label4.Text = "Дата створення";
-            // 
-            // EmployeeComboBox
-            // 
+            
             EmployeeComboBox.FormattingEnabled = true;
             EmployeeComboBox.Location = new Point(578, 64);
             EmployeeComboBox.Name = "EmployeeComboBox";
             EmployeeComboBox.Size = new Size(203, 33);
             EmployeeComboBox.TabIndex = 33;
-            // 
-            // label3
-            // 
+           
             label3.AutoSize = true;
             label3.Location = new Point(577, 35);
             label3.Name = "label3";
             label3.Size = new Size(120, 25);
             label3.TabIndex = 32;
             label3.Text = "Працівник";
-            // 
-            // CustomerComboBox
-            // 
+            
             CustomerComboBox.FormattingEnabled = true;
             CustomerComboBox.Location = new Point(355, 64);
             CustomerComboBox.Name = "CustomerComboBox";
             CustomerComboBox.Size = new Size(203, 33);
             CustomerComboBox.TabIndex = 31;
-            // 
-            // label2
-            // 
+
+         
             label2.AutoSize = true;
             label2.Location = new Point(354, 35);
             label2.Name = "label2";
             label2.Size = new Size(112, 25);
             label2.TabIndex = 30;
             label2.Text = "Замовник";
-            // 
-            // ProductComboBox
-            // 
+            
             ProductComboBox.FormattingEnabled = true;
             ProductComboBox.ItemHeight = 25;
             ProductComboBox.Location = new Point(20, 63);
@@ -379,18 +315,14 @@
             ProductComboBox.Size = new Size(311, 33);
             ProductComboBox.TabIndex = 52;
             ProductComboBox.SelectedIndexChanged += ProductComboBox_SelectedIndexChanged;
-            // 
-            // label1
-            // 
+           
             label1.AutoSize = true;
             label1.Location = new Point(19, 34);
             label1.Name = "label1";
             label1.Size = new Size(97, 25);
             label1.TabIndex = 51;
             label1.Text = "Продукт";
-            // 
-            // OrdersUserControl
-            // 
+           
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(ProductComboBox);

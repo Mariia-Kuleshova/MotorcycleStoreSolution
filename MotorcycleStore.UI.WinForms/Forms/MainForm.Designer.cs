@@ -56,9 +56,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ContentPanel.SuspendLayout();
             SuspendLayout();
-            // 
-            // panel1
-            // 
+          
             panel1.BackColor = Color.Teal;
             panel1.Controls.Add(menuPanel);
             panel1.Dock = DockStyle.Left;
@@ -66,9 +64,7 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(228, 907);
             panel1.TabIndex = 0;
-            // 
-            // menuPanel
-            // 
+          
             menuPanel.BackColor = Color.Teal;
             menuPanel.Controls.Add(pictureBox11);
             menuPanel.Controls.Add(pictureBox9);
@@ -87,9 +83,7 @@
             menuPanel.Name = "menuPanel";
             menuPanel.Size = new Size(228, 907);
             menuPanel.TabIndex = 0;
-            // 
-            // pictureBox11
-            // 
+          
             pictureBox11.Image = (Image)resources.GetObject("pictureBox11.Image");
             pictureBox11.Location = new Point(50, 12);
             pictureBox11.Name = "pictureBox11";
@@ -97,9 +91,7 @@
             pictureBox11.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox11.TabIndex = 7;
             pictureBox11.TabStop = false;
-            // 
-            // pictureBox9
-            // 
+           
             pictureBox9.Cursor = Cursors.Hand;
             pictureBox9.Image = (Image)resources.GetObject("pictureBox9.Image");
             pictureBox9.Location = new Point(10, 346);
@@ -108,9 +100,7 @@
             pictureBox9.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox9.TabIndex = 17;
             pictureBox9.TabStop = false;
-            // 
-            // label12
-            // 
+           
             label12.AutoSize = true;
             label12.Cursor = Cursors.Hand;
             label12.ForeColor = Color.White;
@@ -120,9 +110,7 @@
             label12.TabIndex = 16;
             label12.Text = "Звітність";
             label12.Click += label12_Click;
-            // 
-            // pictureBox12
-            // 
+           
             pictureBox12.Cursor = Cursors.Hand;
             pictureBox12.Image = (Image)resources.GetObject("pictureBox12.Image");
             pictureBox12.Location = new Point(10, 88);
@@ -131,9 +119,7 @@
             pictureBox12.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox12.TabIndex = 15;
             pictureBox12.TabStop = false;
-            // 
-            // ProductsMenuLabel
-            // 
+            
             ProductsMenuLabel.AutoSize = true;
             ProductsMenuLabel.Cursor = Cursors.Hand;
             ProductsMenuLabel.ForeColor = Color.White;
@@ -143,9 +129,7 @@
             ProductsMenuLabel.TabIndex = 14;
             ProductsMenuLabel.Text = "Всі товари";
             ProductsMenuLabel.Click += ProductsMenuLabel_Click;
-            // 
-            // pictureBox13
-            // 
+           
             pictureBox13.Cursor = Cursors.Hand;
             pictureBox13.Image = (Image)resources.GetObject("pictureBox13.Image");
             pictureBox13.Location = new Point(10, 153);
@@ -154,9 +138,7 @@
             pictureBox13.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox13.TabIndex = 13;
             pictureBox13.TabStop = false;
-            // 
-            // OrdersMenuLabel
-            // 
+           
             OrdersMenuLabel.AutoSize = true;
             OrdersMenuLabel.Cursor = Cursors.Hand;
             OrdersMenuLabel.ForeColor = Color.White;
@@ -166,9 +148,7 @@
             OrdersMenuLabel.TabIndex = 12;
             OrdersMenuLabel.Text = "Замовлення";
             OrdersMenuLabel.Click += OrdersMenuLabel_Click;
-            // 
-            // pictureBox14
-            // 
+          
             pictureBox14.Cursor = Cursors.Hand;
             pictureBox14.Image = (Image)resources.GetObject("pictureBox14.Image");
             pictureBox14.Location = new Point(10, 220);
@@ -177,9 +157,7 @@
             pictureBox14.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox14.TabIndex = 13;
             pictureBox14.TabStop = false;
-            // 
-            // CustomersMenuLabel
-            // 
+            
             CustomersMenuLabel.AutoSize = true;
             CustomersMenuLabel.Cursor = Cursors.Hand;
             CustomersMenuLabel.ForeColor = Color.White;
@@ -189,9 +167,7 @@
             CustomersMenuLabel.TabIndex = 12;
             CustomersMenuLabel.Text = "Замовники";
             CustomersMenuLabel.Click += CustomersMenuLabel_Click;
-            // 
-            // pictureBox15
-            // 
+             
             pictureBox15.Cursor = Cursors.Hand;
             pictureBox15.Image = (Image)resources.GetObject("pictureBox15.Image");
             pictureBox15.Location = new Point(10, 281);
@@ -200,9 +176,7 @@
             pictureBox15.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox15.TabIndex = 11;
             pictureBox15.TabStop = false;
-            // 
-            // EmployeesMenuLabel
-            // 
+           
             EmployeesMenuLabel.AutoSize = true;
             EmployeesMenuLabel.Cursor = Cursors.Hand;
             EmployeesMenuLabel.ForeColor = Color.White;
@@ -212,9 +186,7 @@
             EmployeesMenuLabel.TabIndex = 10;
             EmployeesMenuLabel.Text = "Працівники";
             EmployeesMenuLabel.Click += EmployeesMenuLabel_Click;
-            // 
-            // panel7
-            // 
+           
             panel7.BackColor = Color.DarkSlateGray;
             panel7.Controls.Add(pictureBox17);
             panel7.Controls.Add(ExitLable);
@@ -223,9 +195,7 @@
             panel7.Name = "panel7";
             panel7.Size = new Size(228, 56);
             panel7.TabIndex = 2;
-            // 
-            // pictureBox17
-            // 
+           
             pictureBox17.Image = (Image)resources.GetObject("pictureBox17.Image");
             pictureBox17.Location = new Point(27, 8);
             pictureBox17.Name = "pictureBox17";
@@ -233,9 +203,7 @@
             pictureBox17.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox17.TabIndex = 7;
             pictureBox17.TabStop = false;
-            // 
-            // ExitLable
-            // 
+            
             ExitLable.AutoSize = true;
             ExitLable.ForeColor = Color.White;
             ExitLable.Location = new Point(84, 15);
@@ -244,14 +212,9 @@
             ExitLable.TabIndex = 6;
             ExitLable.Text = "Вийти";
             ExitLable.Click += ExitLable_Click;
-            // 
-            // guna2Elipse1
-            // 
             guna2Elipse1.BorderRadius = 15;
             guna2Elipse1.TargetControl = this;
-            // 
-            // panel3
-            // 
+            
             panel3.BackColor = Color.LightSeaGreen;
             panel3.Controls.Add(XLabel);
             panel3.Controls.Add(pictureBox8);
@@ -261,10 +224,7 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(1298, 46);
             panel3.TabIndex = 1;
-            // 
-            // XLabel
-            // 
-            XLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                        XLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             XLabel.AutoSize = true;
             XLabel.Cursor = Cursors.Hand;
             XLabel.ForeColor = Color.White;
@@ -274,9 +234,7 @@
             XLabel.TabIndex = 8;
             XLabel.Text = "X";
             XLabel.Click += XLabel_Click;
-            // 
-            // pictureBox8
-            // 
+            
             pictureBox8.Image = (Image)resources.GetObject("pictureBox8.Image");
             pictureBox8.Location = new Point(24, 4);
             pictureBox8.Name = "pictureBox8";
@@ -284,9 +242,7 @@
             pictureBox8.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox8.TabIndex = 7;
             pictureBox8.TabStop = false;
-            // 
-            // label1
-            // 
+          
             label1.AutoSize = true;
             label1.ForeColor = Color.White;
             label1.Location = new Point(84, 10);
@@ -294,9 +250,7 @@
             label1.Size = new Size(349, 25);
             label1.TabIndex = 6;
             label1.Text = "MotoUA Management System 1.0";
-            // 
-            // ContentPanel
-            // 
+            
             ContentPanel.BackColor = Color.White;
             ContentPanel.Controls.Add(contentPanel1);
             ContentPanel.Dock = DockStyle.Fill;
@@ -304,16 +258,12 @@
             ContentPanel.Name = "ContentPanel";
             ContentPanel.Size = new Size(1298, 861);
             ContentPanel.TabIndex = 2;
-            // 
-            // contentPanel1
-            // 
+            
             contentPanel1.Location = new Point(6, 6);
             contentPanel1.Name = "contentPanel1";
             contentPanel1.Size = new Size(1289, 852);
             contentPanel1.TabIndex = 0;
-            // 
-            // MainForm
-            // 
+           
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;

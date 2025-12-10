@@ -22,11 +22,9 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
         private async void ReportsUserControl_Load(object sender, EventArgs e)
         {
-            // Встановлюємо дати за замовчуванням (поточний місяць)
             StartDatePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             EndDatePicker.Value = DateTime.Now;
 
-            // Завантажуємо замовлення для списку чеків
             await LoadOrdersForReceipts();
         }
 
@@ -37,7 +35,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 var orders = await _orderService.GetAllAsync();
                 var ordersWithDetails = orders
                     .OrderByDescending(o => o.OrderDate)
-                    .Take(50) // Останні 50 замовлень
+                    .Take(50) 
                     .Select(o => new
                     {
                         o.Id,
@@ -79,7 +77,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка друку чека: {ex.Message}",
+                MessageBox.Show($"Помилка друкуа чека: {ex.Message}",
                     "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

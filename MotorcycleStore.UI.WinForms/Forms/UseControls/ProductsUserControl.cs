@@ -219,14 +219,13 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 if (hit.RowIndex >= 0)
                 {
-                    // выбираем строку по правому клику
+                 
                     ProductsDataGridView.ClearSelection();
                     ProductsDataGridView.Rows[hit.RowIndex].Selected = true;
 
-                    // сохраняем ID выбранного продукта (опционально)
+              
                     ProductsDataGridView.CurrentCell = ProductsDataGridView.Rows[hit.RowIndex].Cells[1];
 
-                    // показываем меню
                     ProductContextMenuStrip.Show(ProductsDataGridView, e.Location);
                 }
             }
@@ -252,12 +251,12 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             if (ProductsDataGridView.SelectedRows.Count == 0)
                 return;
 
-            // Получаем выбранный объект Product
+     
             var row = ProductsDataGridView.SelectedRows[0];
             var selectedProductId = Convert.ToInt32(row.Cells[0].Value);
             var product = await _productService.GetByIdAsync(selectedProductId);
 
-            FillProductForm(product); // заполняем текстбоксы
+            FillProductForm(product); 
             _currentProduct = product;
         }
 
@@ -378,25 +377,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 ProductsDataGridView.DataSource = filteredProducts;
 
-                //foreach (var product in filteredProducts)
-                //{
-                    
-
-                    
-                //    ProductsDataGridView.Rows.Add(
-                //        product.Id,
-                //        product.Name,
-                //        product.Brand,
-                //        product.Category,
-                //        product.VIN,
-                //        product.ModelYear,
-                //        product.Inventory != null ? product.Inventory.Quantity : 0,
-                //        product.Price,
-                //        product.SupplierName,
-                //        product.Description
-                //    ); ;
-                //}
-
+                
                 foreach (DataGridViewRow row in ProductsDataGridView.Rows)
                 {
                     var pr = row.DataBoundItem as Product;

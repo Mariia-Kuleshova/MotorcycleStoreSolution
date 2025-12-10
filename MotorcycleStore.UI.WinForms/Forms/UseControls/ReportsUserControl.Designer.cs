@@ -42,9 +42,7 @@
             ((System.ComponentModel.ISupportInitialize)ReceiptsDataGridView).BeginInit();
             salesReportTab.SuspendLayout();
             SuspendLayout();
-            // 
-            // tabControl1
-            // 
+            
             tabControl1.Controls.Add(receiptTab);
             tabControl1.Controls.Add(salesReportTab);
             tabControl1.Dock = DockStyle.Fill;
@@ -53,9 +51,7 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(1249, 907);
             tabControl1.TabIndex = 0;
-            // 
-            // receiptTab
-            // 
+            
             receiptTab.BackColor = Color.White;
             receiptTab.Controls.Add(SearchReceiptButton);
             receiptTab.Controls.Add(SearchReceiptTextBox);
@@ -69,9 +65,7 @@
             receiptTab.Size = new Size(1241, 869);
             receiptTab.TabIndex = 0;
             receiptTab.Text = "Чеки";
-            // 
-            // SearchReceiptButton
-            // 
+            
             SearchReceiptButton.BackColor = Color.DodgerBlue;
             SearchReceiptButton.FlatAppearance.BorderSize = 0;
             SearchReceiptButton.FlatStyle = FlatStyle.Flat;
@@ -83,27 +77,21 @@
             SearchReceiptButton.Text = "🔍 Пошук";
             SearchReceiptButton.UseVisualStyleBackColor = false;
             SearchReceiptButton.Click += SearchReceiptButton_Click;
-            // 
-            // SearchReceiptTextBox
-            // 
+          
             SearchReceiptTextBox.BorderStyle = BorderStyle.FixedSingle;
             SearchReceiptTextBox.Location = new Point(834, 51);
             SearchReceiptTextBox.Name = "SearchReceiptTextBox";
             SearchReceiptTextBox.PlaceholderText = "№ чеку або ім'я клієнта...";
             SearchReceiptTextBox.Size = new Size(250, 32);
             SearchReceiptTextBox.TabIndex = 4;
-            // 
-            // label4
-            // 
+            
             label4.AutoSize = true;
             label4.Location = new Point(751, 54);
             label4.Name = "label4";
             label4.Size = new Size(90, 25);
             label4.TabIndex = 3;
             label4.Text = "Пошук:";
-            // 
-            // PrintReceiptButton
-            // 
+            
             PrintReceiptButton.BackColor = Color.Teal;
             PrintReceiptButton.FlatAppearance.BorderSize = 0;
             PrintReceiptButton.FlatStyle = FlatStyle.Flat;
@@ -115,9 +103,7 @@
             PrintReceiptButton.Text = "🖨️ Роздрукувати чек";
             PrintReceiptButton.UseVisualStyleBackColor = false;
             PrintReceiptButton.Click += PrintReceiptButton_Click;
-            // 
-            // ReceiptsDataGridView
-            // 
+            
             dataGridViewCellStyle1.BackColor = Color.White;
             ReceiptsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -167,9 +153,7 @@
             ReceiptsDataGridView.ThemeStyle.RowsStyle.Height = 29;
             ReceiptsDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             ReceiptsDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            // 
-            // label2
-            // 
+           
             label2.AutoSize = true;
             label2.Font = new Font("Verdana", 14F, FontStyle.Bold);
             label2.Location = new Point(20, 12);
@@ -177,9 +161,7 @@
             label2.Size = new Size(266, 29);
             label2.TabIndex = 0;
             label2.Text = "Список замовлень";
-            // 
-            // salesReportTab
-            // 
+           
             salesReportTab.BackColor = Color.White;
             salesReportTab.Controls.Add(QuickReportWeekButton);
             salesReportTab.Controls.Add(QuickReportTodayButton);
@@ -195,9 +177,7 @@
             salesReportTab.Size = new Size(1241, 869);
             salesReportTab.TabIndex = 1;
             salesReportTab.Text = "Звіти про продажі";
-            // 
-            // QuickReportWeekButton
-            // 
+            
             QuickReportWeekButton.BackColor = Color.MediumSlateBlue;
             QuickReportWeekButton.FlatAppearance.BorderSize = 0;
             QuickReportWeekButton.FlatStyle = FlatStyle.Flat;
@@ -209,9 +189,7 @@
             QuickReportWeekButton.Text = "📅 За тиждень";
             QuickReportWeekButton.UseVisualStyleBackColor = false;
             QuickReportWeekButton.Click += QuickReportWeekButton_Click;
-            // 
-            // QuickReportTodayButton
-            // 
+           
             QuickReportTodayButton.BackColor = Color.MediumSlateBlue;
             QuickReportTodayButton.FlatAppearance.BorderSize = 0;
             QuickReportTodayButton.FlatStyle = FlatStyle.Flat;
@@ -223,9 +201,7 @@
             QuickReportTodayButton.Text = "📅 За сьогодні";
             QuickReportTodayButton.UseVisualStyleBackColor = false;
             QuickReportTodayButton.Click += QuickReportTodayButton_Click;
-            // 
-            // GenerateReportButton
-            // 
+            
             GenerateReportButton.BackColor = Color.Teal;
             GenerateReportButton.FlatAppearance.BorderSize = 0;
             GenerateReportButton.FlatStyle = FlatStyle.Flat;
@@ -237,43 +213,33 @@
             GenerateReportButton.Text = "📊 Сформувати";
             GenerateReportButton.UseVisualStyleBackColor = false;
             GenerateReportButton.Click += GenerateReportButton_Click;
-            // 
-            // EndDatePicker
-            // 
+          
             EndDatePicker.Format = DateTimePickerFormat.Short;
             EndDatePicker.Location = new Point(430, 95);
             EndDatePicker.Name = "EndDatePicker";
             EndDatePicker.Size = new Size(204, 32);
             EndDatePicker.TabIndex = 4;
-            // 
-            // label7
-            // 
+            
             label7.AutoSize = true;
             label7.Location = new Point(430, 67);
             label7.Name = "label7";
             label7.Size = new Size(156, 25);
             label7.TabIndex = 3;
             label7.Text = "Кінцева дата:";
-            // 
-            // StartDatePicker
-            // 
+            
             StartDatePicker.Format = DateTimePickerFormat.Short;
             StartDatePicker.Location = new Point(34, 95);
             StartDatePicker.Name = "StartDatePicker";
             StartDatePicker.Size = new Size(204, 32);
             StartDatePicker.TabIndex = 2;
-            // 
-            // label6
-            // 
+            
             label6.AutoSize = true;
             label6.Location = new Point(34, 67);
             label6.Name = "label6";
             label6.Size = new Size(183, 25);
             label6.TabIndex = 1;
             label6.Text = "Початкова дата:";
-            // 
-            // label5
-            // 
+            
             label5.AutoSize = true;
             label5.Font = new Font("Verdana", 14F, FontStyle.Bold);
             label5.Location = new Point(20, 12);
@@ -281,9 +247,7 @@
             label5.Size = new Size(385, 29);
             label5.TabIndex = 0;
             label5.Text = "Звіт про продажі за період";
-            // 
-            // ReportsUserControl
-            // 
+             
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tabControl1);

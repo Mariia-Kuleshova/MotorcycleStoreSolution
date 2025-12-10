@@ -90,7 +90,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     LastName = LastNameTextBox.Text.Trim(),
                     Phone = PhoneTextBox.Text.Trim(),
                     Email = EmailTextBox.Text.Trim(),
-                    //Address = AddressTextBox.Text.Trim(),
                     RegisteredAt = RegisteredAtPicker.Value
                 };
 
@@ -150,7 +149,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 customer.LastName = LastNameTextBox.Text.Trim();
                 customer.Phone = PhoneTextBox.Text.Trim();
                 customer.Email = EmailTextBox.Text.Trim();
-                //customer.Address = AddressTextBox.Text.Trim();
                 customer.RegisteredAt = RegisteredAtPicker.Value;
                 customer.IsVIP = false;
 
@@ -182,7 +180,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             LastNameTextBox.Clear();
             PhoneTextBox.Clear();
             EmailTextBox.Clear();
-            //AddressTextBox.Clear();
             RegisteredAtPicker.Value = DateTime.Now;
             SearchTextBox.Clear();
         }
@@ -203,7 +200,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             LastNameTextBox.Text = row.Cells[2].Value?.ToString() ?? "";
             PhoneTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
             EmailTextBox.Text = row.Cells[4].Value?.ToString() ?? "";
-            //AddressTextBox.Text = row.Cells[5].Value?.ToString() ?? "";
 
             if (DateTime.TryParse(row.Cells[6].Value?.ToString(), out DateTime registeredDate))
             {
@@ -340,7 +336,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 MessageBox.Show($"Перегляд замовлень замовника: {customerName}\n(ID: {customerId})\n\nБуде реалізовано окремою формою",
                     "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Тут відкрити форму замовлень з фільтром по customerId
             }
         }
 

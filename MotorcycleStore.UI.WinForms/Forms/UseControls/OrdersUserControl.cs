@@ -64,6 +64,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             _currentEmp = currentEmp;
             _idFromProductForm = id;
 
+            _receiptGenerator = new ReceiptGenerator();
         }
 
         private async void OrdersUserControl_Load(object sender, EventArgs e)
@@ -103,7 +104,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             try
             {
-                // Завантажити продукти
                 _products = await _productService.GetAllAsync();
 
                 ProductComboBox.DataSource = _products
@@ -118,9 +118,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 ProductComboBox.DisplayMember = "Name";
                 ProductComboBox.ValueMember = "Id";
                 ProductComboBox.SelectedIndex = -1;
-                //TotalAmountTextBox.SelectedItem = null;
 
-                // Завантажити замовників
                 var customers = await _customerService.GetAllAsync();
 
                 CustomerComboBox.DataSource = customers
@@ -134,9 +132,9 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 CustomerComboBox.ValueMember = "Id";
                 CustomerComboBox.SelectedIndex = -1;
 
-                // Завантажити працівників
                 var employees = await _employeeService.GetAllAsync();
                 EmployeeComboBox.DataSource = employees
+                    .Where(e => e.IsActive == true)
                     .Select(c => new
                     {
                         Id = c.Id,
@@ -147,7 +145,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 EmployeeComboBox.ValueMember = "Id";
                 EmployeeComboBox.SelectedIndex = -1;
 
-                // Завантажити замовлення
                 await LoadOrders();
             }
             catch (Exception ex)
@@ -189,7 +186,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
         private void InitializeComboBoxes()
         {
-            // Ініціалізація статусів
             StatusComboBox.Items.Clear();
             StatusComboBox.Items.AddRange(new object[]
             {
@@ -200,7 +196,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             });
             StatusComboBox.SelectedIndex = -1;
 
-            // Ініціалізація способів оплати
             PaymentMethodComboBox.Items.Clear();
             PaymentMethodComboBox.Items.AddRange(new object[]
             {
@@ -224,7 +219,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     return;
                 }
 
-                // Создаем заказ
                 var order = new Order
                 {
                     CustomerId = (int)CustomerComboBox.SelectedValue,
@@ -237,7 +231,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     TotalAmount = 0
                 };
 
-                // Находим выбранный продукт
                 var products = await _productService.GetAllAsync();
                 var selectedProduct = products.FirstOrDefault(p => p.Name == ProductComboBox.Text);
 
@@ -348,7 +341,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             OrderIdLabel.Text = $"ID: {row.Cells[0].Value}";
 
-            // Знайти замовника за ім'ям
             var customerName = row.Cells[5].Value?.ToString();
             for (int i = 0; i < CustomerComboBox.Items.Count; i++)
             {
@@ -360,7 +352,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 }
             }
 
-            // Знайти працівника за ім'ям
             var employeeName = row.Cells[6].Value?.ToString();
             for (int i = 0; i < EmployeeComboBox.Items.Count; i++)
             {
@@ -387,9 +378,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             ProductComboBox.Enabled = false;
             OrderDatePicker.Enabled = false;
-            //StatusComboBox.Enabled = false;
             TotalAmountTextBox.Enabled = false;
-            //PaymentMethodComboBox.Enabled = false;
             CommentsTextBox.Enabled = false;
             EmployeeComboBox.Enabled = false;
             CustomerComboBox.Enabled = false;
@@ -399,10 +388,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             ProductComboBox.Enabled = true;
             OrderDatePicker.Enabled = true;
-            //StatusComboBox.Enabled = false;
             TotalAmountTextBox.Enabled = true;
-            //PaymentMethodComboBox.Enabled = false;
-            //CommentsTextBox.Enabled = true;
             EmployeeComboBox.Enabled = true;
             CustomerComboBox.Enabled = true;
         }
@@ -416,20 +402,10 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 return;
             }
 
-            // Тут можна відкрити окрему форму з деталями замовлення (OrderItems)
             MessageBox.Show($"Деталі замовлення #{_selectedOrderId} будуть показані у окремій формі",
                 "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        //private void EditStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    if (OrdersDataGridView.SelectedRows.Count > 0)
-        //    {
-        //        var row = OrdersDataGridView.SelectedRows[0];
-        //        _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
-        //        LoadOrderToFields(row);
-        //    }
-        //}
 
         private void ViewDetailsStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -500,8 +476,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 if (result == DialogResult.Yes)
                 {
-                    // Тут потрібно додати метод видалення в сервіс
-                    MessageBox.Show("Зфмовлення видалено.",
+                    MessageBox.Show("Замовлення видалено.",
                         "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     var row = OrdersDataGridView.SelectedRows[0];
@@ -512,7 +487,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
         }
 
-        // Допоміжні методи
         private string GetStatusText(OrderStatus status)
         {
             return status switch
@@ -549,7 +523,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
             var item = ProductComboBox.SelectedItem;
             if (item == null) return;
-            // Достаем Id из анонимного объекта
             int id = (int)item.GetType().GetProperty("Id").GetValue(item, null);
 
             var prodInfo = await _productService.GetByIdAsync(id);
@@ -565,7 +538,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             string input = ProductComboBox.Text.ToLower();
 
-            // Фильтруем по Name
             var filtered = _products
                 .Where(p => p.Name != null && p.Name.ToLower().Contains(input))
                 .Select(p => new
@@ -599,6 +571,11 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 MessageBox.Show($"Помилка друку чека: {ex.Message}",
                     "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void OrderContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }

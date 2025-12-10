@@ -17,10 +17,7 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
+
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
@@ -39,9 +36,7 @@
             closeLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
-            // panel1
-            // 
+          
             panel1.BackColor = Color.Teal;
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
@@ -49,14 +44,10 @@
             panel1.Size = new Size(173, 396);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
-            // 
-            // guna2Elipse1
-            // 
+        
             guna2Elipse1.BorderRadius = 15;
             guna2Elipse1.TargetControl = this;
-            // 
-            // label1
-            // 
+       
             label1.AutoSize = true;
             label1.ForeColor = Color.Teal;
             label1.Location = new Point(322, 9);
@@ -65,16 +56,12 @@
             label1.TabIndex = 1;
             label1.Text = "MotoUA";
             label1.Click += label1_Click;
-            // 
-            // LoginTextBox
-            // 
+      
             LoginTextBox.Location = new Point(236, 177);
             LoginTextBox.Name = "LoginTextBox";
             LoginTextBox.Size = new Size(267, 32);
             LoginTextBox.TabIndex = 2;
-            // 
-            // LoginLabel
-            // 
+         
             LoginLabel.AutoSize = true;
             LoginLabel.ForeColor = Color.Teal;
             LoginLabel.Location = new Point(236, 149);
@@ -83,9 +70,7 @@
             LoginLabel.TabIndex = 3;
             LoginLabel.Text = "Логін";
             LoginLabel.Click += label2_Click;
-            // 
-            // PasswordLabel
-            // 
+    
             PasswordLabel.AutoSize = true;
             PasswordLabel.ForeColor = Color.Teal;
             PasswordLabel.Location = new Point(236, 232);
@@ -93,16 +78,12 @@
             PasswordLabel.Size = new Size(86, 25);
             PasswordLabel.TabIndex = 5;
             PasswordLabel.Text = "Пароль";
-            // 
-            // PasswordTextBox
-            // 
+        
             PasswordTextBox.Location = new Point(236, 260);
             PasswordTextBox.Name = "PasswordTextBox";
             PasswordTextBox.Size = new Size(267, 32);
             PasswordTextBox.TabIndex = 4;
-            // 
-            // pictureBox1
-            // 
+          
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(297, 37);
             pictureBox1.Name = "pictureBox1";
@@ -110,9 +91,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
-            // 
-            // LoginButton
-            // 
+           
             LoginButton.BackColor = Color.Teal;
             LoginButton.FlatAppearance.BorderSize = 0;
             LoginButton.FlatStyle = FlatStyle.Flat;
@@ -124,9 +103,7 @@
             LoginButton.Text = "Вхід";
             LoginButton.UseVisualStyleBackColor = false;
             LoginButton.Click += LoginButton_Click;
-            // 
-            // ForgetPasswordLabel
-            // 
+          
             ForgetPasswordLabel.AutoSize = true;
             ForgetPasswordLabel.Font = new Font("Verdana", 9F);
             ForgetPasswordLabel.LinkColor = Color.LightSeaGreen;
@@ -135,9 +112,7 @@
             ForgetPasswordLabel.Size = new Size(0, 18);
             ForgetPasswordLabel.TabIndex = 8;
             ForgetPasswordLabel.LinkClicked += ForgetPasswordLabel_LinkClicked;
-            // 
-            // closeLabel
-            // 
+            
             closeLabel.AutoSize = true;
             closeLabel.ForeColor = Color.Teal;
             closeLabel.Location = new Point(582, 5);
@@ -146,9 +121,7 @@
             closeLabel.TabIndex = 9;
             closeLabel.Text = "X";
             closeLabel.Click += closeLabel_Click;
-            // 
-            // LoginForm
-            // 
+        
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;

@@ -18,17 +18,16 @@ namespace MotorcycleStore.UI.WinForms.Forms
             InitializeComponent();
             _employeeService = employeeService;
 
-            // Налаштування поля пароля
+
             PasswordTextBox.PasswordChar = '●';
             PasswordTextBox.UseSystemPasswordChar = false;
 
-            // Налаштування іконки показу пароля
             SetupPasswordToggle();
         }
 
         private void SetupPasswordToggle()
         {
-            // Створюємо PictureBox для іконки ока
+
             var eyeIcon = new PictureBox
             {
                 Size = new Size(25, 25),
@@ -38,17 +37,15 @@ namespace MotorcycleStore.UI.WinForms.Forms
                 BackColor = Color.White
             };
 
-            // Встановлюємо іконку "закрите око" (приховано)
+
             eyeIcon.Image = CreateEyeClosedIcon();
 
-            // Додаємо обробник кліку
+
             eyeIcon.Click += EyeIcon_Click;
 
-            // Додаємо на форму
             this.Controls.Add(eyeIcon);
             eyeIcon.BringToFront();
 
-            // Зберігаємо посилання для доступу в інших методах
             eyeIcon.Tag = "eyeIcon";
         }
 
@@ -61,19 +58,19 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
             if (_isPasswordVisible)
             {
-                // Показати пароль
+
                 PasswordTextBox.PasswordChar = '\0';
                 eyeIcon.Image = CreateEyeOpenIcon();
             }
             else
             {
-                // Приховати пароль
+
                 PasswordTextBox.PasswordChar = '●';
                 eyeIcon.Image = CreateEyeClosedIcon();
             }
         }
 
-        // Створюємо іконку відкритого ока
+
         private Image CreateEyeOpenIcon()
         {
             var bitmap = new Bitmap(24, 24);
@@ -81,19 +78,19 @@ namespace MotorcycleStore.UI.WinForms.Forms
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                // Малюємо око (відкрите)
+ 
                 using (var pen = new Pen(Color.Gray, 2))
                 {
-                    // Контур ока
+
                     g.DrawEllipse(pen, 6, 8, 12, 8);
-                    // Зіниця
+
                     g.FillEllipse(new SolidBrush(Color.Gray), 10, 10, 4, 4);
                 }
             }
             return bitmap;
         }
 
-        // Створюємо іконку закритого ока
+
         private Image CreateEyeClosedIcon()
         {
             var bitmap = new Bitmap(24, 24);
@@ -101,12 +98,12 @@ namespace MotorcycleStore.UI.WinForms.Forms
             {
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                // Малюємо закрите око (лінія)
+
                 using (var pen = new Pen(Color.Gray, 2))
                 {
-                    // Верхня дуга
+
                     g.DrawArc(pen, 6, 8, 12, 8, 0, 180);
-                    // Діагональна лінія (закрите)
+
                     g.DrawLine(pen, 4, 18, 20, 6);
                 }
             }

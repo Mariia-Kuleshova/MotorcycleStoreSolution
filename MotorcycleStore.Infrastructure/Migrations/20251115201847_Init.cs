@@ -6,10 +6,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MotorcycleStore.Infrastructure.Migrations
 {
-    /// <inheritdoc />
     public partial class Init : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
@@ -242,7 +240,6 @@ namespace MotorcycleStore.Infrastructure.Migrations
                 column: "EmployeeId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -39,7 +39,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             RoleComboBox.Items.Clear();
             RoleComboBox.Items.AddRange(new object[] { "Admin", "Manager" });
-            RoleComboBox.SelectedIndex = 1; // За замовчуванням Manager
+            RoleComboBox.SelectedIndex = 1; 
         }
 
         private async System.Threading.Tasks.Task LoadEmployees()
@@ -85,14 +85,13 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 {
                     FirstName = FirstNameTextBox.Text.Trim(),
                     LastName = LastNameTextBox.Text.Trim(),
-                    //Position = PositionTextBox.Text.Trim(),
                     Phone = PhoneTextBox.Text.Trim(),
                     Email = EmailTextBox.Text.Trim(),
                     Username = UsernameTextBox.Text.Trim(),
-                    PasswordHash = PasswordTextBox.Text, // Буде захешовано в сервісі
+                    PasswordHash = PasswordTextBox.Text, 
                     Role = RoleComboBox.Text,
                     HiredAt = HiredAtPicker.Value,
-                    //IsActive = IsActiveCheckBox.Checked
+
                 };
 
                 await _employeeService.AddAsync(employee);
@@ -133,15 +132,12 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
                 employee.FirstName = FirstNameTextBox.Text.Trim();
                 employee.LastName = LastNameTextBox.Text.Trim();
-                //employee.Position = PositionTextBox.Text.Trim();
                 employee.Phone = PhoneTextBox.Text.Trim();
                 employee.Email = EmailTextBox.Text.Trim();
                 employee.Username = UsernameTextBox.Text.Trim();
                 employee.Role = RoleComboBox.Text;
                 employee.HiredAt = HiredAtPicker.Value;
-                //employee.IsActive = IsActiveCheckBox.Checked;
 
-                // Якщо пароль змінено
                 if (!string.IsNullOrWhiteSpace(PasswordTextBox.Text))
                 {
                     employee.PasswordHash = PasswordTextBox.Text;
@@ -165,7 +161,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             if (string.IsNullOrWhiteSpace(FirstNameTextBox.Text) ||
                 string.IsNullOrWhiteSpace(LastNameTextBox.Text) ||
-                //string.IsNullOrWhiteSpace(PositionTextBox.Text) ||
                 string.IsNullOrWhiteSpace(UsernameTextBox.Text))
             {
                 MessageBox.Show("Заповніть всі обов'язкові поля (Ім'я, Прізвище, Посада, Логін)!",
@@ -183,7 +178,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 return false;
             }
 
-            // Перевірка пароля тільки при додаванні нового працівника
             if (!isEdit && string.IsNullOrWhiteSpace(PasswordTextBox.Text))
             {
                 MessageBox.Show("Введіть пароль для нового працівника!",
@@ -212,14 +206,12 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             _isEditMode = false;
             FirstNameTextBox.Clear();
             LastNameTextBox.Clear();
-            //PositionTextBox.Clear();
             PhoneTextBox.Clear();
             EmailTextBox.Clear();
             UsernameTextBox.Clear();
             PasswordTextBox.Clear();
             RoleComboBox.SelectedIndex = 1;
             HiredAtPicker.Value = DateTime.Now;
-            //IsActiveCheckBox.Checked = true;
             SearchTextBox.Clear();
             PasswordTextBox.Enabled = true;
             UsernameTextBox.ReadOnly = false;
@@ -242,11 +234,10 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             FirstNameTextBox.Text = row.Cells[1].Value?.ToString() ?? "";
             LastNameTextBox.Text = row.Cells[2].Value?.ToString() ?? "";
-            //PositionTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
             PhoneTextBox.Text = row.Cells[3].Value?.ToString() ?? "";
             EmailTextBox.Text = row.Cells[4].Value?.ToString() ?? "";
             UsernameTextBox.Text = row.Cells[5].Value?.ToString() ?? "";
-            UsernameTextBox.ReadOnly = true; // Не дозволяємо змінювати логін
+            UsernameTextBox.ReadOnly = true; 
             RoleComboBox.Text = row.Cells[6].Value?.ToString() ?? "Manager";
 
             if (DateTime.TryParse(row.Cells[7].Value?.ToString(), out DateTime hiredDate))
@@ -254,9 +245,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 HiredAtPicker.Value = hiredDate;
             }
 
-            //IsActiveCheckBox.Checked = row.Cells[9].Value != null && (bool)row.Cells[9].Value;
-
-            // При редагуванні пароль не показуємо
             PasswordTextBox.Clear();
         }
 
@@ -276,7 +264,6 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 var filteredEmployees = allEmployees.Where(e =>
                     e.FirstName.ToLower().Contains(searchTerm) ||
                     e.LastName.ToLower().Contains(searchTerm) ||
-                    //e.Position.ToLower().Contains(searchTerm) ||
                     e.Username.ToLower().Contains(searchTerm)
                 ).ToList();
 
