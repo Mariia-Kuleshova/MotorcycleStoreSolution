@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+namespace MotorcycleStore.UI.WinForms.Services;
+
 public class NavigationService
 {
     private readonly IServiceProvider _provider;

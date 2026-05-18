@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 
-namespace MotorcycleStore.Application.Services
+namespace MotorcycleStore.UI.WinForms.Services
 {
     public class ReceiptGenerator
     {

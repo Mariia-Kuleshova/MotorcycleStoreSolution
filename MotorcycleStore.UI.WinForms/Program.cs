@@ -7,6 +7,7 @@ using MotorcycleStore.Application.Services;
 using MotorcycleStore.Infrastructure.Data;
 using MotorcycleStore.Infrastructure.Repositories;
 using MotorcycleStore.UI.WinForms.Forms;
+using MotorcycleStore.UI.WinForms.Services;
 using MotorcycleStore.UI.WinForms.Forms.UseControls;
 using System;
 using System.Windows.Forms;

@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>MotorcycleStore.UI.WinForms</RootNamespace>
+    <AssemblyName>MotorcycleStore.UI.WinForms</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +18,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="16.0.18925.20022" />
     <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
@@ -25,34 +27,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MotorcycleStore.Application\MotorcycleStore.Application.csproj" />
+    <ProjectReference Include="..\MotorcycleStore.Common\MotorcycleStore.Common.csproj" />
     <ProjectReference Include="..\MotorcycleStore.Domain\MotorcycleStore.Domain.csproj" />
+    <ProjectReference Include="..\MotorcycleStore.Infrastructure\MotorcycleStore.Infrastructure.csproj" />
   </ItemGroup>
 
+  <!-- FormReport requires FastReport DLLs (local paths were missing on disk). -->
   <ItemGroup>
-    <Reference Include="Designer">
-      <HintPath>..\..\..\Downloads\Designer (1).exe</HintPath>
-    </Reference>
-    <Reference Include="FastReport">
-      <HintPath>..\..\..\Downloads\FastReport.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Bars">
-      <HintPath>..\..\..\Downloads\FastReport.Bars.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Editor">
-      <HintPath>..\..\..\Downloads\FastReport.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Install">
-      <HintPath>..\..\..\Downloads\FastReport.Install.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.VSDesign">
-      <HintPath>..\..\..\Downloads\FastReport.VSDesign.dll</HintPath>
-    </Reference>
-    <Reference Include="FastReport.Web">
-      <HintPath>..\..\..\Downloads\FastReport.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="SerializeLibrary">
-      <HintPath>D:\Конструювання\SerializeLibrary\SerializeLibrary\bin\Debug\net8.0\SerializeLibrary.dll</HintPath>
-    </Reference>
+    <Compile Remove="FormReport.cs" />
+    <Compile Remove="FormReport.Designer.cs" />
+    <EmbeddedResource Remove="FormReport.resx" />
   </ItemGroup>
 
   <ItemGroup>
