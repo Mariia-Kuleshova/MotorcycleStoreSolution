@@ -1,7 +1,9 @@
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -28,61 +30,64 @@ export function CheckoutPage() {
   };
 
   return (
-    <Stack spacing={3} sx={{ maxWidth: 560 }}>
-      <Box>
-        <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 700 }}>
-          Оформлення замовлення
-        </Typography>
-        <Typography color="text.secondary">
-          Демо-форма. Дані не відправляються на сервер (mock).
-        </Typography>
-      </Box>
+    <Box sx={{ maxWidth: 520 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Оформлення замовлення
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+        Заповніть форму. Після підключення API заявка потрапить до системи менеджерів.
+      </Typography>
 
       {submitted ? (
-        <Alert severity="success">
-          Заявку прийнято (локально). Після підключення API замовлення збережеться в системі менеджерів.
-        </Alert>
+        <Alert severity="success">Дякуємо! Заявку збережено для перевірки інтерфейсу.</Alert>
       ) : (
-        <Box component="form" onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <TextField
-              select
-              label="Мотоцикл"
-              value={productId}
-              onChange={(e) => setProductId(Number(e.target.value))}
-              fullWidth
-              required
-            >
-              {mockProducts.map((p) => (
-                <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
-                  {p.brand} {p.name} — ${p.price.toLocaleString()}
-                </MenuItem>
-              ))}
-            </TextField>
+        <Paper sx={{ p: 3 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+            Дані покупця
+          </Typography>
+          <Divider sx={{ my: 1.5, mb: 2 }} />
 
-            {product && (
-              <Typography variant="body2" color="text.secondary">
-                Обрано: {product.brand} {product.name}, залишок: {product.inventory?.quantity ?? 0} шт.
-              </Typography>
-            )}
+          <Box component="form" onSubmit={handleSubmit}>
+            <Stack spacing={2}>
+              <TextField
+                select
+                label="Мотоцикл"
+                fullWidth
+                value={productId}
+                onChange={(e) => setProductId(Number(e.target.value))}
+                required
+              >
+                {mockProducts.map((p) => (
+                  <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
+                    {p.brand} {p.name} — ${p.price.toLocaleString()}
+                  </MenuItem>
+                ))}
+              </TextField>
 
-            <TextField label="ПІБ" value={name} onChange={(e) => setName(e.target.value)} required fullWidth />
-            <TextField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} required fullWidth />
-            <TextField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth />
-            <TextField
-              label="Коментар"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              multiline
-              rows={3}
-              fullWidth
-            />
-            <Button type="submit" variant="contained" size="large">
-              Надіслати заявку
-            </Button>
-          </Stack>
-        </Box>
+              {product && (
+                <Alert severity="info" variant="outlined">
+                  Обрано: {product.brand} {product.name}. На складі: {product.inventory?.quantity ?? 0} шт.
+                </Alert>
+              )}
+
+              <TextField label="ПІБ" fullWidth required value={name} onChange={(e) => setName(e.target.value)} />
+              <TextField label="Телефон" fullWidth required value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <TextField label="Email" type="email" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+              <TextField
+                label="Коментар"
+                fullWidth
+                multiline
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <Button type="submit" variant="contained" size="large" fullWidth>
+                Надіслати заявку
+              </Button>
+            </Stack>
+          </Box>
+        </Paper>
       )}
-    </Stack>
+    </Box>
   );
 }

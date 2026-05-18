@@ -7,15 +7,19 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
-        mt: 'auto',
-        py: 3,
-        borderTop: '1px solid #2a2a36',
-        bgcolor: '#1a1a24',
+        mt: 5,
+        py: 2.5,
+        bgcolor: '#1a1a22',
+        borderTop: 1,
+        borderColor: 'divider',
       }}
     >
       <Container maxWidth="lg">
         <Typography variant="body2" color="text.secondary" align="center">
-          © {new Date().getFullYear()} Motorcycle Store — дипломний проєкт. Усі права захищені.
+          MotoUA — веб-частина дипломного проєкту
+        </Typography>
+        <Typography variant="caption" color="text.secondary" align="center" sx={{ mt: 0.5, display: 'block' }}>
+          © {new Date().getFullYear()}
         </Typography>
       </Container>
     </Box>

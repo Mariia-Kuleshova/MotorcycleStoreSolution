@@ -6,7 +6,7 @@ import { Header } from './Header';
 
 export function AppLayout() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
       <Header />
       <Container component="main" maxWidth="lg" sx={{ flex: 1, py: 4 }}>
         <Outlet />

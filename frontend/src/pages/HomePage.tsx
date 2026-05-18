@@ -1,9 +1,11 @@
-import TwoWheelerIcon from '@mui/icons-material/TwoWheeler';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Link as RouterLink } from 'react-router-dom';
@@ -13,62 +15,69 @@ const featured = mockProducts.filter((p) => p.isAvailable).slice(0, 3);
 
 export function HomePage() {
   return (
-    <Stack spacing={5}>
-      <Box
+    <Stack spacing={4}>
+      <Paper
+        elevation={0}
         sx={{
-          textAlign: 'center',
-          py: { xs: 4, md: 6 },
-          px: 2,
-          borderRadius: 3,
-          background: 'linear-gradient(135deg, #1a1a24 0%, #2d1f1a 50%, #1a1a24 100%)',
-          border: '1px solid #2a2a36',
+          p: { xs: 3, md: 4 },
+          bgcolor: 'background.paper',
+          borderLeft: 4,
+          borderColor: 'primary.main',
+          borderRadius: 2,
         }}
       >
-        <TwoWheelerIcon sx={{ fontSize: 56, color: 'primary.main', mb: 2 }} />
-        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 700 }}>
-          Магазин мотоциклів
+        <Typography variant="h4" component="h1" gutterBottom>
+          Ласкаво просимо
         </Typography>
-        <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 560, mx: 'auto', mb: 3 }}>
-          Оберіть мотоцикл мрії — спорт, круїзер, adventure та інші категорії в одному каталозі.
+        <Typography sx={{ mb: 3, maxWidth: 600, opacity: 0.95 }}>
+          Оберіть мотоцикл у каталозі, перегляньте характеристики та залиште заявку на покупку або
+          консультацію з менеджером.
         </Typography>
-        <Stack direction="row" spacing={2} sx={{ justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Button component={RouterLink} to="/catalog" variant="contained" size="large">
+        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
+          <Button component={RouterLink} to="/catalog" variant="contained" color="primary">
             Перейти до каталогу
           </Button>
-          <Button component={RouterLink} to="/callback" variant="outlined" size="large">
-            Замовити дзвінок
+          <Button component={RouterLink} to="/callback" variant="outlined" color="primary">
+            Зворотний дзвінок
           </Button>
         </Stack>
-      </Box>
+      </Paper>
 
       <Box>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
+        <Typography variant="h6" gutterBottom>
           Популярні моделі
         </Typography>
         <Grid container spacing={2}>
           {featured.map((product) => (
             <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
-              <Card sx={{ height: '100%', bgcolor: 'background.paper' }}>
-                <CardContent>
-                  <Typography variant="overline" color="primary">
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Box
+                  sx={{
+                    height: 100,
+                    bgcolor: '#2a2a34',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Typography color="text.secondary" variant="body2">
                     {product.brand}
                   </Typography>
-                  <Typography variant="h6">{product.name}</Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    {product.category} · {product.modelYear}
+                </Box>
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Chip label={product.category} size="small" sx={{ mb: 1 }} />
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    {product.name}
                   </Typography>
-                  <Typography variant="h6" color="primary.main">
-                    ${product.price.toLocaleString()}
+                  <Typography variant="body2" color="text.secondary">
+                    {product.modelYear} р. · ${product.price.toLocaleString()}
                   </Typography>
-                  <Button
-                    component={RouterLink}
-                    to={`/catalog/${product.id}`}
-                    size="small"
-                    sx={{ mt: 1 }}
-                  >
+                </CardContent>
+                <CardActions>
+                  <Button component={RouterLink} to={`/catalog/${product.id}`} size="small">
                     Детальніше
                   </Button>
-                </CardContent>
+                </CardActions>
               </Card>
             </Grid>
           ))}
