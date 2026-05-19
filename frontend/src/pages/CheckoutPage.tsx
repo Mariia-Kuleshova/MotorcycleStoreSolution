@@ -1,28 +1,50 @@
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getMockProductById, mockProducts } from '../services/mockProducts';
+import { getApiErrorMessage } from '../services/apiClient';
+import { fetchProducts } from '../services/productService';
+import type { Product } from '../types/product';
 
 export function CheckoutPage() {
   const location = useLocation();
   const preselectedId = (location.state as { productId?: number } | null)?.productId;
 
-  const [productId, setProductId] = useState(preselectedId ?? mockProducts[0]?.id ?? 0);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [productId, setProductId] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const product = getMockProductById(productId);
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => {
+        setProducts(data);
+        if (preselectedId && data.some((p) => p.id === preselectedId)) {
+          setProductId(preselectedId);
+        } else {
+          const firstAvailable = data.find((p) => p.isAvailable);
+          if (firstAvailable) setProductId(firstAvailable.id);
+          else if (data.length > 0) setProductId(data[0].id);
+        }
+      })
+      .catch((err) => setError(getApiErrorMessage(err)))
+      .finally(() => setLoading(false));
+  }, [preselectedId]);
+
+  const product = products.find((p) => p.id === productId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,55 +60,66 @@ export function CheckoutPage() {
         Заповніть форму. Після підключення API заявка потрапить до системи менеджерів.
       </Typography>
 
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {error && <Alert severity="error">{error}</Alert>}
+
       {submitted ? (
         <Alert severity="success">Дякуємо! Заявку збережено для перевірки інтерфейсу.</Alert>
       ) : (
-        <Paper sx={{ p: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            Дані покупця
-          </Typography>
-          <Divider sx={{ my: 1.5, mb: 2 }} />
+        !loading &&
+        !error && (
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              Дані покупця
+            </Typography>
+            <Divider sx={{ my: 1.5, mb: 2 }} />
 
-          <Box component="form" onSubmit={handleSubmit}>
-            <Stack spacing={2}>
-              <TextField
-                select
-                label="Мотоцикл"
-                fullWidth
-                value={productId}
-                onChange={(e) => setProductId(Number(e.target.value))}
-                required
-              >
-                {mockProducts.map((p) => (
-                  <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
-                    {p.brand} {p.name} — ${p.price.toLocaleString()}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <Box component="form" onSubmit={handleSubmit}>
+              <Stack spacing={2}>
+                <TextField
+                  select
+                  label="Мотоцикл"
+                  fullWidth
+                  value={productId}
+                  onChange={(e) => setProductId(Number(e.target.value))}
+                  required
+                >
+                  {products.map((p) => (
+                    <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
+                      {p.brand} {p.name} — ${p.price.toLocaleString()}
+                    </MenuItem>
+                  ))}
+                </TextField>
 
-              {product && (
-                <Alert severity="info" variant="outlined">
-                  Обрано: {product.brand} {product.name}. На складі: {product.inventory?.quantity ?? 0} шт.
-                </Alert>
-              )}
+                {product && (
+                  <Alert severity="info" variant="outlined">
+                    Обрано: {product.brand} {product.name}. На складі: {product.inventory?.quantity ?? 0} шт.
+                  </Alert>
+                )}
 
-              <TextField label="ПІБ" fullWidth required value={name} onChange={(e) => setName(e.target.value)} />
-              <TextField label="Телефон" fullWidth required value={phone} onChange={(e) => setPhone(e.target.value)} />
-              <TextField label="Email" type="email" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
-              <TextField
-                label="Коментар"
-                fullWidth
-                multiline
-                rows={3}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <Button type="submit" variant="contained" size="large" fullWidth>
-                Надіслати заявку
-              </Button>
-            </Stack>
-          </Box>
-        </Paper>
+                <TextField label="ПІБ" fullWidth required value={name} onChange={(e) => setName(e.target.value)} />
+                <TextField label="Телефон" fullWidth required value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <TextField label="Email" type="email" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+                <TextField
+                  label="Коментар"
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <Button type="submit" variant="contained" size="large" fullWidth>
+                  Надіслати заявку
+                </Button>
+              </Stack>
+            </Box>
+          </Paper>
+        )
       )}
     </Box>
   );

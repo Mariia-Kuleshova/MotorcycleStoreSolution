@@ -1,23 +1,53 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { getMockProductById } from '../services/mockProducts';
+import { getApiErrorMessage } from '../services/apiClient';
+import { fetchProductById } from '../services/productService';
+import type { Product } from '../types/product';
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const product = getMockProductById(Number(id));
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!product) {
+  useEffect(() => {
+    const productId = Number(id);
+    if (Number.isNaN(productId)) {
+      setError('Невірний ідентифікатор мотоцикла.');
+      setLoading(false);
+      return;
+    }
+
+    fetchProductById(productId)
+      .then(setProduct)
+      .catch((err) => setError(getApiErrorMessage(err)))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error || !product) {
     return (
       <Paper sx={{ p: 3 }}>
         <Typography variant="h6" gutterBottom>
-          Мотоцикл не знайдено
+          {error ?? 'Мотоцикл не знайдено'}
         </Typography>
         <Button component={RouterLink} to="/catalog" startIcon={<ArrowBackIcon />}>
           До каталогу
