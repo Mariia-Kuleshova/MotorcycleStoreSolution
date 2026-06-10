@@ -93,6 +93,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 if (product != null)
                 {
                     ProductComboBox.Text = product.Name;
+                    VinTextBox.Text = product.VIN;
                     EmployeeComboBox.Text = _currentEmp.FirstName + " " + _currentEmp.LastName;
                     StatusComboBox.SelectedIndex = 0;
                     TotalAmountTextBox.Text = product.Price.ToString();
@@ -177,6 +178,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     var rowIndex = OrdersDataGridView.Rows.Add(
                         order.Id,
                         firstItem?.Product?.Name ?? "N/A",
+                        firstItem?.Product?.VIN ?? "N/A",
                         order.OrderDate.ToString("dd.MM.yyyy"),
                         order.TotalAmount.ToString("N2"),
                         statusText,
@@ -265,6 +267,13 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 {
                     MessageBox.Show("Продукт не знайдено!", "Помилка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(selectedProduct.VIN))
+                {
+                    MessageBox.Show("У обраного мотоцикла відсутній VIN-код!",
+                        "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -370,6 +379,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             PaymentMethodComboBox.SelectedIndex = 0;
             OrderDatePicker.Value = DateTime.Now;
             CommentsTextBox.Clear();
+            VinTextBox.Clear();
             TotalAmountTextBox.Text = "0.00";
             OrderIdLabel.Text = "";
         }
@@ -388,33 +398,35 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
         private void LoadOrderToFields(DataGridViewRow row)
         {
-            OrderIdLabel.Text = $"ID: {row.Cells[0].Value}";
+            OrderIdLabel.Text = $"ID: {GetCellValue(row, IdColumn.Name)}";
 
-            var customerName = row.Cells[5].Value?.ToString();
+            var customerName = GetCellValue(row, CustomerColumn.Name)?.ToString();
             for (int i = 0; i < CustomerComboBox.Items.Count; i++)
             {
                 var customer = CustomerComboBox.Items[i].ToString();
-                if (customer.Contains(customerName))
+                if (customer != null && customerName != null && customer.Contains(customerName))
                 {
                     CustomerComboBox.SelectedIndex = i;
                     break;
                 }
             }
 
-            var employeeName = row.Cells[6].Value?.ToString();
+            var employeeName = GetCellValue(row, EmployeeColumn.Name)?.ToString();
             for (int i = 0; i < EmployeeComboBox.Items.Count; i++)
             {
                 var employee = EmployeeComboBox.Items[i].ToString();
-                if (employee.Contains(employeeName))
+                if (employee != null && employeeName != null && employee.Contains(employeeName))
                 {
                     EmployeeComboBox.SelectedIndex = i;
                     break;
                 }
             }
 
-            ProductComboBox.Text = row.Cells[1].Value?.ToString();
+            ProductComboBox.Text = GetCellValue(row, OrderItemColumn.Name)?.ToString();
+            VinTextBox.Text = GetCellValue(row, VinColumn.Name)?.ToString() ?? string.Empty;
+
             if (DateTime.TryParseExact(
-                    row.Cells[2].Value?.ToString(),
+                    GetCellValue(row, OrderDateColumn.Name)?.ToString(),
                     "dd.MM.yyyy",
                     System.Globalization.CultureInfo.InvariantCulture,
                     System.Globalization.DateTimeStyles.None,
@@ -423,14 +435,19 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 OrderDatePicker.Value = orderDate;
             }
 
-            var statusDisplay = row.Cells[4].Value?.ToString() ?? "";
+            var statusDisplay = GetCellValue(row, StatusColumn.Name)?.ToString() ?? "";
             SetStatusComboValue(statusDisplay == "Нове (сайт)" ? "Очікується" : statusDisplay);
-            TotalAmountTextBox.Text = row.Cells[3].Value?.ToString() ?? "0.00";
-            SetPaymentMethodComboValue(row.Cells[7].Value?.ToString() ?? "");
-            CommentsTextBox.Text = row.Cells[8].Value?.ToString() ?? "";
-            _selectedOrderId = (int)row.Cells[0].Value;
+            TotalAmountTextBox.Text = GetCellValue(row, TotalAmountColumn.Name)?.ToString() ?? "0.00";
+            SetPaymentMethodComboValue(GetCellValue(row, PaymentMethodColumn.Name)?.ToString() ?? "");
+            CommentsTextBox.Text = GetCellValue(row, CommentsColumn.Name)?.ToString() ?? "";
+            _selectedOrderId = Convert.ToInt32(GetCellValue(row, IdColumn.Name));
 
             SetOrderIdentityFieldsReadOnly(true);
+        }
+
+        private object? GetCellValue(DataGridViewRow row, string columnName)
+        {
+            return row.Cells[OrdersDataGridView.Columns[columnName].Index].Value;
         }
 
         private void EnterOrderEditMode()
@@ -629,6 +646,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             if (prodInfo != null)
             {
                 TotalAmountTextBox.Text = prodInfo.Price.ToString();
+                VinTextBox.Text = prodInfo.VIN;
             }
         }
 

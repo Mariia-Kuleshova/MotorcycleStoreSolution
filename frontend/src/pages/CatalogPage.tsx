@@ -1,4 +1,3 @@
-import SearchIcon from '@mui/icons-material/Search';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,23 +7,23 @@ import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { defaultProductFilters, ProductFilters } from '../components/catalog/ProductFilters';
 import { ProductImage } from '../components/product/ProductImage';
 import { getApiErrorMessage } from '../services/apiClient';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
+import { filterProducts, getFilterOptions } from '../utils/filterProducts';
 
 export function CatalogPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState(defaultProductFilters);
 
   useEffect(() => {
     fetchProducts()
@@ -33,17 +32,8 @@ export function CatalogPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.brand.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        p.vin.toLowerCase().includes(q),
-    );
-  }, [search, products]);
+  const { brands, categories } = useMemo(() => getFilterOptions(products), [products]);
+  const filtered = useMemo(() => filterProducts(products, filters), [filters, products]);
 
   return (
     <Stack spacing={3}>
@@ -56,25 +46,14 @@ export function CatalogPage() {
         </Typography>
       </Box>
 
-      <Paper sx={{ p: 2 }}>
-        <TextField
-          label="Пошук за назвою, брендом, категорією або VIN"
-          fullWidth
-          size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          disabled={loading}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="action" />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-      </Paper>
+      <ProductFilters
+        filters={filters}
+        brands={brands}
+        categories={categories}
+        disabled={loading}
+        onChange={setFilters}
+        onReset={() => setFilters(defaultProductFilters)}
+      />
 
       {loading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
@@ -97,6 +76,7 @@ export function CatalogPage() {
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
+                    <Chip label={product.brand} size="small" variant="outlined" />
                     <Chip label={product.category} size="small" color="primary" variant="outlined" />
                     <Chip
                       label={product.isAvailable ? 'В наявності' : 'Немає'}
@@ -128,7 +108,7 @@ export function CatalogPage() {
 
       {!loading && !error && filtered.length === 0 && (
         <Paper sx={{ p: 3, textAlign: 'center' }}>
-          <Typography color="text.secondary">За вашим запитом нічого не знайдено.</Typography>
+          <Typography color="text.secondary">За обраними фільтрами нічого не знайдено.</Typography>
         </Paper>
       )}
     </Stack>

@@ -97,8 +97,6 @@ export function ProductDetailPage() {
 
             <Stack spacing={0.75}>
               <Typography><strong>Рік:</strong> {product.modelYear}</Typography>
-              <Typography><strong>VIN:</strong> {product.vin}</Typography>
-              <Typography><strong>Постачальник:</strong> {product.supplierName}</Typography>
               {product.description && (
                 <Typography sx={{ mt: 1 }}>
                   <strong>Опис:</strong> {product.description}

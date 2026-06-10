@@ -28,6 +28,7 @@
             OrdersDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
             IdColumn = new DataGridViewTextBoxColumn();
             OrderItemColumn = new DataGridViewTextBoxColumn();
+            VinColumn = new DataGridViewTextBoxColumn();
             OrderDateColumn = new DataGridViewTextBoxColumn();
             TotalAmountColumn = new DataGridViewTextBoxColumn();
             StatusColumn = new DataGridViewTextBoxColumn();
@@ -58,6 +59,8 @@
             label2 = new Label();
             ProductComboBox = new ComboBox();
             label1 = new Label();
+            labelVin = new Label();
+            VinTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)OrdersDataGridView).BeginInit();
             OrderContextMenuStrip.SuspendLayout();
             SuspendLayout();
@@ -81,7 +84,7 @@
             OrdersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             OrdersDataGridView.ColumnHeadersHeight = 27;
             OrdersDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, OrderItemColumn, OrderDateColumn, TotalAmountColumn, StatusColumn, CustomerColumn, EmployeeColumn, PaymentMethodColumn, CommentsColumn });
+            OrdersDataGridView.Columns.AddRange(new DataGridViewColumn[] { IdColumn, OrderItemColumn, VinColumn, OrderDateColumn, TotalAmountColumn, StatusColumn, CustomerColumn, EmployeeColumn, PaymentMethodColumn, CommentsColumn });
             OrdersDataGridView.ContextMenuStrip = OrderContextMenuStrip;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
@@ -120,7 +123,7 @@
             OrdersDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             OrdersDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
             
-            IdColumn.HeaderText = "ID";
+            IdColumn.HeaderText = "№ замовлення";
             IdColumn.MinimumWidth = 6;
             IdColumn.Name = "IdColumn";
             IdColumn.ReadOnly = true;
@@ -128,6 +131,12 @@
             OrderItemColumn.HeaderText = "Продукт";
             OrderItemColumn.MinimumWidth = 6;
             OrderItemColumn.Name = "OrderItemColumn";
+
+            VinColumn.HeaderText = "VIN";
+            VinColumn.MinimumWidth = 6;
+            VinColumn.Name = "VinColumn";
+            VinColumn.ReadOnly = true;
+            VinColumn.Width = 140;
           
             OrderDateColumn.HeaderText = "Дата";
             OrderDateColumn.MinimumWidth = 6;
@@ -322,9 +331,26 @@
             label1.Size = new Size(97, 25);
             label1.TabIndex = 51;
             label1.Text = "Продукт";
+
+            labelVin.AutoSize = true;
+            labelVin.Location = new Point(19, 100);
+            labelVin.Name = "labelVin";
+            labelVin.Size = new Size(48, 25);
+            labelVin.TabIndex = 53;
+            labelVin.Text = "VIN";
+
+            VinTextBox.BackColor = Color.FromArgb(245, 245, 245);
+            VinTextBox.BorderStyle = BorderStyle.FixedSingle;
+            VinTextBox.Location = new Point(20, 128);
+            VinTextBox.Name = "VinTextBox";
+            VinTextBox.ReadOnly = true;
+            VinTextBox.Size = new Size(311, 32);
+            VinTextBox.TabIndex = 54;
            
             AutoScaleDimensions = new SizeF(13F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(VinTextBox);
+            Controls.Add(labelVin);
             Controls.Add(ProductComboBox);
             Controls.Add(label1);
             Controls.Add(OrderIdLabel);
@@ -382,6 +408,7 @@
         private ToolStripMenuItem DeleteStripMenuItem1;
         private DataGridViewTextBoxColumn IdColumn;
         private DataGridViewTextBoxColumn OrderItemColumn;
+        private DataGridViewTextBoxColumn VinColumn;
         private DataGridViewTextBoxColumn OrderDateColumn;
         private DataGridViewTextBoxColumn TotalAmountColumn;
         private DataGridViewTextBoxColumn StatusColumn;
@@ -391,6 +418,8 @@
         private DataGridViewTextBoxColumn CommentsColumn;
         private ComboBox ProductComboBox;
         private Label label1;
+        private Label labelVin;
+        private TextBox VinTextBox;
         private ToolStripMenuItem ReceiptToolStripMenuItem;
     }
 }
