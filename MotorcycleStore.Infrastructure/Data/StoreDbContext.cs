@@ -22,6 +22,7 @@ namespace MotorcycleStore.Infrastructure.Data
         public DbSet<Inventory> Inventories { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItem> OrderItems { get; set; } = null!;
+        public DbSet<CallbackRequest> CallbackRequests { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

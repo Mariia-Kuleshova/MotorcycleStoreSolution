@@ -27,6 +27,8 @@ builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<CallbackRequestRepository>();
+builder.Services.AddTransient<ICallbackRequestService, CallbackRequestService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

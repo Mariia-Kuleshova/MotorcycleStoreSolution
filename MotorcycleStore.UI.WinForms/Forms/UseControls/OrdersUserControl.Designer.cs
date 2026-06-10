@@ -333,7 +333,7 @@
             label1.Text = "Продукт";
 
             labelVin.AutoSize = true;
-            labelVin.Location = new Point(19, 100);
+            labelVin.Location = new Point(19, 117);
             labelVin.Name = "labelVin";
             labelVin.Size = new Size(48, 25);
             labelVin.TabIndex = 53;
@@ -341,10 +341,10 @@
 
             VinTextBox.BackColor = Color.FromArgb(245, 245, 245);
             VinTextBox.BorderStyle = BorderStyle.FixedSingle;
-            VinTextBox.Location = new Point(20, 128);
+            VinTextBox.Location = new Point(20, 145);
             VinTextBox.Name = "VinTextBox";
             VinTextBox.ReadOnly = true;
-            VinTextBox.Size = new Size(311, 32);
+            VinTextBox.Size = new Size(170, 25);
             VinTextBox.TabIndex = 54;
            
             AutoScaleDimensions = new SizeF(13F, 25F);

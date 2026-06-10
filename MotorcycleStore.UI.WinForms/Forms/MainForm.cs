@@ -3,13 +3,8 @@ using MotorcycleStore.Domain.Models;
 using MotorcycleStore.UI.WinForms.Forms.UseControls;
 using MotorcycleStore.UI.WinForms.Services;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MotorcycleStore.UI.WinForms.Forms
@@ -17,12 +12,14 @@ namespace MotorcycleStore.UI.WinForms.Forms
     public partial class MainForm : Form
     {
         private readonly IProductService _productService;
-        private Product _currentProduct;
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IEmployeeService _employeeService;
         private readonly ProductImageApiClient _productImageApiClient;
-        private Employee _employee;
+        private readonly ICallbackRequestService _callbackRequestService;
+        private readonly Employee _employee;
+
+        private Label? _callbacksMenuLabel;
 
         public MainForm(
             IProductService productService,
@@ -30,6 +27,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
             ICustomerService customerService,
             IEmployeeService employeeService,
             ProductImageApiClient productImageApiClient,
+            ICallbackRequestService callbackRequestService,
             Employee employee)
         {
             _productService = productService;
@@ -37,8 +35,49 @@ namespace MotorcycleStore.UI.WinForms.Forms
             _customerService = customerService;
             _employeeService = employeeService;
             _productImageApiClient = productImageApiClient;
+            _callbackRequestService = callbackRequestService;
             _employee = employee;
             InitializeComponent();
+            SetupCallbacksMenuItem();
+        }
+
+        /// <summary>
+        /// Нові пункти меню додаємо тут, а не в Designer — інакше VS на 150% DPI ламає AutoScaleDimensions.
+        /// </summary>
+        private void SetupCallbacksMenuItem()
+        {
+            var resources = new ComponentResourceManager(typeof(MainForm));
+
+            var icon = new PictureBox
+            {
+                Cursor = Cursors.Hand,
+                Location = new Point(30, 790),
+                Size = new Size(80, 70),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                TabStop = false
+            };
+
+            var menuImage = resources.GetObject("pictureBox1.Image") as Image;
+            if (menuImage is not null)
+                icon.Image = menuImage;
+
+            icon.Click += CallbacksMenuLabel_Click;
+
+            _callbacksMenuLabel = new Label
+            {
+                AutoSize = true,
+                Cursor = Cursors.Hand,
+                ForeColor = Color.White,
+                Location = new Point(140, 790),
+                Text = "Дзвінки",
+                Font = new Font("Verdana", 12F, FontStyle.Regular, GraphicsUnit.Point, 204)
+            };
+            _callbacksMenuLabel.Click += CallbacksMenuLabel_Click;
+
+            menuPanel.Controls.Add(icon);
+            menuPanel.Controls.Add(_callbacksMenuLabel);
+            icon.BringToFront();
+            _callbacksMenuLabel.BringToFront();
         }
 
         private void ProductsMenuLabel_Click(object sender, EventArgs e)
@@ -64,7 +103,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
         private void LoadOrderControl(int id)
         {
-            HighlightMenu((Control)OrdersMenuLabel);
+            HighlightMenu(OrdersMenuLabel);
             var orderControl = new OrdersUserControl(id, _employee, _orderService, _customerService, _employeeService, _productService);
             contentPanel1.Controls.Clear();
             contentPanel1.Controls.Add(orderControl);
@@ -74,6 +113,12 @@ namespace MotorcycleStore.UI.WinForms.Forms
         {
             HighlightMenu((Control)sender);
             LoadControl(new OrdersUserControl(_employee, _orderService, _customerService, _employeeService, _productService));
+        }
+
+        private void CallbacksMenuLabel_Click(object sender, EventArgs e)
+        {
+            HighlightMenu(_callbacksMenuLabel!);
+            LoadControl(new CallbacksUserControl(_callbackRequestService));
         }
 
         private void CustomersMenuLabel_Click(object sender, EventArgs e)
@@ -90,12 +135,12 @@ namespace MotorcycleStore.UI.WinForms.Forms
 
         private void ExitLable_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
 
             var loginForm = new LoginForm(_employeeService);
             loginForm.Show();
 
-            loginForm.FormClosed += (s, args) => this.Close();
+            loginForm.FormClosed += (s, args) => Close();
         }
 
         private void XLabel_Click(object sender, EventArgs e)
@@ -107,7 +152,8 @@ namespace MotorcycleStore.UI.WinForms.Forms
         {
             foreach (Control ctrl in menuPanel.Controls)
             {
-                ctrl.ForeColor = Color.White;
+                if (ctrl is Label)
+                    ctrl.ForeColor = Color.White;
             }
 
             selected.ForeColor = Color.DarkGreen;

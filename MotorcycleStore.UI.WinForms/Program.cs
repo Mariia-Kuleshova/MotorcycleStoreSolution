@@ -44,9 +44,11 @@ namespace MotorcycleStore.UI.WinForms
                     services.AddTransient<ProductRepository>();
                     services.AddTransient<OrderRepository>();
                     services.AddTransient<InventoryRepository>();
+                    services.AddTransient<CallbackRequestRepository>();
 
                     
                     services.AddTransient<ICustomerService, CustomerService>();
+                    services.AddTransient<ICallbackRequestService, CallbackRequestService>();
                     services.AddTransient<ISupplierService, SupplierService>();
                     services.AddTransient<IEmployeeService, EmployeeService>();
                     services.AddTransient<IOrderService, OrderService>();

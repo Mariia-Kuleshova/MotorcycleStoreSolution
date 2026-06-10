@@ -175,6 +175,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                             Program.ServiceProvider.GetRequiredService<ICustomerService>(),
                             Program.ServiceProvider.GetRequiredService<IEmployeeService>(),
                             Program.ServiceProvider.GetRequiredService<ProductImageApiClient>(),
+                            Program.ServiceProvider.GetRequiredService<ICallbackRequestService>(),
                             _currentEmployee
                         );
                         mainForm.Show();
