@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { ProductImage } from '../components/product/ProductImage';
 import { getApiErrorMessage } from '../services/apiClient';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
@@ -81,19 +82,12 @@ export function HomePage() {
             {featured.map((product) => (
               <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
                 <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <Box
-                    sx={{
-                      height: 100,
-                      bgcolor: '#2a2a34',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Typography color="text.secondary" variant="body2">
-                      {product.brand}
-                    </Typography>
-                  </Box>
+                  <ProductImage
+                    imageUrl={product.imageUrl}
+                    alt={`${product.brand} ${product.name}`}
+                    fallbackLabel={product.brand}
+                    height={100}
+                  />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Chip label={product.category} size="small" sx={{ mb: 1 }} />
                     <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>

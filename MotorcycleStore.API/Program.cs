@@ -20,7 +20,13 @@ builder.Services.AddDbContextFactory<StoreDbContext>(options =>
 
 builder.Services.AddTransient<InventoryRepository>();
 builder.Services.AddTransient<ProductRepository>();
+builder.Services.AddTransient<CustomerRepository>();
+builder.Services.AddTransient<EmployeeRepository>();
+builder.Services.AddTransient<OrderRepository>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -41,6 +47,10 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
+var webRoot = Path.Combine(builder.Environment.ContentRootPath, "wwwroot");
+var productImagesPath = Path.Combine(webRoot, "images", "products");
+Directory.CreateDirectory(productImagesPath);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -50,6 +60,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("Frontend");
+
+app.UseStaticFiles();
 
 // У Development не редіректимо на HTTPS — інакше браузер з localhost:5173 отримує CORS/мережеву помилку
 if (!app.Environment.IsDevelopment())

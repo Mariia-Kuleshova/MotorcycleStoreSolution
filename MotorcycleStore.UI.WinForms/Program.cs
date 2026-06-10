@@ -55,6 +55,7 @@ namespace MotorcycleStore.UI.WinForms
                     services.AddTransient<OrderItemService>(); 
 
                     services.AddSingleton<NavigationService>();
+                    services.AddSingleton<ProductImageApiClient>();
 
                    
                     services.AddTransient<ReceiptGenerator>();

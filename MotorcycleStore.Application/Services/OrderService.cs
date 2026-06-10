@@ -68,14 +68,25 @@ namespace MotorcycleStore.Application.Services
             return true;
         }
 
+        public async Task<bool> UpdateAsync(Order order)
+        {
+            return await _orderRepository.UpdateFieldsAsync(
+                order.Id,
+                order.Status,
+                order.PaymentMethod,
+                order.Comments);
+        }
+
         public async Task<bool> UpdateStatusAsync(int orderId, OrderStatus newStatus)
         {
             var order = await _orderRepository.GetByIdAsync(orderId);
             if (order == null) return false;
 
-            order.Status = newStatus;
-            await _orderRepository.UpdateAsync(order);
-            return true;
+            return await _orderRepository.UpdateFieldsAsync(
+                orderId,
+                newStatus,
+                order.PaymentMethod,
+                order.Comments);
         }
 
         public async Task<decimal> CalculateTotalAsync(int orderId)

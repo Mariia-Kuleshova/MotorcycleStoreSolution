@@ -1,6 +1,7 @@
 ﻿using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Domain.Models;
 using MotorcycleStore.UI.WinForms.Forms.UseControls;
+using MotorcycleStore.UI.WinForms.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
         private readonly IOrderService _orderService;
         private readonly ICustomerService _customerService;
         private readonly IEmployeeService _employeeService;
+        private readonly ProductImageApiClient _productImageApiClient;
         private Employee _employee;
 
         public MainForm(
@@ -27,12 +29,14 @@ namespace MotorcycleStore.UI.WinForms.Forms
             IOrderService orderService,
             ICustomerService customerService,
             IEmployeeService employeeService,
+            ProductImageApiClient productImageApiClient,
             Employee employee)
         {
             _productService = productService;
             _orderService = orderService;
             _customerService = customerService;
             _employeeService = employeeService;
+            _productImageApiClient = productImageApiClient;
             _employee = employee;
             InitializeComponent();
         }
@@ -41,7 +45,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
         {
             HighlightMenu((Control)sender);
 
-            var productsControl = new ProductsUserControl(_productService);
+            var productsControl = new ProductsUserControl(_productService, _productImageApiClient);
 
             productsControl.OnCreateOrder += productId =>
             {

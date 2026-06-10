@@ -10,6 +10,7 @@ namespace MotorcycleStore.Application.Interfaces
         Task<IEnumerable<Order>> GetAllAsync();
         Task<Order?> GetByIdAsync(int id);
         Task<bool> CreateOrderAsync(Order order);
+        Task<bool> UpdateAsync(Order order);
         Task<bool> UpdateStatusAsync(int orderId, OrderStatus newStatus);
         Task<decimal> CalculateTotalAsync(int orderId);
         Task DeleteAsync(int id);

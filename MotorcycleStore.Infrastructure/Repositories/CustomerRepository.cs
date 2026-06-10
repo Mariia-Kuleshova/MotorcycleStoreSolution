@@ -31,6 +31,13 @@ namespace MotorcycleStore.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<Customer?> GetByPhoneAsync(string phone)
+        {
+            using var _context = _contextFactory.CreateDbContext();
+            return await _context.Customers
+                .FirstOrDefaultAsync(c => c.Phone == phone);
+        }
+
         public async Task AddAsync(Customer customer)
         {
             using var _context = _contextFactory.CreateDbContext();

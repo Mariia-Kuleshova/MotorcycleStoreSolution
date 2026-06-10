@@ -10,3 +10,7 @@
 # Build results
 bin/
 obj/
+
+# Uploaded product images (keep folder structure)
+MotorcycleStore.API/wwwroot/images/products/*
+!MotorcycleStore.API/wwwroot/images/products/.gitkeep

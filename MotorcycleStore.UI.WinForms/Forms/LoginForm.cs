@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Domain.Models;
+using MotorcycleStore.UI.WinForms.Services;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -173,6 +174,7 @@ namespace MotorcycleStore.UI.WinForms.Forms
                             Program.ServiceProvider.GetRequiredService<IOrderService>(),
                             Program.ServiceProvider.GetRequiredService<ICustomerService>(),
                             Program.ServiceProvider.GetRequiredService<IEmployeeService>(),
+                            Program.ServiceProvider.GetRequiredService<ProductImageApiClient>(),
                             _currentEmployee
                         );
                         mainForm.Show();

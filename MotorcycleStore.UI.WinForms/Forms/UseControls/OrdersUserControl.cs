@@ -1,4 +1,5 @@
 ﻿using MotorcycleStore.Application.Interfaces;
+using MotorcycleStore.Common;
 using MotorcycleStore.UI.WinForms.Services;
 using MotorcycleStore.Domain.Enums;
 using MotorcycleStore.Domain.Models;
@@ -158,23 +159,48 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         {
             try
             {
-                var orders = await _orderService.GetAllAsync();
+                var orders = (await _orderService.GetAllAsync())
+                    .OrderByDescending(o =>
+                        o.PaymentMethod == WebOrderConstants.PaymentMethod && o.Status == OrderStatus.Pending)
+                    .ThenByDescending(o => o.OrderDate);
+
                 OrdersDataGridView.Rows.Clear();
 
                 foreach (var order in orders)
                 {
                     var firstItem = order.OrderItems.FirstOrDefault();
-                    OrdersDataGridView.Rows.Add(
+                    var isWebOrder = order.PaymentMethod == WebOrderConstants.PaymentMethod;
+                    var statusText = isWebOrder && order.Status == OrderStatus.Pending
+                        ? "Нове (сайт)"
+                        : GetStatusText(order.Status);
+
+                    var rowIndex = OrdersDataGridView.Rows.Add(
                         order.Id,
                         firstItem?.Product?.Name ?? "N/A",
                         order.OrderDate.ToString("dd.MM.yyyy"),
                         order.TotalAmount.ToString("N2"),
-                        GetStatusText(order.Status),
-                        order.Customer?.LastName ?? "N/A",
+                        statusText,
+                        $"{order.Customer?.FirstName} {order.Customer?.LastName}".Trim(),
                         order.Employee?.LastName ?? "N/A",
                         order.PaymentMethod,
                         order.Comments
                     );
+
+                    var row = OrdersDataGridView.Rows[rowIndex];
+                    if (isWebOrder && order.Status == OrderStatus.Pending)
+                    {
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(255, 237, 213);
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(154, 52, 18);
+                        row.DefaultCellStyle.SelectionBackColor = Color.FromArgb(254, 215, 170);
+                        row.DefaultCellStyle.SelectionForeColor = Color.FromArgb(124, 45, 18);
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(71, 69, 94);
+                        row.DefaultCellStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
+                        row.DefaultCellStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+                    }
                 }
             }
             catch (Exception ex)
@@ -200,7 +226,8 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             PaymentMethodComboBox.Items.AddRange(new object[]
             {
                 "Готівка",
-                "Картка"
+                "Картка",
+                WebOrderConstants.PaymentMethod
             });
             PaymentMethodComboBox.SelectedIndex = -1;
 
@@ -284,11 +311,32 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     return;
                 }
 
-                order.Status = GetStatusFromText(StatusComboBox.Text);
-                order.PaymentMethod = PaymentMethodComboBox.Text;
-                order.Comments = CommentsTextBox.Text;
+                if (string.IsNullOrWhiteSpace(StatusComboBox.Text))
+                {
+                    MessageBox.Show("Виберіть статус замовлення!",
+                        "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                await _orderService.UpdateStatusAsync(order.Id, order.Status);
+                if (string.IsNullOrWhiteSpace(PaymentMethodComboBox.Text))
+                {
+                    MessageBox.Show("Виберіть спосіб оплати!",
+                        "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                order.Status = GetStatusFromCombo();
+                order.PaymentMethod = PaymentMethodComboBox.Text.Trim();
+                order.Comments = CommentsTextBox.Text.Trim();
+
+                var updated = await _orderService.UpdateAsync(order);
+                if (!updated)
+                {
+                    MessageBox.Show("Не вдалося зберегти замовлення!",
+                        "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 MessageBox.Show("Замовлення успішно оновлено!",
                     "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -334,6 +382,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 _selectedOrderId = Convert.ToInt32(row.Cells[0].Value);
 
                 LoadOrderToFields(row);
+                EnterOrderEditMode();
             }
         }
 
@@ -364,33 +413,74 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
 
             ProductComboBox.Text = row.Cells[1].Value?.ToString();
-            OrderDatePicker.Value = DateTime.Parse(row.Cells[2].Value.ToString());
-            StatusComboBox.Text = row.Cells[4].Value?.ToString() ?? "";
+            if (DateTime.TryParseExact(
+                    row.Cells[2].Value?.ToString(),
+                    "dd.MM.yyyy",
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None,
+                    out var orderDate))
+            {
+                OrderDatePicker.Value = orderDate;
+            }
+
+            var statusDisplay = row.Cells[4].Value?.ToString() ?? "";
+            SetStatusComboValue(statusDisplay == "Нове (сайт)" ? "Очікується" : statusDisplay);
             TotalAmountTextBox.Text = row.Cells[3].Value?.ToString() ?? "0.00";
-            PaymentMethodComboBox.Text = row.Cells[7].Value?.ToString() ?? "";
+            SetPaymentMethodComboValue(row.Cells[7].Value?.ToString() ?? "");
             CommentsTextBox.Text = row.Cells[8].Value?.ToString() ?? "";
             _selectedOrderId = (int)row.Cells[0].Value;
 
-            SetComboboxAsNotEnabled();
+            SetOrderIdentityFieldsReadOnly(true);
         }
 
-        private void SetComboboxAsNotEnabled()
+        private void EnterOrderEditMode()
         {
-            ProductComboBox.Enabled = false;
-            OrderDatePicker.Enabled = false;
-            TotalAmountTextBox.Enabled = false;
-            CommentsTextBox.Enabled = false;
-            EmployeeComboBox.Enabled = false;
-            CustomerComboBox.Enabled = false;
+            StatusComboBox.Enabled = true;
+            PaymentMethodComboBox.Enabled = true;
+            CommentsTextBox.Enabled = true;
+            AddButton.Enabled = false;
+            SaveButton.Enabled = true;
+        }
+
+        private void SetOrderIdentityFieldsReadOnly(bool readOnly)
+        {
+            ProductComboBox.Enabled = !readOnly;
+            OrderDatePicker.Enabled = !readOnly;
+            TotalAmountTextBox.Enabled = !readOnly;
+            EmployeeComboBox.Enabled = !readOnly;
+            CustomerComboBox.Enabled = !readOnly;
         }
 
         private void SetComboboxAsEnabled()
         {
-            ProductComboBox.Enabled = true;
-            OrderDatePicker.Enabled = true;
-            TotalAmountTextBox.Enabled = true;
-            EmployeeComboBox.Enabled = true;
-            CustomerComboBox.Enabled = true;
+            SetOrderIdentityFieldsReadOnly(false);
+            StatusComboBox.Enabled = true;
+            PaymentMethodComboBox.Enabled = true;
+            CommentsTextBox.Enabled = true;
+        }
+
+        private void SetStatusComboValue(string status)
+        {
+            var index = StatusComboBox.Items.IndexOf(status);
+            if (index >= 0)
+                StatusComboBox.SelectedIndex = index;
+            else
+                StatusComboBox.Text = status;
+        }
+
+        private void SetPaymentMethodComboValue(string paymentMethod)
+        {
+            if (string.IsNullOrWhiteSpace(paymentMethod))
+            {
+                PaymentMethodComboBox.SelectedIndex = -1;
+                PaymentMethodComboBox.Text = string.Empty;
+                return;
+            }
+
+            if (!PaymentMethodComboBox.Items.Contains(paymentMethod))
+                PaymentMethodComboBox.Items.Add(paymentMethod);
+
+            PaymentMethodComboBox.Text = paymentMethod;
         }
 
         private void ViewDetailsButton_Click(object sender, EventArgs e)
@@ -498,11 +588,18 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             };
         }
 
+        private OrderStatus GetStatusFromCombo()
+        {
+            var text = StatusComboBox.SelectedItem?.ToString() ?? StatusComboBox.Text;
+            return GetStatusFromText(text);
+        }
+
         private OrderStatus GetStatusFromText(string text)
         {
             return text switch
             {
                 "Очікується" => OrderStatus.Pending,
+                "В обробці" => OrderStatus.Pending,
                 "Виконано" => OrderStatus.Completed,
                 "Скасовано" => OrderStatus.Cancelled,
                 _ => OrderStatus.Pending
@@ -511,9 +608,11 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
         private void EditStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (OrdersDataGridView.CurrentRow is null)
+                return;
+
             LoadOrderToFields(OrdersDataGridView.CurrentRow);
-            AddButton.Enabled = false;
-            SaveButton.Enabled = true;
+            EnterOrderEditMode();
         }
 
         private async void ProductComboBox_SelectedIndexChanged(object sender, EventArgs e)

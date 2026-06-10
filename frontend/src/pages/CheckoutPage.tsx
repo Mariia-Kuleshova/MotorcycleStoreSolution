@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getApiErrorMessage } from '../services/apiClient';
+import { createWebOrder } from '../services/orderService';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
 
@@ -21,12 +22,13 @@ export function CheckoutPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [productId, setProductId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [comment, setComment] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchProducts()
@@ -46,9 +48,25 @@ export function CheckoutPage() {
 
   const product = products.find((p) => p.id === productId);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setSubmitting(true);
+
+    try {
+      const result = await createWebOrder({
+        productId,
+        customerName: name.trim(),
+        phone: phone.trim(),
+        email: email.trim() || undefined,
+        comment: comment.trim() || undefined,
+      });
+      setOrderId(result.orderId);
+    } catch (err) {
+      setError(getApiErrorMessage(err));
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -57,7 +75,7 @@ export function CheckoutPage() {
         Оформлення замовлення
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Заповніть форму. Після підключення API заявка потрапить до системи менеджерів.
+        Заповніть форму — заявка одразу потрапить до менеджерів у десктопній програмі.
       </Typography>
 
       {loading && (
@@ -66,13 +84,18 @@ export function CheckoutPage() {
         </Box>
       )}
 
-      {error && <Alert severity="error">{error}</Alert>}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-      {submitted ? (
-        <Alert severity="success">Дякуємо! Заявку збережено для перевірки інтерфейсу.</Alert>
+      {orderId !== null ? (
+        <Alert severity="success">
+          Дякуємо! Заявку №{orderId} прийнято. Менеджер зв&apos;яжеться з вами найближчим часом.
+        </Alert>
       ) : (
-        !loading &&
-        !error && (
+        !loading && (
           <Paper sx={{ p: 3 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
               Дані покупця
@@ -88,6 +111,7 @@ export function CheckoutPage() {
                   value={productId}
                   onChange={(e) => setProductId(Number(e.target.value))}
                   required
+                  disabled={submitting}
                 >
                   {products.map((p) => (
                     <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
@@ -102,9 +126,30 @@ export function CheckoutPage() {
                   </Alert>
                 )}
 
-                <TextField label="ПІБ" fullWidth required value={name} onChange={(e) => setName(e.target.value)} />
-                <TextField label="Телефон" fullWidth required value={phone} onChange={(e) => setPhone(e.target.value)} />
-                <TextField label="Email" type="email" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+                <TextField
+                  label="ПІБ"
+                  fullWidth
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={submitting}
+                />
+                <TextField
+                  label="Телефон"
+                  fullWidth
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  disabled={submitting}
+                />
+                <TextField
+                  label="Email"
+                  type="email"
+                  fullWidth
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={submitting}
+                />
                 <TextField
                   label="Коментар"
                   fullWidth
@@ -112,9 +157,16 @@ export function CheckoutPage() {
                   rows={3}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
+                  disabled={submitting}
                 />
-                <Button type="submit" variant="contained" size="large" fullWidth>
-                  Надіслати заявку
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  disabled={submitting || !productId}
+                >
+                  {submitting ? 'Надсилання…' : 'Надіслати заявку'}
                 </Button>
               </Stack>
             </Box>

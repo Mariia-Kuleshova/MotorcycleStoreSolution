@@ -10,7 +10,14 @@ export const apiClient = axios.create({
 
 export function getApiErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
+    if (error.response?.status === 502) {
+      return 'API не запущено на порту 5100. У другому терміналі: dotnet run --project MotorcycleStore.API --launch-profile http';
+    }
     if (error.response) {
+      const data = error.response.data as { message?: string } | string | undefined;
+      if (data && typeof data === 'object' && data.message) {
+        return data.message;
+      }
       return `Сервер відповів з помилкою ${error.response.status}. Перевірте MySQL і лог API.`;
     }
     if (error.code === 'ERR_NETWORK') {

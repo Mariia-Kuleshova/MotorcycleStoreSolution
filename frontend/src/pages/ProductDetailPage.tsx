@@ -1,5 +1,4 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
@@ -11,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
+import { ProductImageGallery } from '../components/product/ProductImageGallery';
 import { getApiErrorMessage } from '../services/apiClient';
 import { fetchProductById } from '../services/productService';
 import type { Product } from '../types/product';
@@ -66,23 +66,13 @@ export function ProductDetailPage() {
 
       <Grid container spacing={3}>
         <Grid size={{ xs: 12, md: 5 }}>
-          <Paper
-            variant="outlined"
-            sx={{
-              height: { xs: 200, md: 280 },
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: '#2a2a34',
-            }}
-          >
-            <Typography color="text.secondary" align="center">
-              {product.brand}
-              <br />
-              <Typography component="span" variant="caption">
-                (зображення буде пізніше)
-              </Typography>
-            </Typography>
+          <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
+            <ProductImageGallery
+              imageUrl={product.imageUrl}
+              alt={`${product.brand} ${product.name}`}
+              fallbackLabel={product.brand}
+              mainHeight={{ xs: 200, md: 280 }}
+            />
           </Paper>
         </Grid>
 

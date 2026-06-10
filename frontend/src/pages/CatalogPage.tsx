@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useEffect, useMemo, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { ProductImage } from '../components/product/ProductImage';
 import { getApiErrorMessage } from '../services/apiClient';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
@@ -88,21 +89,12 @@ export function CatalogPage() {
           {filtered.map((product) => (
             <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Box
-                  sx={{
-                    height: 88,
-                    bgcolor: '#2a2a34',
-                    borderBottom: 1,
-                    borderColor: 'divider',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Typography variant="h6" color="text.secondary">
-                    {product.brand}
-                  </Typography>
-                </Box>
+                <ProductImage
+                  imageUrl={product.imageUrl}
+                  alt={`${product.brand} ${product.name}`}
+                  fallbackLabel={product.brand}
+                  height={88}
+                />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
                     <Chip label={product.category} size="small" color="primary" variant="outlined" />

@@ -55,6 +55,7 @@
             SupplierColumn = new DataGridViewTextBoxColumn();
             CommentColumn = new DataGridViewTextBoxColumn();
             CreateOrderButton = new Button();
+            UploadImageButton = new Button();
             SupplierTextBox = new TextBox();
             ProductContextMenuStrip = new ContextMenuStrip(components);
             EditStripMenuItem1 = new ToolStripMenuItem();
@@ -329,7 +330,19 @@
             CreateOrderButton.Text = "Створити замовлення";
             CreateOrderButton.UseVisualStyleBackColor = false;
             CreateOrderButton.Click += CreateOrderButton_Click;
-          
+
+            UploadImageButton.BackColor = Color.MediumSlateBlue;
+            UploadImageButton.FlatAppearance.BorderSize = 0;
+            UploadImageButton.FlatStyle = FlatStyle.Flat;
+            UploadImageButton.ForeColor = Color.White;
+            UploadImageButton.Location = new Point(695, 218);
+            UploadImageButton.Name = "UploadImageButton";
+            UploadImageButton.Size = new Size(259, 35);
+            UploadImageButton.TabIndex = 29;
+            UploadImageButton.Text = "Завантажити фото";
+            UploadImageButton.UseVisualStyleBackColor = false;
+            UploadImageButton.Click += UploadImageButton_Click;
+
             SupplierTextBox.BorderStyle = BorderStyle.FixedSingle;
             SupplierTextBox.Location = new Point(472, 161);
             SupplierTextBox.Name = "SupplierTextBox";
@@ -384,6 +397,7 @@
             Controls.Add(SearchTextBox);
             Controls.Add(label1);
             Controls.Add(CreateOrderButton);
+            Controls.Add(UploadImageButton);
             Controls.Add(ProductsDataGridView);
             Controls.Add(DeleteButton);
             Controls.Add(AddButton);
@@ -441,6 +455,7 @@
         private Button AddButton;
         private Button SaveButton;
         private Button CreateOrderButton;
+        private Button UploadImageButton;
         private TextBox SupplierTextBox;
         private ContextMenuStrip ProductContextMenuStrip;
         private ToolStripMenuItem EditStripMenuItem1;

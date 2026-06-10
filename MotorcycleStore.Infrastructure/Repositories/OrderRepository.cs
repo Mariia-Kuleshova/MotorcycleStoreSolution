@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using MotorcycleStore.Domain.Enums;
 using MotorcycleStore.Domain.Models;
 using MotorcycleStore.Infrastructure.Data;
 using System.Collections.Generic;
@@ -45,21 +46,28 @@ namespace MotorcycleStore.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Order order)
+        public async Task<bool> UpdateFieldsAsync(int id, OrderStatus status, string paymentMethod, string? comments)
         {
-            using var _context = _contextFactory.CreateDbContext();
-            _context.Orders.Update(order);
-            await _context.SaveChangesAsync();
+            using var context = _contextFactory.CreateDbContext();
+            var existing = await context.Orders.FindAsync(id);
+            if (existing is null)
+                return false;
+
+            existing.Status = status;
+            existing.PaymentMethod = paymentMethod;
+            existing.Comments = comments;
+            await context.SaveChangesAsync();
+            return true;
         }
 
         public async Task DeleteAsync(int id)
         {
-            using var _context = _contextFactory.CreateDbContext();
-            var order = await GetByIdAsync(id);
-            if (order != null)
+            using var context = _contextFactory.CreateDbContext();
+            var order = await context.Orders.FindAsync(id);
+            if (order is not null)
             {
-                _context.Orders.Remove(order);
-                await _context.SaveChangesAsync();
+                context.Orders.Remove(order);
+                await context.SaveChangesAsync();
             }
         }
     }

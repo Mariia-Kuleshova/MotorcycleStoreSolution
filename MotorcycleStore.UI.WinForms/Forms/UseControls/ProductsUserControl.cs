@@ -1,6 +1,6 @@
 ﻿using MotorcycleStore.Application.Interfaces;
-using MotorcycleStore.Application.Services;
 using MotorcycleStore.Domain.Models;
+using MotorcycleStore.UI.WinForms.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,12 +16,14 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
     public partial class ProductsUserControl : UserControl
     {
         private readonly IProductService _productService;
+        private readonly ProductImageApiClient _productImageApiClient;
         private Product _currentProduct;
         public event Action<int> OnCreateOrder;
 
-        public ProductsUserControl(IProductService productService)
+        public ProductsUserControl(IProductService productService, ProductImageApiClient productImageApiClient)
         {
             _productService = productService;
+            _productImageApiClient = productImageApiClient;
             InitializeComponent();
         }
 
@@ -395,6 +397,58 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             {
                 MessageBox.Show($"Помилка пошуку: {ex.Message}",
                     "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private int? GetSelectedProductId()
+        {
+            if (_currentProduct != null)
+                return _currentProduct.Id;
+
+            if (ProductsDataGridView.SelectedRows.Count > 0)
+            {
+                var product = ProductsDataGridView.SelectedRows[0].DataBoundItem as Product;
+                return product?.Id;
+            }
+
+            return null;
+        }
+
+        private async void UploadImageButton_Click(object sender, EventArgs e)
+        {
+            var productId = GetSelectedProductId();
+            if (productId is null)
+            {
+                MessageBox.Show("Оберіть мотоцикл у таблиці або відкрийте його для редагування.",
+                    "Завантаження фото", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            using var dialog = new OpenFileDialog
+            {
+                Title = "Оберіть фото мотоцикла",
+                Filter = "Зображення|*.jpg;*.jpeg;*.png;*.webp",
+                Multiselect = false,
+            };
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            UploadImageButton.Enabled = false;
+            try
+            {
+                var (success, message) = await _productImageApiClient.UploadProductImageAsync(productId.Value, dialog.FileName);
+                MessageBox.Show(success ? $"{message}\nФото додано до колекції." : message,
+                    success ? "Успіх" : "Помилка",
+                    MessageBoxButtons.OK,
+                    success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+                if (success)
+                    await LoadProductsAsync();
+            }
+            finally
+            {
+                UploadImageButton.Enabled = true;
             }
         }
 

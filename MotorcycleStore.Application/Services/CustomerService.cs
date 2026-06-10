@@ -25,6 +25,11 @@ namespace MotorcycleStore.Application.Services
             return await _repository.GetByIdAsync(id);
         }
 
+        public async Task<Customer?> GetByPhoneAsync(string phone)
+        {
+            return await _repository.GetByPhoneAsync(phone);
+        }
+
         public async Task AddAsync(Customer customer)
         {
             customer.RegisteredAt = System.DateTime.Now;
