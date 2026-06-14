@@ -86,7 +86,6 @@ export function HomePage() {
                     imageUrl={product.imageUrl}
                     alt={`${product.brand} ${product.name}`}
                     fallbackLabel={product.brand}
-                    height={100}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Chip label={product.category} size="small" sx={{ mb: 1 }} />

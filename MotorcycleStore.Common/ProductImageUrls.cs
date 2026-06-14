@@ -1,8 +1,5 @@
 namespace MotorcycleStore.Common;
 
-/// <summary>
-/// Кілька URL фото в одному полі Product.ImageUrl, розділені ';'.
-/// </summary>
 public static class ProductImageUrls
 {
     public const char Separator = ';';

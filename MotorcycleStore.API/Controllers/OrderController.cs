@@ -15,20 +15,26 @@ public class OrderController : ControllerBase
     private readonly ICustomerService _customerService;
     private readonly IEmployeeService _employeeService;
     private readonly IProductService _productService;
+    private readonly IEmailService _emailService;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<OrderController> _logger;
 
     public OrderController(
         IOrderService orderService,
         ICustomerService customerService,
         IEmployeeService employeeService,
         IProductService productService,
-        IConfiguration configuration)
+        IEmailService emailService,
+        IConfiguration configuration,
+        ILogger<OrderController> logger)
     {
         _orderService = orderService;
         _customerService = customerService;
         _employeeService = employeeService;
         _productService = productService;
+        _emailService = emailService;
         _configuration = configuration;
+        _logger = logger;
     }
 
     [HttpPost]
@@ -55,7 +61,7 @@ public class OrderController : ControllerBase
 
         var employeeId = await ResolveWebEmployeeIdAsync();
         if (employeeId is null)
-            return StatusCode(500, new { message = "Не налаштовано працівника для веб-замовлень. Додайте співробітника в БД." });
+            return StatusCode(500, new { message = "Неможливо оформити замовлення. Спробуйте пізніше." });
 
         var phone = request.Phone.Trim();
         var customer = await _customerService.GetByPhoneAsync(phone);
@@ -101,6 +107,22 @@ public class OrderController : ControllerBase
         catch (Exception ex)
         {
             return BadRequest(new { message = ex.Message });
+        }
+
+        try
+        {
+            await _emailService.SendWebOrderNotificationAsync(
+                order.Id,
+                request.CustomerName.Trim(),
+                phone,
+                request.Email?.Trim(),
+                product.Name,
+                order.TotalAmount,
+                request.Comment);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Не вдалося надіслати email про замовлення №{OrderId}.", order.Id);
         }
 
         return Ok(new

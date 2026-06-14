@@ -38,9 +38,6 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
-    /// <summary>
-    /// Додає фото до колекції (multipart/form-data, поле "file"). URL зберігаються в ImageUrl через ';'.
-    /// </summary>
     [HttpPost("{id:int}/image")]
     [RequestSizeLimit(MaxFileSizeBytes)]
     public async Task<ActionResult<Product>> UploadImage(int id, IFormFile? file)

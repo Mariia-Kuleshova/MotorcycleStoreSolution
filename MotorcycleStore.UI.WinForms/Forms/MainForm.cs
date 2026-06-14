@@ -41,9 +41,6 @@ namespace MotorcycleStore.UI.WinForms.Forms
             SetupCallbacksMenuItem();
         }
 
-        /// <summary>
-        /// Нові пункти меню додаємо тут, а не в Designer — інакше VS на 150% DPI ламає AutoScaleDimensions.
-        /// </summary>
         private void SetupCallbacksMenuItem()
         {
             var resources = new ComponentResourceManager(typeof(MainForm));

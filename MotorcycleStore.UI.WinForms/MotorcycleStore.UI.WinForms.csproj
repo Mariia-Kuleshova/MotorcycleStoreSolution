@@ -33,7 +33,6 @@
     <ProjectReference Include="..\MotorcycleStore.Infrastructure\MotorcycleStore.Infrastructure.csproj" />
   </ItemGroup>
 
-  <!-- FormReport requires FastReport DLLs (local paths were missing on disk). -->
   <ItemGroup>
     <Compile Remove="FormReport.cs" />
     <Compile Remove="FormReport.Designer.cs" />

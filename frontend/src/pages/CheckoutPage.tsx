@@ -1,9 +1,9 @@
 import Alert from '@mui/material/Alert';
+import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -15,13 +15,27 @@ import { createWebOrder } from '../services/orderService';
 import { fetchProducts } from '../services/productService';
 import type { Product } from '../types/product';
 
+function matchesProductSearch(product: Product, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+
+  return (
+    product.name.toLowerCase().includes(q) ||
+    product.brand.toLowerCase().includes(q) ||
+    product.category.toLowerCase().includes(q) ||
+    product.vin.toLowerCase().includes(q)
+  );
+}
+
+function getProductLabel(product: Product): string {
+  return `${product.brand} ${product.name} — $${product.price.toLocaleString()}`;
+}
 export function CheckoutPage() {
   const location = useLocation();
   const preselectedId = (location.state as { productId?: number } | null)?.productId;
 
   const [products, setProducts] = useState<Product[]>([]);
-  const [productId, setProductId] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -35,28 +49,26 @@ export function CheckoutPage() {
       .then((data) => {
         setProducts(data);
         if (preselectedId && data.some((p) => p.id === preselectedId)) {
-          setProductId(preselectedId);
+          setSelectedProduct(data.find((p) => p.id === preselectedId) ?? null);
         } else {
           const firstAvailable = data.find((p) => p.isAvailable);
-          if (firstAvailable) setProductId(firstAvailable.id);
-          else if (data.length > 0) setProductId(data[0].id);
+          setSelectedProduct(firstAvailable ?? data[0] ?? null);
         }
       })
       .catch((err) => setError(getApiErrorMessage(err)))
       .finally(() => setLoading(false));
   }, [preselectedId]);
 
-  const product = products.find((p) => p.id === productId);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedProduct) return;
+
     setError(null);
     setSubmitting(true);
 
     try {
       const result = await createWebOrder({
-        productId,
-        customerName: name.trim(),
+        productId: selectedProduct.id,        customerName: name.trim(),
         phone: phone.trim(),
         email: email.trim() || undefined,
         comment: comment.trim() || undefined,
@@ -75,7 +87,7 @@ export function CheckoutPage() {
         Оформлення замовлення
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Заповніть форму — заявка одразу потрапить до менеджерів у десктопній програмі.
+        Заповніть форму — ми зв&apos;яжемося з вами для підтвердження.
       </Typography>
 
       {loading && (
@@ -104,28 +116,35 @@ export function CheckoutPage() {
 
             <Box component="form" onSubmit={handleSubmit}>
               <Stack spacing={2}>
-                <TextField
-                  select
-                  label="Мотоцикл"
-                  fullWidth
-                  value={productId}
-                  onChange={(e) => setProductId(Number(e.target.value))}
-                  required
+                <Autocomplete
+                  options={products}
+                  value={selectedProduct}
+                  onChange={(_, value) => setSelectedProduct(value)}
+                  getOptionLabel={getProductLabel}
+                  getOptionDisabled={(option) => !option.isAvailable}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  filterOptions={(options, { inputValue }) =>
+                    options.filter((option) => matchesProductSearch(option, inputValue))
+                  }
+                  noOptionsText="Нічого не знайдено"
                   disabled={submitting}
-                >
-                  {products.map((p) => (
-                    <MenuItem key={p.id} value={p.id} disabled={!p.isAvailable}>
-                      {p.brand} {p.name} — ${p.price.toLocaleString()}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  fullWidth
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Мотоцикл"
+                      required
+                      placeholder="Пошук за назвою, брендом, категорією"
+                    />
+                  )}
+                />
 
-                {product && (
+                {selectedProduct && (
                   <Alert severity="info" variant="outlined">
-                    Обрано: {product.brand} {product.name}. На складі: {product.inventory?.quantity ?? 0} шт.
+                    Обрано: {selectedProduct.brand} {selectedProduct.name}.{' '}
+                    {selectedProduct.isAvailable ? 'В наявності' : 'Немає в наявності'}.
                   </Alert>
                 )}
-
                 <TextField
                   label="ПІБ"
                   fullWidth
@@ -164,8 +183,7 @@ export function CheckoutPage() {
                   variant="contained"
                   size="large"
                   fullWidth
-                  disabled={submitting || !productId}
-                >
+                  disabled={submitting || !selectedProduct}                >
                   {submitting ? 'Надсилання…' : 'Надіслати заявку'}
                 </Button>
               </Stack>

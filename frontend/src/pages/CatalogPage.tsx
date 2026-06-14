@@ -72,7 +72,6 @@ export function CatalogPage() {
                   imageUrl={product.imageUrl}
                   alt={`${product.brand} ${product.name}`}
                   fallbackLabel={product.brand}
-                  height={88}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: 'wrap', gap: 0.5 }}>
@@ -89,7 +88,7 @@ export function CatalogPage() {
                     {product.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {product.modelYear} р. · залишок {product.inventory?.quantity ?? 0} шт.
+                    {product.modelYear} р.
                   </Typography>
                   <Typography variant="h6" color="primary.main" sx={{ mt: 1 }}>
                     ${product.price.toLocaleString()}

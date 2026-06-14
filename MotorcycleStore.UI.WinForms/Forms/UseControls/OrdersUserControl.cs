@@ -171,9 +171,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 {
                     var firstItem = order.OrderItems.FirstOrDefault();
                     var isWebOrder = order.PaymentMethod == WebOrderConstants.PaymentMethod;
-                    var statusText = isWebOrder && order.Status == OrderStatus.Pending
-                        ? "Нове (сайт)"
-                        : GetStatusText(order.Status);
+                    var statusText = GetStatusText(order.Status);
 
                     var rowIndex = OrdersDataGridView.Rows.Add(
                         order.Id,
@@ -215,13 +213,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
         private void InitializeComboBoxes()
         {
             StatusComboBox.Items.Clear();
-            StatusComboBox.Items.AddRange(new object[]
-            {
-                "Очікується",
-                "В обробці",
-                "Виконано",
-                "Скасовано"
-            });
+            StatusComboBox.Items.AddRange(OrderStatusOptions);
             StatusComboBox.SelectedIndex = -1;
 
             PaymentMethodComboBox.Items.Clear();
@@ -436,7 +428,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
 
             var statusDisplay = GetCellValue(row, StatusColumn.Name)?.ToString() ?? "";
-            SetStatusComboValue(statusDisplay == "Нове (сайт)" ? "Очікується" : statusDisplay);
+            SetStatusComboValue(NormalizeStatusDisplay(statusDisplay));
             TotalAmountTextBox.Text = GetCellValue(row, TotalAmountColumn.Name)?.ToString() ?? "0.00";
             SetPaymentMethodComboValue(GetCellValue(row, PaymentMethodColumn.Name)?.ToString() ?? "");
             CommentsTextBox.Text = GetCellValue(row, CommentsColumn.Name)?.ToString() ?? "";
@@ -509,8 +501,8 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                 return;
             }
 
-            MessageBox.Show($"Деталі замовлення #{_selectedOrderId} будуть показані у окремій формі",
-                "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Замовлення №{_selectedOrderId}",
+                "Деталі", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 
@@ -541,7 +533,7 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
                     Location = new System.Drawing.Point(20, 20),
                     Width = 240
                 };
-                statusCombo.Items.AddRange(new object[] { "Очікується", "В обробці", "Виконано", "Скасовано" });
+                statusCombo.Items.AddRange(OrderStatusOptions);
                 statusCombo.SelectedIndex = 0;
 
                 var okButton = new Button
@@ -594,14 +586,25 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
             }
         }
 
+        private static readonly string[] OrderStatusOptions = { "Новий", "Виконано", "Скасовано" };
+
         private string GetStatusText(OrderStatus status)
         {
             return status switch
             {
-                OrderStatus.Pending => "Очікується",
+                OrderStatus.Pending => "Новий",
                 OrderStatus.Completed => "Виконано",
                 OrderStatus.Cancelled => "Скасовано",
                 _ => "Невідомо"
+            };
+        }
+
+        private static string NormalizeStatusDisplay(string status)
+        {
+            return status switch
+            {
+                "Нове (сайт)" or "Очікується" or "В обробці" or "Очікує" => "Новий",
+                _ => status
             };
         }
 
@@ -613,10 +616,9 @@ namespace MotorcycleStore.UI.WinForms.Forms.UseControls
 
         private OrderStatus GetStatusFromText(string text)
         {
-            return text switch
+            return NormalizeStatusDisplay(text) switch
             {
-                "Очікується" => OrderStatus.Pending,
-                "В обробці" => OrderStatus.Pending,
+                "Новий" => OrderStatus.Pending,
                 "Виконано" => OrderStatus.Completed,
                 "Скасовано" => OrderStatus.Cancelled,
                 _ => OrderStatus.Pending

@@ -227,7 +227,7 @@ namespace MotorcycleStore.UI.WinForms.Services
         {
             return status switch
             {
-                Domain.Enums.OrderStatus.Pending => "Очікує",
+                Domain.Enums.OrderStatus.Pending => "Новий",
                 Domain.Enums.OrderStatus.Completed => "Виконано",
                 Domain.Enums.OrderStatus.Cancelled => "Скасовано",
                 _ => status.ToString()

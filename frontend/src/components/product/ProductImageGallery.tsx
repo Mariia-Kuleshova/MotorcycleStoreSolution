@@ -15,7 +15,7 @@ export function ProductImageGallery({
   imageUrl,
   alt,
   fallbackLabel,
-  mainHeight = { xs: 200, md: 280 },
+  mainHeight = { xs: 280, md: 400 },
 }: ProductImageGalleryProps) {
   const urls = getProductImageUrls(imageUrl);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -47,7 +47,8 @@ export function ProductImageGallery({
         sx={{
           width: '100%',
           height: mainHeight,
-          objectFit: 'cover',
+          objectFit: 'contain',
+          objectPosition: 'center',
           display: 'block',
           bgcolor: '#2a2a34',
         }}
@@ -63,8 +64,10 @@ export function ProductImageGallery({
                 onClick={() => setActiveIndex(index)}
                 sx={{
                   width: '100%',
-                  height: 72,
-                  objectFit: 'cover',
+                  height: 88,
+                  objectFit: 'contain',
+                  objectPosition: 'center',
+                  bgcolor: '#2a2a34',
                   cursor: 'pointer',
                   borderRadius: 1,
                   border: 2,

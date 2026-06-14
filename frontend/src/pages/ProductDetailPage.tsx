@@ -56,8 +56,6 @@ export function ProductDetailPage() {
     );
   }
 
-  const qty = product.inventory?.quantity ?? 0;
-
   return (
     <Stack spacing={2}>
       <Button component={RouterLink} to="/catalog" startIcon={<ArrowBackIcon />} sx={{ alignSelf: 'flex-start' }}>
@@ -65,23 +63,23 @@ export function ProductDetailPage() {
       </Button>
 
       <Grid container spacing={3}>
-        <Grid size={{ xs: 12, md: 5 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper variant="outlined" sx={{ overflow: 'hidden' }}>
             <ProductImageGallery
               imageUrl={product.imageUrl}
               alt={`${product.brand} ${product.name}`}
               fallbackLabel={product.brand}
-              mainHeight={{ xs: 200, md: 280 }}
+              mainHeight={{ xs: 280, md: 420 }}
             />
           </Paper>
         </Grid>
 
-        <Grid size={{ xs: 12, md: 7 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 3 }}>
             <Stack direction="row" spacing={1} sx={{ mb: 2, flexWrap: 'wrap', gap: 0.5 }}>
               <Chip label={product.category} color="primary" />
               <Chip
-                label={product.isAvailable ? `В наявності: ${qty} шт.` : 'Немає в наявності'}
+                label={product.isAvailable ? 'В наявності' : 'Немає в наявності'}
                 color={product.isAvailable ? 'success' : 'default'}
               />
             </Stack>

@@ -45,7 +45,7 @@ export function CallbackPage() {
         Зворотний дзвінок
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Залиште контакти — менеджер побачить заявку в десктопі на вкладці «Дзвінки».
+        Залиште контакти — ми передзвонимо у зручний для вас час.
       </Typography>
 
       {error && (

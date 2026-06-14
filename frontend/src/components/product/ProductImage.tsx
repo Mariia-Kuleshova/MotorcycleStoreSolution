@@ -9,7 +9,7 @@ type ProductImageProps = {
   height?: number | { xs?: number; md?: number };
 };
 
-export function ProductImage({ imageUrl, alt, fallbackLabel, height = 100 }: ProductImageProps) {
+export function ProductImage({ imageUrl, alt, fallbackLabel, height = { xs: 200, md: 240 } }: ProductImageProps) {
   const src = getPrimaryProductImageUrl(imageUrl);
 
   if (src) {
@@ -21,7 +21,8 @@ export function ProductImage({ imageUrl, alt, fallbackLabel, height = 100 }: Pro
         sx={{
           width: '100%',
           height,
-          objectFit: 'cover',
+          objectFit: 'contain',
+          objectPosition: 'center',
           display: 'block',
           bgcolor: '#2a2a34',
         }}

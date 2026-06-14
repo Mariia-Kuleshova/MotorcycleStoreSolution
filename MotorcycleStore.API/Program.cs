@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using MotorcycleStore.API.Services;
 using MotorcycleStore.Application.Interfaces;
 using MotorcycleStore.Application.Services;
 using MotorcycleStore.Infrastructure.Data;
@@ -29,6 +30,7 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<CallbackRequestRepository>();
 builder.Services.AddTransient<ICallbackRequestService, CallbackRequestService>();
+builder.Services.AddTransient<IEmailService, SmtpEmailService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -65,7 +67,6 @@ app.UseCors("Frontend");
 
 app.UseStaticFiles();
 
-// У Development не редіректимо на HTTPS — інакше браузер з localhost:5173 отримує CORS/мережеву помилку
 if (!app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
